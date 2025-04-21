@@ -99,8 +99,7 @@ namespace Main
 
     internal class Player
     {
-        public int Level = 1
-        ;
+        public int Level = 1;
         public string Name = "Chad";
         public string Job = "전사";
         public int Atk = 10;
