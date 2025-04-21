@@ -1,12 +1,16 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Main
+namespace RPG
 {
-    internal class Program
+    internal class VillageController
     {
-        static Player player = new Player();
+        static PlayerController player = new PlayerController();
 
-        static void Main(string[] args)
+        public void Enter()
         {
             while (true) // 뒤로 가기 기능을 위해 항상 메서드를 실행시켜놓는 기능, 각 메서드마다 있음
             {
@@ -39,6 +43,7 @@ namespace Main
                         break;
                 }
             }
+
         }
 
         static void Status()
@@ -97,14 +102,4 @@ namespace Main
         }
     }
 
-    internal class Player
-    {
-        public int Level = 1;
-        public string Name = "Chad";
-        public string Job = "전사";
-        public int Atk = 10;
-        public int Def = 5;
-        public int Hp = 100;
-        public int Gold = 1500;
-    }
 }
