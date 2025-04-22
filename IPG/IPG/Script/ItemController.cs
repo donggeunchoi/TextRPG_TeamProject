@@ -13,6 +13,7 @@ namespace IPG
         public int Effect;
         public string Desc;
         public int Price;
+        public string ItemType;
 
         public bool isWeapons = false;
         public bool isSold = false;
