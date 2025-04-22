@@ -1,23 +1,19 @@
 ﻿using System.Numerics;
 using System.Threading;
 
-namespace Main
+namespace IPG
 {
     internal class Program
     {
-        static Player player = new Player();
+        static PlayerController player = new PlayerController();
+        static MonsterController[] monsters;
 
-        static Monster[] monsters = new Monster[]
-       {
-            new Monster(2, "미니언", 15, 5),
-            new Monster(3, "공허충", 10, 9),
-            new Monster(5, "대포미니언", 25, 8)
-       };
+
         static void Main(string[] args)
         {
 
             int monsterIndex = 0;
-            int totaldamage = 0;
+
 
             Console.WriteLine("Battle!!");
 
@@ -33,8 +29,10 @@ namespace Main
                 var monster = monsters[monsterIndex];
                 monsterIndex++;
 
-                if (monster.IsDead)
+                if (monster.Hp <= 0)
                 {
+                    monster.Hp = 0;
+                 
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine($"\nLv.{monster.Level} {monster.Name}은(는) 이미 쓰러졌습니다.");
                     Console.ResetColor();
@@ -62,34 +60,5 @@ namespace Main
                 }
             }
         }
-
-     
-    }
-    internal class Monster
-    {
-        public int Level;
-        public string Name;
-        public int Hp;
-        public int Atk;
-
-        public Monster(int level, string name, int hp, int atk)
-        {
-            Level = level;
-            Name = name;
-            Hp = hp;
-            Atk = atk;
-        }
-
-        public bool IsDead => Hp <= 0;
-    }
-    internal class Player
-    {
-        public int Level = 1;
-        public string Name = "Chad";
-        public string Job = "전사";
-        public int Atk = 10;
-        public int Def = 5;
-        public int Hp = 100;
-        public int Gold = 1500;
     }
 }
