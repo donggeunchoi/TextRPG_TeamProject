@@ -140,7 +140,7 @@ namespace IPG
 
         public void CompareWithMoney(int itemNumber)
         {
-            if (_playerStatus.Gold > StoreItems[itemNumber - 1].Price)
+            if (_playerStatus.Gold >= StoreItems[itemNumber - 1].Price)
             {
                 StoreItems[itemNumber - 1].isSold = true;
                 _playerStatus.Gold -= StoreItems[itemNumber - 1].Price;
