@@ -7,15 +7,15 @@ namespace IPG
     {
         static void Main(string[] args)
         {
-            PlayerController player = new PlayerController();
-            StoreController store = new StoreController(player);
-            InventoryController inventory = new InventoryController(store, player);
-            Battlecontroller battleController = new Battlecontroller();
-            BattleManager battleManager = new BattleManager();
+            PlayerController _player = new PlayerController();
+            StoreController _store = new StoreController(_player);
+            InventoryController _inventory = new InventoryController(_store, _player);
+            Battlecontroller _battleController = new Battlecontroller();
+            BattleManager _battleManager = new BattleManager();
 
-            VillageController village = new VillageController(store, inventory, player, battleController, battleManager);
+            VillageController village = new VillageController(_store, _inventory, _player, _battleController, _battleManager);
 
-            store.SaveItem();
+            _store.SaveItem();
             village.Enter();
         }
     }
