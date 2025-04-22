@@ -3,19 +3,15 @@
 internal class Program
 {
     static PlayerController player = new PlayerController();
-
-    static MonsterController[] monsters = new MonsterController[]
-    {
-        new MonsterController(2, "미니언", 15, 5),
-        new MonsterController(3, "공허충", 10, 9),
-        new MonsterController(5, "대포미니언", 25, 8)
-    };
+    static MonsterController[] monsters;
 
     static void AttackMonster(int input)
     {
         if (input < 1 || input > monsters.Length)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("잘못된 입력입니다.");
+            Console.ResetColor();
             return;
         }
 
@@ -23,7 +19,9 @@ internal class Program
 
         if (targetMonster.IsDead)
         {
-            Console.WriteLine("이미 죽은 몬스터입니다.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("이미 처치한 몬스터입니다.");
+            Console.ResetColor();
             return;
         }
 
@@ -36,13 +34,19 @@ internal class Program
         int damage = randomdamage.Next(minDamage, maxDamage + 1);
 
         targetMonster.Hp -= damage;
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"{targetMonster.Name}에게 {damage}의 데미지를 입혔습니다!");
+        Console.ResetColor();
+
 
         if (targetMonster.Hp <= 0)
         {
             targetMonster.Hp = 0;
             targetMonster.IsDead = true;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!");
+            Console.ResetColor();
         }
     }
 }
