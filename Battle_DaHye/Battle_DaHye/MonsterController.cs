@@ -3,7 +3,7 @@
 
 namespace IPG
 {
-    internal class ControllMonster
+    internal class ControlMonster
     {
         static MonsterController[] monsters = new MonsterController[]
         {
@@ -28,7 +28,7 @@ namespace IPG
                     Console.Clear();
                     foreach (var monster in monsters)
                     {
-                        monster.ShowInfo();
+                        monster.ShowMonsterInfo();
                     }
                     Console.WriteLine("뒤로 가시려면 아무 키나 입력하세요.");
                     Console.Write(">> ");
@@ -65,9 +65,28 @@ namespace IPG
             Atk = atk;
         }
 
-        public void ShowInfo()
+        // Index 받지 않는 메서드
+        public void ShowMonsterInfo()
         {
             Console.WriteLine($"- {Name}: Lv. {Level}, 체력: {Hp}, 공격력: {Atk}\n\n");
         }
+
+        // Index 받는 메서드
+        public bool IsDead = false;
+
+        public void ShowMonsterInfo(int index)
+        {
+            if (IsDead)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"{index}. Lv {Level} [{Name}]  HP: Dead");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine($"{index}. Lv {Level} [{Name}]  HP: {Hp}");
+            }
+        }
+
     }
 }
