@@ -2,13 +2,13 @@
 using System.Xml.Linq;
 using IPG;
 
-internal class Program
+internal class BattleController
 {
     static PlayerController player = new PlayerController();
     static MonsterController[] monsters;
 
     // 공격 턴 UI
-    static void ShowBattleAttack()
+    static void PlayerAttackPhase()
     {
         int input = -1;
 
@@ -67,7 +67,7 @@ internal class Program
 
             // 공격 처리
             AttackMonster(input);
-            Console.WriteLine("계속하려면 아무 키나 누르세요...");
+            Console.WriteLine("계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
         }
     }
@@ -103,6 +103,64 @@ internal class Program
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!");
             Console.ResetColor();
+        }
+
+        Console.WriteLine("");
+
+        for (int i = 0; i < monsters.Length; i++)
+        {
+            monsters[i].ShowMonsterInfo(i + 1);
+        }
+    }
+
+    static void MonsterAttackPhase()
+    {
+
+        int monsterIndex = 0;
+        int totaldamage = 0;
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("몬스터가 공격해옵니다.");
+        Console.ResetColor();
+
+        while (true)
+        {
+            if (monsterIndex >= monsters.Length)
+            {
+                Console.WriteLine("\n0.다음");
+                //플레이어턴 으로
+                break;
+            }
+
+            var monster = monsters[monsterIndex];
+            monsterIndex++;
+
+            if (monster.IsDead)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"\nLv.{monster.Level} {monster.Name}은(는) 이미 쓰러졌습니다.");
+                Console.ResetColor();
+                continue;
+            }
+
+            Console.WriteLine($"\nLv.{monster.Level} {monster.Name}의 공격!");
+            player.Hp -= monster.Atk;
+            Console.WriteLine($"{player.Name} 을(를) 맞췄습니다. [데미지: {monster.Atk}]");
+            Console.WriteLine($"{player.Name} HP: {player.Hp}/100");
+
+            if (player.Hp <= 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n[플레이어가 사망했습니다...]\n");
+                Console.ResetColor();
+
+                Console.WriteLine("0. 메뉴로 돌아가기");
+                string defeat = Console.ReadLine();
+                if (defeat == "0")
+                {
+                    break; // 죽었을때 갈 화면으로
+                }
+            }
         }
     }
 }
