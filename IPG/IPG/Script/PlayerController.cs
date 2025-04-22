@@ -30,14 +30,7 @@ namespace IPG
                 int bonusDef = Def - 5;
 
 
-                Console.WriteLine($"Lv. {Level:D2}");
-                Console.WriteLine($"{Name} ( {Job} )");
-                Console.WriteLine($"공격력 : {Atk} (+{bonusAtk})");
-                Console.WriteLine($"방어력 : {Def} (+{bonusDef})");
-                Console.WriteLine($"체력 : {Hp}");
-                Console.WriteLine($"Gold : {Gold} G\n");
-                Console.Write("0. 나가기\n\n");
-                Console.Write("원하시는 행동을 입력해주세요.\n\n>> ");
+                ShowPlayerInfo();
 
                 string input = Console.ReadLine();
 
@@ -49,17 +42,31 @@ namespace IPG
                 }
             }
 
-            static void WrongInput()
-            {
-                Console.WriteLine("\n\a잘못된 입력입니다.");
-                WaitInput();
-            }
+        }
+            public void ShowPlayerInfo()
+        {
+            int bonusAtk = Atk - 10;
+            int bonusDef = Def - 5;
 
-            static void WaitInput() // 아직 구현 안 했습니다에 쓰려고 WrongInput이랑 분리
-            {
-                Console.WriteLine("\n이전 화면으로 돌아가려면 아무 키나 누르세요.");
-                Console.ReadKey(true);
-            }
+            Console.WriteLine($"Lv. {Level:D2}");
+            Console.WriteLine($"{Name} ( {Job} )");
+            Console.WriteLine($"공격력 : {Atk} (+{bonusAtk})");
+            Console.WriteLine($"방어력 : {Def} (+{bonusDef})");
+            Console.WriteLine($"체력 : {Hp}");
+            Console.WriteLine($"Gold : {Gold} G\n");
+        }
+
+        static void WrongInput()
+        {
+            Console.WriteLine("\n\a잘못된 입력입니다.");
+            WaitInput();
+        }
+
+        static void WaitInput() // 아직 구현 안 했습니다에 쓰려고 WrongInput이랑 분리
+        {
+            Console.WriteLine("\n이전 화면으로 돌아가려면 아무 키나 누르세요.");
+            Console.ReadKey(true);
         }
     }
 }
+

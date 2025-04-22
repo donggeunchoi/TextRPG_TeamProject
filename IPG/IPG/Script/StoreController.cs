@@ -29,11 +29,11 @@ namespace IPG
             BuyItem();
         }
 
-        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, bool itemIsSold)
+        private void AddItem(string itemName, bool itemKind, int itemEffect, string itemDesc, int itemPrice, bool itemIsSold)
         {
             StoreItems.Add(new ItemController
             {
-                ItemType = itemType,
+                isWeapons = itemKind,
                 Name = itemName,
                 Effect = itemEffect,
                 Desc = itemDesc,
@@ -46,12 +46,12 @@ namespace IPG
         {
             if (StoreItems.Count > 0) return;
 
-            AddItem("수련자 갑옷    ", "갑옷", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, false);
-            AddItem("무쇠갑옷       ", "갑옷", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, true);
-            AddItem("스파르타의 갑옷", "갑옷", 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, false);
-            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, false);
-            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, false);
-            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, true);
+            AddItem("수련자 갑옷    ", false, 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, false);
+            AddItem("무쇠갑옷       ", false, 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, true);
+            AddItem("스파르타의 갑옷", false, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, false);
+            AddItem("낡은 검        ", true, 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, false);
+            AddItem("청동 도끼      ", true, 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, false);
+            AddItem("스파르타의 창  ", true, 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, true);
         }
 
         public void BuyItem()
@@ -117,7 +117,7 @@ namespace IPG
             foreach (ItemController item in StoreItems)
             {
 
-                Console.WriteLine($"- {item.Name}    | {(item.ItemType == "무기" ? "공격력" + item.Effect : "방어력" + item.Effect)}  | {item.Desc}       |  {(item.isSold ? "구매완료" : item.Price + " G")}");
+                Console.WriteLine($"- {item.Name}    | {(item.isWeapons ? "공격력" + item.Effect : "방어력" + item.Effect)}  | {item.Desc}       |  {(item.isSold ? "구매완료" : item.Price + " G")}");
             }
 
             Console.WriteLine();
@@ -178,7 +178,7 @@ namespace IPG
                 foreach (ItemController item in StoreItems)
                 {
 
-                    Console.WriteLine($"- {i} {item.Name}    | {(item.ItemType == "무기" ? "공격력" + item.Effect : "방어력" + item.Effect)}  | {item.Desc}       |  {(item.isSold ? "구매완료" : item.Price + " G")}");
+                    Console.WriteLine($"- {i} {item.Name}    | {(item.isWeapons ? "공격력" + item.Effect : "방어력" + item.Effect)}  | {item.Desc}       |  {(item.isSold ? "구매완료" : item.Price + " G")}");
                     i++;
                 }
 

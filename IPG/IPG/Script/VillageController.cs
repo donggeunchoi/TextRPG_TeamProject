@@ -9,16 +9,19 @@ namespace IPG
 {
     internal class VillageController
     {
-
         private StoreController _store;
         private PlayerController _playerStatus;
         private InventoryController _inventory;
+        private Battlecontroller _battleController;
+        private BattleManager _battleManager;
 
-        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status)
+        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController )
         {
             _store = Store;
             _playerStatus = Status;
             _inventory = inventory;
+            _battleController = battleController;
+
         }
 
         public void Enter()
@@ -52,7 +55,7 @@ namespace IPG
                         break;
 
                     case "4":
-                        // 던전 입장이 들어갈 자리
+                        _battleController.Battlestart();
                         break;
 
                     case "0":
@@ -64,7 +67,6 @@ namespace IPG
                         break;
                 }
             }
-
         }
 
         static void WrongInput()
