@@ -11,7 +11,7 @@ namespace Main
        {
             new Monster(2, "미니언", 15, 5),
             new Monster(3, "공허충", 10, 9),
-            new Monster(5, "대포미니언", 25, 88)
+            new Monster(5, "대포미니언", 25, 8)
        };
         static void Main(string[] args)
         {
@@ -32,6 +32,14 @@ namespace Main
 
                 var monster = monsters[monsterIndex];
                 monsterIndex++;
+
+                if (monster.IsDead)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"\nLv.{monster.Level} {monster.Name}은(는) 이미 쓰러졌습니다.");
+                    Console.ResetColor();
+                    continue;
+                }
 
 
                 Console.WriteLine($"\nLv.{monster.Level} {monster.Name}의 공격!");
@@ -72,7 +80,7 @@ namespace Main
             Atk = atk;
         }
 
-        
+        public bool IsDead => Hp <= 0;
     }
     internal class Player
     {
