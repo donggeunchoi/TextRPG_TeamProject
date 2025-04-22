@@ -143,6 +143,7 @@ namespace IPG
                 if (monsterIndex >= monsters.Length)
                 {
                     Console.WriteLine("\n0.다음");
+                    PlayerAttackPhase();
                     //플레이어턴 으로
                     break;
                 }
