@@ -1,12 +1,20 @@
-﻿using System.Numerics;
+﻿using IPG;
+using System.Numerics;
 
-namespace RPG
+namespace IPG
 {
     internal class Start
     {
         static void Main(string[] args)
         {
-            VillageController village = new VillageController();
+            PlayerController player = new PlayerController();
+            StoreController store = new StoreController(player);
+            InventoryController inventory = new InventoryController(store, player);
+
+
+            VillageController village = new VillageController(store, inventory, player);
+
+            store.SaveItem();
             village.Enter();
         }
     }

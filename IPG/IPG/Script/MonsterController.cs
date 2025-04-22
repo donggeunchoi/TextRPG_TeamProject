@@ -1,7 +1,7 @@
 ﻿using System;
 // 네임스페이스 -> 프로그램 클래스 안에 Monster[] monsters 필드 선언, 몬스터 클래스는 프로그램 클래스 밖에 따로 생성
 
-namespace RPG
+namespace IPG
 {
     internal class ControllMonster
     {
