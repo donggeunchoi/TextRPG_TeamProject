@@ -3,12 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace IPG
 {
     internal class VillageController
     {
-        static PlayerController player = new PlayerController();
+        private StoreController _store;
+        private PlayerController _playerStatus;
+        private InventoryController _inventory;
+        private Battlecontroller _battleController;
+        private BattleManager _battleManager;
+
+        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController )
+        {
+            _store = Store;
+            _playerStatus = Status;
+            _inventory = inventory;
+            _battleController = battleController;
+
+        }
 
         public void Enter()
         {
@@ -18,7 +32,9 @@ namespace IPG
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
                 Console.WriteLine("1. 상태 보기");
-                Console.WriteLine("2. 전투 시작");
+                Console.WriteLine("2. 인벤토리");
+                Console.WriteLine("3. 상점");
+                Console.WriteLine("4. 던전 입장");
                 Console.WriteLine("0. 게임 종료\n");
                 Console.Write("원하시는 행동을 입력해주세요.\n\n>> ");
 
@@ -27,13 +43,21 @@ namespace IPG
                 switch (input)
                 {
                     case "1":
-                        Status();
+                        _playerStatus.Status();
                         break;
+
                     case "2":
-                        Console.Clear();
-                        Console.WriteLine("여기에다가 전투 시작 메서드 연결하면 됩니다.");
-                        WrongInput();
+                        _inventory.Enter();
                         break;
+
+                    case "3":
+                        _store.Enter();
+                        break;
+
+                    case "4":
+                        _battleController.Battlestart();
+                        break;
+
                     case "0":
                         Console.WriteLine("다음에 또 만나요");
                         Environment.Exit(0);
@@ -41,50 +65,6 @@ namespace IPG
                     default:
                         WrongInput();
                         break;
-                }
-            }
-
-        }
-
-        static void Status()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("상태 보기");
-                Console.ResetColor();
-                Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-
-                int bonusAtk = 0;
-                int bonusDef = 0;
-
-                //아래는 장비 아이템으로 추가된 스탯을 보여주는 함수입니다. 현재 아이템, 인벤토리 시스템 아직 구현 안 됐기 때문에 임시 주석처리 했습니다.
-                //foreach (var item in player.Equipped)
-                //{
-                //    if (item != null)
-                //    {
-                //        bonusAtk += item.Atk;
-                //        bonusDef += item.Def;
-                //    }
-                //}
-
-                Console.WriteLine($"Lv. {player.Level:D2}");
-                Console.WriteLine($"{player.Name} ( {player.Job} )");
-                Console.WriteLine($"공격력 : {player.Atk} (+{bonusAtk})");
-                Console.WriteLine($"방어력 : {player.Def} (+{bonusDef})");
-                Console.WriteLine($"체력 : {player.Hp}");
-                Console.WriteLine($"Gold : {player.Gold} G\n");
-                Console.Write("0. 나가기\n\n");
-                Console.Write("원하시는 행동을 입력해주세요.\n\n>> ");
-
-                string input = Console.ReadLine();
-
-                if (input == "0")
-                    return;
-                else
-                {
-                    WrongInput();
                 }
             }
         }

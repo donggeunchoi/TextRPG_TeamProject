@@ -5,7 +5,8 @@ namespace IPG
 {
     internal class ControlMonster
     {
-        static MonsterController[] monsters = new MonsterController[]
+
+        public MonsterController[] monsters = new MonsterController[]
         {
             new MonsterController(2, "미니언", 15, 5),
             new MonsterController(3, "공허충", 10, 9),

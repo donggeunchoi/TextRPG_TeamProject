@@ -14,19 +14,58 @@ namespace IPG
         public int Atk = 10;
         public int Def = 5;
         public int Hp = 100;
-        public int Gold = 1500;        
-        
-        public void ShowPlayerInfo()
+        public int Gold = 1500;
+
+        public void Status()
         {
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("[내 정보]");
-            Console.ResetColor();
-            Console.WriteLine($"Lv.{Level} {Name} ({Job})");
-            Console.WriteLine($"체력: {Hp}/100");
-            Console.WriteLine($"공격력: {Atk}");
-            Console.WriteLine($"방어력: {Def}");
-            Console.WriteLine($"골드: {Gold}");
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("상태 보기");
+                Console.ResetColor();
+                Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+
+                int bonusAtk = Atk - 10;
+                int bonusDef = Def - 5;
+
+
+                ShowPlayerInfo();
+
+                string input = Console.ReadLine();
+
+                if (input == "0")
+                    return;
+                else
+                {
+                    WrongInput();
+                }
+            }
+
+        }
+            public void ShowPlayerInfo()
+        {
+            int bonusAtk = Atk - 10;
+            int bonusDef = Def - 5;
+
+            Console.WriteLine($"Lv. {Level:D2}");
+            Console.WriteLine($"{Name} ( {Job} )");
+            Console.WriteLine($"공격력 : {Atk} (+{bonusAtk})");
+            Console.WriteLine($"방어력 : {Def} (+{bonusDef})");
+            Console.WriteLine($"체력 : {Hp}");
+            Console.WriteLine($"Gold : {Gold} G\n");
+        }
+
+        static void WrongInput()
+        {
+            Console.WriteLine("\n\a잘못된 입력입니다.");
+            WaitInput();
+        }
+
+        static void WaitInput() // 아직 구현 안 했습니다에 쓰려고 WrongInput이랑 분리
+        {
+            Console.WriteLine("\n이전 화면으로 돌아가려면 아무 키나 누르세요.");
+            Console.ReadKey(true);
         }
     }
 }
