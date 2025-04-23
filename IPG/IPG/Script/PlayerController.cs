@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IPG
 {
-    internal class PlayerController
+    class PlayerController
     {
         public int Level = 1;
         public string Name = "Chad";

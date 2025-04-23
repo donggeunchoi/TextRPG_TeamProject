@@ -7,7 +7,8 @@ namespace IPG
     {
         static PlayerController player = new PlayerController();
         static MonsterController[] monsters;
-        static VillageController village;
+        
+        static Battlecontroller battlecontroller = new Battlecontroller();
 
         static BattleManager()
         {
@@ -26,25 +27,7 @@ namespace IPG
 
             while (input != 0)
             {
-                // 모든 몬스터가 죽었는지 확인
-                bool allDead = true;
-                foreach (var monster in monsters)
-                {
-                    if (!monster.IsDead)
-                    {
-                        allDead = false;
-                        break;
-                    }
-                }
-
-                if (allDead)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
-                    Console.ResetColor();
-                    break;
-                }
-
+                
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("My turn");
@@ -74,6 +57,27 @@ namespace IPG
                 if (input == 0)
                 {
                     Console.WriteLine("전투에서 도망쳤습니다.");
+                    battlecontroller.Battlestart();
+                    break;
+                }
+
+                // 모든 몬스터가 죽었는지 확인
+                bool allDead = true;
+                foreach (var monster in monsters)
+                {
+                    if (!monster.IsDead)
+                    {
+                        allDead = false;
+                        break;
+                    }
+                }
+
+                if (allDead)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
+                    Console.ResetColor();
+                    battlecontroller.Battlevictory();
                     break;
                 }
 
@@ -81,9 +85,8 @@ namespace IPG
                 AttackMonster(input);
                 Console.WriteLine("계속하려면 아무 키나 누르세요.");
                 Console.ReadKey(true);
-
-                MonsterAttackPhase();
-            }
+                
+            } 
         }
 
         static void AttackMonster(int input)
@@ -119,6 +122,10 @@ namespace IPG
                 Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!");
                 Console.ResetColor();
             }
+            if (targetMonster.Hp > 0)
+            {
+                MonsterAttackPhase();
+            }
 
             Console.WriteLine("");
 
@@ -134,6 +141,7 @@ namespace IPG
             int monsterIndex = 0;
             int totaldamage = 0;
 
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("몬스터가 공격해옵니다.");
             Console.ResetColor();
@@ -143,7 +151,6 @@ namespace IPG
                 if (monsterIndex >= monsters.Length)
                 {
                     Console.WriteLine("\n0.다음");
-                    PlayerAttackPhase();
                     //플레이어턴 으로
                     break;
                 }
@@ -159,6 +166,7 @@ namespace IPG
                     continue;
                 }
 
+                
                 Console.WriteLine($"\nLv.{monster.Level} {monster.Name}의 공격!");
                 player.Hp -= monster.Atk;
                 Console.WriteLine($"{player.Name} 을(를) 맞췄습니다. [데미지: {monster.Atk}]");
@@ -174,7 +182,7 @@ namespace IPG
                     string defeat = Console.ReadLine();
                     if (defeat == "0")
                     {
-                        village.Enter();
+                        battlecontroller.BattleLose();
                         break; // 죽었을때 갈 화면으로
                     }
                 }
