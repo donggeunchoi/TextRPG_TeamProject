@@ -10,7 +10,7 @@ namespace IPG
     {
 
         static PlayerController player = new PlayerController();
-        private MonsterController[] monsters;
+        private List<MonsterController> monsters;
         static BattleManager battleManager = new BattleManager();
 
         public Battlecontroller()
@@ -29,7 +29,7 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                for (int i = 0; i < monsters.Length; i++)
+                for (int i = 0; i < monsters.Count; i++)
                 {
                     if (monsters[i].Hp > 0)
                     {
