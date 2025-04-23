@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using System.Transactions;
 using System.Xml.Linq;
 namespace IPG
 {
@@ -6,6 +7,7 @@ namespace IPG
     {
         static PlayerController player = new PlayerController();
         static MonsterController[] monsters;
+        static VillageController village;
 
         static BattleManager()
         {
@@ -141,6 +143,7 @@ namespace IPG
                 if (monsterIndex >= monsters.Length)
                 {
                     Console.WriteLine("\n0.다음");
+                    PlayerAttackPhase();
                     //플레이어턴 으로
                     break;
                 }
@@ -171,6 +174,7 @@ namespace IPG
                     string defeat = Console.ReadLine();
                     if (defeat == "0")
                     {
+                        village.Enter();
                         break; // 죽었을때 갈 화면으로
                     }
                 }

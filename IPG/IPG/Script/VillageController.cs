@@ -15,12 +15,13 @@ namespace IPG
         private Battlecontroller _battleController;
         private BattleManager _battleManager;
 
-        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController )
+        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController, BattleManager battleManager)
         {
             _store = Store;
             _playerStatus = Status;
             _inventory = inventory;
             _battleController = battleController;
+            _battleManager = battleManager;
 
         }
 
