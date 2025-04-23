@@ -3,6 +3,7 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
+        //1층 몬스터를 다 잡으면.
         int _unlockedFloor = 1;
         private readonly PlayerController _player;
         private readonly Battlecontroller _battleController;
