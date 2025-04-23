@@ -29,7 +29,9 @@ namespace IPG
             while (true) // 뒤로 가기 기능을 위해 항상 메서드를 실행시켜놓는 기능, 각 메서드마다 있음
             {
                 Console.Clear();
-                Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(" [ 마을 ]\n");
+                Console.ResetColor();
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
                 Console.WriteLine("1. 상태 보기");
                 Console.WriteLine("2. 인벤토리");

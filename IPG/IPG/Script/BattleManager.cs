@@ -96,8 +96,8 @@ namespace IPG
                 return;
             }
 
-            int minDamage = (int)Math.Ceiling(player.Atk * 0.9);
-            int maxDamage = (int)Math.Ceiling(player.Atk * 1.1);
+            int minDamage = (int)Math.Ceiling(player.baseAtk * 0.9);
+            int maxDamage = (int)Math.Ceiling(player.baseAtk * 1.1);
 
             Random random = new Random();
             int damage = random.Next(minDamage, maxDamage + 1);
@@ -159,7 +159,7 @@ namespace IPG
                 Console.WriteLine($"\nLv.{monster.Level} {monster.Name}의 공격!");
                 player.Hp -= monster.Atk;
                 Console.WriteLine($"{player.Name} 을(를) 맞췄습니다. [데미지: {monster.Atk}]");
-                Console.WriteLine($"{player.Name} HP: {player.Hp}/100");
+                Console.WriteLine($"{player.Name} HP: {player.Hp}");
 
                 if (player.Hp <= 0)
                 {

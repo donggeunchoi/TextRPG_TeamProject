@@ -15,6 +15,12 @@ namespace IPG
             VillageController village = new VillageController(store, inventory, player, battleController);
 
             store.SaveItem();
+
+            player.SetVillage(village);
+            player.SetInventory(inventory);
+            player.StartStory();
+            
+
             village.Enter();
         }
     }

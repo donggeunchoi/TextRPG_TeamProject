@@ -20,7 +20,9 @@ namespace IPG
         public void Enter()
         {
             Console.Clear();
-            Console.WriteLine("상점\r\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine(" [ 상점 ]\n");
+            Console.ResetColor();
+            Console.WriteLine("필요한 아이템을 구매할 수 있습니다.\n");
             Console.WriteLine("[보유 골드]");
             Console.WriteLine($"{_playerStatus.Gold} G\n");
 

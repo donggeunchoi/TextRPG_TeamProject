@@ -26,7 +26,10 @@ namespace IPG
         public void Enter()
         {
             Console.Clear();
-            Console.WriteLine("인벤토리\r\n보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" [ 인벤토리 ]\n");
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]");
             ItemList();
             Console.WriteLine();
@@ -56,7 +59,9 @@ namespace IPG
             Dictionary<int, ItemController> itemDictionaty = new Dictionary<int, ItemController>();
 
             Console.Clear();
-            Console.WriteLine("인벤토리\r\n보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.WriteLine(" [ 장착 관리 ]\n");
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템을 장착/해제 할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]");
 
             foreach (ItemController item in _store.StoreItems)
@@ -97,11 +102,11 @@ namespace IPG
 
                     if (selectedItem.isWeapons)
                     {
-                        _playerStatus.Atk += selectedItem.Effect;
+                        _playerStatus.baseAtk += selectedItem.Effect;
                     }
                     else
                     {
-                        _playerStatus.Def += selectedItem.Effect;
+                        _playerStatus.baseDef += selectedItem.Effect;
                     }
                 }
 
@@ -111,11 +116,11 @@ namespace IPG
 
                     if (selectedItem.isWeapons)
                     {
-                        _playerStatus.Atk -= selectedItem.Effect;
+                        _playerStatus.baseAtk -= selectedItem.Effect;
                     }
                     else
                     {
-                        _playerStatus.Def -= selectedItem.Effect;
+                        _playerStatus.baseDef -= selectedItem.Effect;
                     }
                 }
 
@@ -132,6 +137,10 @@ namespace IPG
             }
 
 
+        }
+        public List<ItemController> GetPlayerItems()
+        {
+            return _store.StoreItems.Where(item => item.isSold && item.isUse).ToList();
         }
 
         public void Exit()
