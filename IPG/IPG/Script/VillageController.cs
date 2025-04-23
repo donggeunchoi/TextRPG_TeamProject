@@ -14,14 +14,16 @@ namespace IPG
         private InventoryController _inventory;
         private Battlecontroller _battleController;
         private BattleManager _battleManager;
+        private DungeonLobbyController _dungeonLobby;
 
-        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController, BattleManager battleManager)
+        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController, BattleManager battleManager, DungeonLobbyController dungeonLobby)
         {
             _store = Store;
             _playerStatus = Status;
             _inventory = inventory;
             _battleController = battleController;
             _battleManager = battleManager;
+            _dungeonLobby = dungeonLobby;
 
         }
 
@@ -56,7 +58,7 @@ namespace IPG
                         break;
 
                     case "4":
-                        _battleController.Battlestart();
+                        _dungeonLobby.EnterDungeonLobby();
                         break;
 
                     case "0":
