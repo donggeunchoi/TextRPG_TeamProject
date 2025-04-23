@@ -7,10 +7,12 @@ namespace IPG
     internal class ControlMonster
     {
 
-        public List<MonsterController> monsters = new List<MonsterController>
+        public List<MonsterController> monsters = new List<MonsterController> // 몬스터 도감
         {
+            new MonsterController(1, "슬라임", 5, 5),
             new MonsterController(2, "미니언", 15, 5),
             new MonsterController(3, "공허충", 10, 9),
+            new MonsterController(4, "임규민", 5, 5),
             new MonsterController(5, "대포미니언", 25, 8)
         };
     }
@@ -21,8 +23,9 @@ namespace IPG
         public string Name;
         public int Hp;
         public int Atk;
+        public bool IsDead = false;
 
-        public MonsterController(int level, string name, int hp, int atk)
+        public MonsterController(int level, string name, int hp, int atk) // 몬스터 생성틀
         {
             Level = level;
             Name = name;
@@ -30,9 +33,16 @@ namespace IPG
             Atk = atk;
         }
 
-        // Index 받는 메서드
-        public bool IsDead = false;
+        public MonsterController(MonsterController original) // 몬스터 복사틀 (실제로 우리가 보게 되는 몬스터)
+        {
+            Level = original.Level;
+            Name = original.Name;
+            Hp = original.Hp;
+            Atk = original.Atk;
+            IsDead = false;
+        }
 
+        // Index 받는 메서드
         public void ShowMonsterInfo(int index)
         {
             if (IsDead)

@@ -6,17 +6,12 @@ namespace IPG
     internal class BattleManager
     {
         static PlayerController player = new PlayerController();
-        static MonsterController[] monsters;
+        static List<MonsterController> monsters;
         static VillageController village;
 
-        static BattleManager()
+        public static void SetMonsters(List<MonsterController> newMonsters)
         {
-            monsters = new MonsterController[]
-            {
-            new MonsterController(2, "미니언", 15, 5),
-            new MonsterController(3, "공허충", 10, 9),
-            new MonsterController(5, "대포미니언", 25, 8)
-            };
+            monsters = newMonsters;
         }
 
         // 공격 턴 UI
@@ -51,7 +46,7 @@ namespace IPG
                 Console.ResetColor();
                 Console.WriteLine();
 
-                for (int i = 0; i < monsters.Length; i++)
+                for (int i = 0; i < monsters.Count; i++)
                 {
                     monsters[i].ShowMonsterInfo(i + 1);
                 }
@@ -63,7 +58,7 @@ namespace IPG
                 Console.Write(">> ");
 
                 bool isValid = int.TryParse(Console.ReadLine(), out input);
-                if (!isValid || input < 0 || input > monsters.Length)
+                if (!isValid || input < 0 || input > monsters.Count)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("잘못된 입력입니다.");
@@ -122,7 +117,7 @@ namespace IPG
 
             Console.WriteLine("");
 
-            for (int i = 0; i < monsters.Length; i++)
+            for (int i = 0; i < monsters.Count; i++)
             {
                 monsters[i].ShowMonsterInfo(i + 1);
             }
@@ -140,7 +135,7 @@ namespace IPG
 
             while (true)
             {
-                if (monsterIndex >= monsters.Length)
+                if (monsterIndex >= monsters.Count)
                 {
                     Console.WriteLine("\n0.다음");
                     PlayerAttackPhase();

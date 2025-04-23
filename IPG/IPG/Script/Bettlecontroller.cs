@@ -16,8 +16,17 @@ namespace IPG
         public Battlecontroller()
         {
             ControlMonster controlMonster = new ControlMonster();
-            monsters = controlMonster.monsters;
+            Random rand = new Random();
+            monsters = new List<MonsterController>();
 
+            for (int i = 0; i < 3; i++) // 몬스터 랜덤 생성
+            {
+                int index = rand.Next(controlMonster.monsters.Count);
+                MonsterController copy = new MonsterController(controlMonster.monsters[index]);
+                monsters.Add(copy);
+            }
+
+            BattleManager.SetMonsters(monsters); // BattleManager이랑 연결
         }
         
         public void Battlestart()
