@@ -14,7 +14,7 @@ namespace IPG
         public int Atk = 10;
         public int Def = 5;
         public int Hp = 100;
-        public int Gold = 1500;
+        public int Gold = 3500;
 
         public void Status()
         {
@@ -31,6 +31,10 @@ namespace IPG
 
 
                 ShowPlayerInfo();
+
+                Console.WriteLine("0. 나가기\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">>");
 
                 string input = Console.ReadLine();
 
