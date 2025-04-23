@@ -18,8 +18,7 @@ namespace IPG
         static DungeonLobbyController dungeonLobby = new DungeonLobbyController(player, battleController);
         static VillageController village;
         
-
-        private MonsterController[] _monsters;
+        List<MonsterController> _monsters;
 
 
         public Battlecontroller()
@@ -41,7 +40,7 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                for (int i = 0; i < _monsters.Length; i++)
+                for (int i = 0; i < _monsters.Count; i++)
                 {
                     if (_monsters[i].Hp > 0)
                     {
