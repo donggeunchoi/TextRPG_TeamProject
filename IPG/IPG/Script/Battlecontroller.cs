@@ -10,19 +10,17 @@ namespace IPG
 
     internal class Battlecontroller
     {
-        static PlayerController player = new PlayerController();
-        static StoreController store = new StoreController(player);
-        static InventoryController inventory = new InventoryController(store, player);
-        static Battlecontroller battleController = new Battlecontroller();
-        static BattleManager battleManager = new BattleManager();
-        static DungeonLobbyController dungeonLobby = new DungeonLobbyController(player, battleController);
-        static VillageController village;
-        
-        List<MonsterController> _monsters;
+        PlayerController player;
+        List<MonsterController> monsters;
+        private VillageController village;
+        private DungeonLobbyController dungeonLobby;
 
-
-        public Battlecontroller()
+        public Battlecontroller(PlayerController injectedPlayer, VillageController v, DungeonLobbyController d)
         {
+            player = injectedPlayer;
+            village = v;
+            dungeonLobby = d;
+
             ControlMonster controlMonster = new ControlMonster();
             Random rand = new Random();
             monsters = new List<MonsterController>();
@@ -34,25 +32,33 @@ namespace IPG
                 monsters.Add(copy);
             }
 
-            BattleManager.SetMonsters(monsters); // BattleManager이랑 연결
+            BattleManager.SetMonsters(monsters); // 배틀매니저랑 연결
         }
-          
+
+        public void SetVillage(VillageController v)
+        {
+            village = v;
+        }
+
+        public void SetDungeonLobby(DungeonLobbyController d)
+        {
+            dungeonLobby = d;
+        }
+
         public void Battlestart()
         {
-
-
             bool exit = true;
             while (exit)
             {
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                for (int i = 0; i < _monsters.Count; i++)
+                for (int i = 0; i < monsters.Count; i++)
                 {
-                    if (_monsters[i].Hp > 0)
+                    if (monsters[i].Hp > 0)
                     {
                         Console.Write($" ");
-                        _monsters[i].ShowMonsterInfo(i + 1);
+                        monsters[i].ShowMonsterInfo(i + 1);
                     }
                 }
                 Console.WriteLine();

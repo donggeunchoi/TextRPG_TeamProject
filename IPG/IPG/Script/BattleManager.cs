@@ -5,13 +5,32 @@ namespace IPG
 {
     internal class BattleManager
     {
-        static PlayerController player = new PlayerController();
+        static PlayerController player;
+        static DungeonLobbyController dungeonLobby;
+
+        public BattleManager(PlayerController injectedPlayer, Battlecontroller injectedController)
+        {
+            player = injectedPlayer;
+            controller = injectedController;
+        }
         static List<MonsterController> monsters;
         static VillageController village;
+        static Battlecontroller controller;
+
 
         public static void SetMonsters(List<MonsterController> newMonsters)
         {
             monsters = newMonsters;
+        }
+
+        public void SetVillage(VillageController v)
+        {
+            village = v;
+        }
+
+        public void SetDungeonLobby(DungeonLobbyController d)
+        {
+            dungeonLobby = d;
         }
 
         // 공격 턴 UI
@@ -51,7 +70,7 @@ namespace IPG
                 if (input == 0)
                 {
                     Console.WriteLine("전투에서 도망쳤습니다.");
-                    battlecontroller.Battlestart();
+                    controller.Battlestart();
                     break;
                 }
 
@@ -71,7 +90,7 @@ namespace IPG
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                     Console.ResetColor();
-                    battlecontroller.Battlevictory();
+                    controller.Battlevictory();
                     break;
                 }
 
@@ -176,7 +195,7 @@ namespace IPG
                     string defeat = Console.ReadLine();
                     if (defeat == "0")
                     {
-                        battlecontroller.BattleLose();
+                        controller.BattleLose();
                         break; // 죽었을때 갈 화면으로
                     }
                 }

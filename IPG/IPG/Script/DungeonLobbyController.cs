@@ -6,22 +6,14 @@ namespace IPG
         int _unlockedFloor = 1;
         private readonly PlayerController _player;
         private readonly Battlecontroller _battleController;
+        private VillageController _village;
 
-        public DungeonLobbyController(PlayerController player, Battlecontroller battleController)
+        public DungeonLobbyController(PlayerController player, Battlecontroller battleController, VillageController village)
         {
             _player = player;
             _battleController = battleController;
+            _village = village;
         }
-        
-        static PlayerController player = new PlayerController();
-        static    StoreController store = new StoreController(player);
-        static    InventoryController inventory = new InventoryController(store, player);
-        static    Battlecontroller battleController = new Battlecontroller();
-        static   BattleManager battleManager = new BattleManager();
-        static    DungeonLobbyController dungeonLobby = new DungeonLobbyController(player,battleController);
-            
-
-        VillageController village = new VillageController(store, inventory, player, battleController, battleManager,dungeonLobby);
 
         public void EnterDungeonLobby()
         {
@@ -57,7 +49,7 @@ namespace IPG
                 }
                 else if (input == "0")
                 {
-                    village.Enter();
+                    _village.Enter();
                 }
 
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
