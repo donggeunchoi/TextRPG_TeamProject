@@ -14,7 +14,7 @@ namespace IPG
         public int Atk = 10;
         public int Def = 5;
         public int Hp = 100;
-        public int Gold = 1500;
+        public int Gold = 3500;
 
         public void Status()
         {
