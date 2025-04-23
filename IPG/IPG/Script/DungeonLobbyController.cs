@@ -3,7 +3,11 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
+<<<<<<< Updated upstream
         //1층 몬스터를 다 잡으면.
+=======
+        //1층 몬스터를 다 잡으면. 
+>>>>>>> Stashed changes
         int _unlockedFloor = 1;
         private readonly PlayerController _player;
         private readonly Battlecontroller _battleController;
