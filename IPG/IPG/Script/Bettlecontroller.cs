@@ -51,7 +51,7 @@ namespace IPG
                 }
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{player.Level}  Chad (전사)");
+                Console.WriteLine($"Lv.{player.Level} {player.Name} {player.Job}");
                 Console.WriteLine($"HP {player.Hp}/100");
                 Console.WriteLine();
                 Console.WriteLine("1. 공격");
