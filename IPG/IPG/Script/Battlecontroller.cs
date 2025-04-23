@@ -20,19 +20,20 @@ namespace IPG
         
         List<MonsterController> _monsters;
 
-
+        
         public Battlecontroller()
         {
             ControlMonster controlMonster = new ControlMonster();
             _monsters = controlMonster.monsters;
-            
-            village = new VillageController(store, inventory, player, this, battleManager,dungeonLobby);
+
+            village = new VillageController(store, inventory, player, this, battleManager, dungeonLobby);
 
         }
           
         public void Battlestart()
         {
 
+            BattleManager.ResetBattle();
 
             bool exit = true;
             while (exit)

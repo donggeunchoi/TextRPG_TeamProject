@@ -20,8 +20,7 @@ namespace IPG
         static    Battlecontroller battleController = new Battlecontroller();
         static   BattleManager battleManager = new BattleManager();
         static    DungeonLobbyController dungeonLobby = new DungeonLobbyController(player,battleController);
-            
-
+        
         VillageController village = new VillageController(store, inventory, player, battleController, battleManager,dungeonLobby);
 
         public void EnterDungeonLobby()

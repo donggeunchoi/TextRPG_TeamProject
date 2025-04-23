@@ -10,15 +10,21 @@ namespace IPG
         
         static Battlecontroller battlecontroller = new Battlecontroller();
 
-        static BattleManager()
+        static public void ResetBattle()
+        {
+            InitMonsters();
+        }
+        
+        static void InitMonsters()
         {
             monsters = new MonsterController[]
             {
-            new MonsterController(2, "미니언", 15, 5),
-            new MonsterController(3, "공허충", 10, 9),
-            new MonsterController(5, "대포미니언", 25, 8)
+                new MonsterController(2, "미니언", 15, 5),
+                new MonsterController(3, "공허충", 10, 9),
+                new MonsterController(5, "대포미니언", 25, 8)
             };
         }
+        
 
         // 공격 턴 UI
         static public void PlayerAttackPhase()
@@ -27,7 +33,7 @@ namespace IPG
 
             while (input != 0)
             {
-                
+
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("My turn");
@@ -77,16 +83,19 @@ namespace IPG
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                     Console.ResetColor();
+
                     battlecontroller.Battlevictory();
-                    break;
+
+                    InitMonsters();
+                    continue;
                 }
 
                 // 공격 처리
                 AttackMonster(input);
                 Console.WriteLine("계속하려면 아무 키나 누르세요.");
                 Console.ReadKey(true);
-                
-            } 
+
+            }
         }
 
         static void AttackMonster(int input)
