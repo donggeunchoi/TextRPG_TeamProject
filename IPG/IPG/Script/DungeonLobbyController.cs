@@ -72,20 +72,22 @@ namespace IPG
             }
         }
 
-        private void StartBattle(int floor)
+        private void StartBattle(int chosenFloor)
         {
-            Console.Clear();
-            Console.WriteLine($"{floor}층 전투를 시작합니다...\n");
-
-            // 전투 시작
-            _battleController.Battlestart();
+            // Console.Clear();
+            Console.WriteLine($"{chosenFloor}층 전투를 시작합니다...\n");
 
             // 클리어 성공했다고 가정하고 다음 층 열기
-            if (_unlockedFloor < floor + 1)
+            if (_unlockedFloor < chosenFloor + 1)
             {
-                _unlockedFloor = floor + 1;
+                _unlockedFloor = chosenFloor + 1;
             }
-                
+
+            Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
+            Console.ReadKey(true);
+            // 전투 시작
+            EnterDungeonLobby();
+            // _battleController.Battlestart();
 
             WaitInput();
         }
