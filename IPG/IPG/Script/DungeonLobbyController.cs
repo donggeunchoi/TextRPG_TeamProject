@@ -3,7 +3,7 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
-        private int _unlockedFloor = 1;
+        int _unlockedFloor = 1;
         private readonly PlayerController _player;
         private readonly Battlecontroller _battleController;
 
@@ -25,6 +25,7 @@ namespace IPG
 
         public void EnterDungeonLobby()
         {
+
             while (true)
             {
                 Console.Clear();
@@ -75,7 +76,7 @@ namespace IPG
         private void StartBattle(int chosenFloor)
         {
             // Console.Clear();
-            Console.WriteLine($"{chosenFloor}층 전투를 시작합니다...\n");
+            Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
             // 클리어 성공했다고 가정하고 다음 층 열기
             if (_unlockedFloor < chosenFloor + 1)
@@ -86,8 +87,10 @@ namespace IPG
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
             // 전투 시작
-            EnterDungeonLobby();
-            // _battleController.Battlestart();
+
+            // EnterDungeonLobby();
+            _battleController.Battlestart();
+            // 배틀컨트롤러로 넘어가면 초기화되어 1로 다시 시작 되는 문제.
 
             WaitInput();
         }
