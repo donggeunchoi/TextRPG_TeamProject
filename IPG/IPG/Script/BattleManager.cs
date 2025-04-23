@@ -3,7 +3,7 @@ using System.Transactions;
 using System.Xml.Linq;
 namespace IPG
 {
-    internal class BattleManager
+    internal class BattleManager //ddd
     {
         static PlayerController player = new PlayerController();
         static MonsterController[] monsters;
