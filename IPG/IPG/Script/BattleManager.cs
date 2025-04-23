@@ -10,6 +10,22 @@ namespace IPG
         
         static BattleController battlecontroller = new BattleController();
 
+        public static bool StartBattleAndCheckVictory()
+        {
+            PlayerAttackPhase();
+
+            bool allDead = true;
+            foreach (var monster in monsters)
+            {
+                if (!monster.IsDead)
+                {
+                    allDead = false;
+                    break;
+                }
+            }
+            return allDead;
+        }
+
         static public void ResetBattle()
         {
             InitMonsters();

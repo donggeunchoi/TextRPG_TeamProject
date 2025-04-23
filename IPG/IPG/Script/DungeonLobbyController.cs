@@ -3,7 +3,6 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
-        //1층 몬스터를 다 잡으면.
         int _unlockedFloor = 1;
         private readonly PlayerController _player;
         private readonly BattleController _battleController;
@@ -15,14 +14,15 @@ namespace IPG
         }
         
         static PlayerController player = new PlayerController();
-        static    StoreController store = new StoreController(player);
-        static    InventoryController inventory = new InventoryController(store, player);
-        static    BattleController battleController = new BattleController();
-        static   BattleManager battleManager = new BattleManager();
-        static    DungeonLobbyController dungeonLobby = new DungeonLobbyController(player,battleController);
+        static StoreController store = new StoreController(player);
+        static InventoryController inventory = new InventoryController(store, player);
+        static BattleController battleController = new BattleController();
+        static BattleManager battleManager = new BattleManager();
+        static DungeonLobbyController dungeonLobby = new DungeonLobbyController(player,battleController);
 
         VillageController village = new VillageController(store, inventory, player, battleController, battleManager,dungeonLobby);
 
+       
         public void EnterDungeonLobby()
         {
 
@@ -86,13 +86,21 @@ namespace IPG
 
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
-            // 전투 시작
 
             // EnterDungeonLobby();
             _battleController.Battlestart();
+            bool isVictory = BattleManager.StartBattleAndCheckVictory();
+
+            if (isVictory && _unlockedFloor < chosenFloor + 1)
+            {
+                _unlockedFloor = chosenFloor + 1;
+                Console.WriteLine($"{chosenFloor}층을 클리어했습니다.");
+                Console.WriteLine("다음 층이 열렸습니다.");
+                
+            }
             // 배틀컨트롤러로 넘어가면 초기화되어 1로 다시 시작 되는 문제.
 
-            WaitInput();
+                WaitInput();
         }
 
         private void WaitInput()

@@ -92,6 +92,7 @@ namespace IPG
 
         public void Battlevictory()
         {
+            
             bool exit = true;
             while (exit)
             {
