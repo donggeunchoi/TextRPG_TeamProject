@@ -8,14 +8,15 @@ namespace IPG
 {
     internal class ItemController
     {
-        public int number = 0;
+        public int Remaining;
         public string Name;
         public int Effect;
         public string Desc;
         public int Price;
+        public string ItemType;
 
-        public bool isWeapons = false;
-        public bool isSold = false;
+        public bool IsSold = false;
         public bool isUse = false;
+        public bool IsBuy = false;
     }
 }

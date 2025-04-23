@@ -26,7 +26,10 @@ namespace IPG
         public void Enter()
         {
             Console.Clear();
-            Console.WriteLine("인벤토리\r\n보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" [ 인벤토리 ]\n");
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]");
             ItemList();
             Console.WriteLine();
@@ -40,36 +43,74 @@ namespace IPG
 
         public void ItemList()
         {
-            foreach (ItemController item in _store.StoreItems)
+            for (int i = 0; i < _store.StoreItems.Count; i++)
             {
-                if (item.isSold)
+                ItemController item = _store.StoreItems[i];
+
+                if (item.IsBuy)
                 {
-                    Console.WriteLine($"- {item.Name}    | {(item.isWeapons ? "공격력" + item.Effect : "방어력" + item.Effect)}  | {item.Desc}");
+                    if (item.ItemType == "무기")
+                    {
+                        Console.WriteLine($"- {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                    }
+                    else if (item.ItemType == "방어구")
+                    {
+                        Console.WriteLine($"- {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                    }
+                    else if (item.ItemType == "포션")
+                    {
+                        Console.WriteLine($"- {item.Name}    | 회복량 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                    }
                 }
             }
+
         }
 
         public void EquipManagement()
         {
-            int i = 0;
-
             Dictionary<int, ItemController> itemDictionaty = new Dictionary<int, ItemController>();
 
             Console.Clear();
-            Console.WriteLine("인벤토리\r\n보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.WriteLine(" [ 장착 관리 ]\n");
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템을 장착/해제 할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]");
 
-            foreach (ItemController item in _store.StoreItems)
+
+            int displayIndex = 1;  // 사용자에게 보여줄 번호
+
+            for (int i = 0; i < _store.StoreItems.Count; i++)
             {
-                if (item.isSold)
+                ItemController item = _store.StoreItems[i];
+
+                if (item.IsBuy && item.ItemType == "무기")
                 {
-                    i++;
-                    item.number = i;
-                    itemDictionaty[i] = item;
+                    itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
 
-                    Console.WriteLine($"{item.number} {equippedMark} {item.Name}    | {(item.isWeapons ? "공격력" + item.Effect : "방어력" + item.Effect)}  | {item.Desc}");
+                    displayIndex++;
+                }
+
+                if (item.IsBuy && item.ItemType == "방어구")
+                {
+                    itemDictionaty[displayIndex] = item;
+
+                    string equippedMark = item.isUse ? "[E]" : "";
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+
+                    displayIndex++;
+                }
+
+                if (item.IsBuy && item.ItemType == "포션")
+                {
+                    itemDictionaty[displayIndex] = item;
+
+                    string equippedMark = item.isUse ? "[E]" : "";
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 회복력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+
+                    displayIndex++;
                 }
             }
 
@@ -91,34 +132,6 @@ namespace IPG
                 ItemController selectedItem = itemDictionaty[selectedNumber];
                 selectedItem.isUse = !selectedItem.isUse;
 
-                if (selectedItem.isUse)
-                {
-                    Console.WriteLine($"\n{selectedItem.Name} 장착 완료");
-
-                    if (selectedItem.isWeapons)
-                    {
-                        _playerStatus.Atk += selectedItem.Effect;
-                    }
-                    else
-                    {
-                        _playerStatus.Def += selectedItem.Effect;
-                    }
-                }
-
-                else
-                {
-                    Console.WriteLine($"\n{selectedItem.Name} 장착 해제");
-
-                    if (selectedItem.isWeapons)
-                    {
-                        _playerStatus.Atk -= selectedItem.Effect;
-                    }
-                    else
-                    {
-                        _playerStatus.Def -= selectedItem.Effect;
-                    }
-                }
-
                 Console.Clear();
                 EquipManagement();
             }
@@ -132,6 +145,10 @@ namespace IPG
             }
 
 
+        }
+        public List<ItemController> GetPlayerItems()
+        {
+            return _store.StoreItems.Where(item => item.IsBuy && item.isUse).ToList();
         }
 
         public void Exit()

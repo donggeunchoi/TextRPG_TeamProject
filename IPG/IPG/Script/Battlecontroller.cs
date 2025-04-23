@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace IPG
@@ -8,10 +10,16 @@ namespace IPG
 
     internal class Battlecontroller
     {
-
         static PlayerController player = new PlayerController();
-        private List<MonsterController> monsters;
+        static StoreController store = new StoreController(player);
+        static InventoryController inventory = new InventoryController(store, player);
+        static Battlecontroller battleController = new Battlecontroller();
         static BattleManager battleManager = new BattleManager();
+        static DungeonLobbyController dungeonLobby = new DungeonLobbyController(player, battleController);
+        static VillageController village;
+        
+        List<MonsterController> _monsters;
+
 
         public Battlecontroller()
         {
@@ -28,9 +36,10 @@ namespace IPG
 
             BattleManager.SetMonsters(monsters); // BattleManager이랑 연결
         }
-        
+          
         public void Battlestart()
         {
+
 
             bool exit = true;
             while (exit)
@@ -38,20 +47,21 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                for (int i = 0; i < monsters.Count; i++)
+                for (int i = 0; i < _monsters.Count; i++)
                 {
-                    if (monsters[i].Hp > 0)
+                    if (_monsters[i].Hp > 0)
                     {
                         Console.Write($" ");
-                        monsters[i].ShowMonsterInfo(i+1);
+                        _monsters[i].ShowMonsterInfo(i + 1);
                     }
                 }
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
-                Console.WriteLine("Lv.1  Chad (전사)");
-                Console.WriteLine("HP 100/100");
+                Console.WriteLine($"Lv.{player.Level} {player.Name} {player.Job}");
+                Console.WriteLine($"HP {player.Hp}/100");
                 Console.WriteLine();
                 Console.WriteLine("1. 공격");
+                Console.WriteLine("0. 나가기");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">>");
@@ -65,6 +75,10 @@ namespace IPG
 
                     switch (choice)
                     {
+                        case 0:
+                            dungeonLobby.EnterDungeonLobby();
+                            break;
+
                         case 1:
                             BattleManager.PlayerAttackPhase();
                             break;
@@ -94,8 +108,8 @@ namespace IPG
                 Console.WriteLine();
                 Console.WriteLine("던전에서 몬스터 3마리를 잡았습니다.");
                 Console.WriteLine();
-                Console.WriteLine("Lv.1 Chad");
-                Console.WriteLine("HP 100 -> 74");
+                Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                Console.WriteLine($"HP 100 -> {player.Hp}");
                 Console.WriteLine();
                 Console.WriteLine("0. 다음");
                 Console.WriteLine();
@@ -110,7 +124,7 @@ namespace IPG
                     switch (choice)
                     {
                         case 0:
-                            Pause();
+                            village.Enter();
                             break;
 
                         default:
@@ -136,8 +150,8 @@ namespace IPG
                 Console.WriteLine();
                 Console.WriteLine("You Lose");
                 Console.WriteLine();
-                Console.WriteLine("Lv.1 Chad");
-                Console.WriteLine("HP 100 -> 0");
+                Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                Console.WriteLine($"HP 100 -> {player.Hp}");
                 Console.WriteLine();
                 Console.WriteLine("0. 다음");
                 Console.WriteLine();
@@ -153,7 +167,8 @@ namespace IPG
                     switch (choice)
                     {
                         case 0:
-                            Pause();
+                            village.Enter();
+                            exit = false;
                             break;
 
                         default:

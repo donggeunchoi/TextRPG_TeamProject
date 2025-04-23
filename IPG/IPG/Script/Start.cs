@@ -12,11 +12,20 @@ namespace IPG
             InventoryController _inventory = new InventoryController(_store, _player);
             Battlecontroller _battleController = new Battlecontroller();
             BattleManager _battleManager = new BattleManager();
+            DungeonLobbyController _dungeonLobby = new DungeonLobbyController(_player,_battleController);
+            
 
-            VillageController village = new VillageController(_store, _inventory, _player, _battleController, _battleManager);
+            VillageController _village = new VillageController(_store, _inventory, _player, _battleController, _battleManager,_dungeonLobby);
+            
 
             _store.SaveItem();
-            village.Enter();
+
+            _player.SetVillage(_village);
+            _player.SetInventory(_inventory);
+            _player.StartStory();
+            
+
+            _village.Enter();
         }
     }
 }
