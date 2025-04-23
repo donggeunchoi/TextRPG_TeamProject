@@ -1,40 +1,35 @@
-using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-
 namespace IPG
 {
 
-    internal class Battlecontroller
+    internal class BattleController
     {
-        static PlayerController player = new PlayerController();
+        
         static StoreController store = new StoreController(player);
         static InventoryController inventory = new InventoryController(store, player);
-        static Battlecontroller battleController = new Battlecontroller();
+        static BattleController battleController = new BattleController(player);
         static BattleManager battleManager = new BattleManager();
         static DungeonLobbyController dungeonLobby = new DungeonLobbyController(player, battleController);
-        static VillageController village;
+        VillageController village;
         
         List<MonsterController> _monsters;
 
 
-        public Battlecontroller()
+        public BattleController(PlayerController status)
         {
+            player = status;
+
             ControlMonster controlMonster = new ControlMonster();
             Random rand = new Random();
-            monsters = new List<MonsterController>();
+            _monsters = new List<MonsterController>();
 
             for (int i = 0; i < 3; i++) // 몬스터 랜덤 생성
             {
                 int index = rand.Next(controlMonster.monsters.Count);
                 MonsterController copy = new MonsterController(controlMonster.monsters[index]);
-                monsters.Add(copy);
+                _monsters.Add(copy);
             }
 
-            BattleManager.SetMonsters(monsters); // BattleManager이랑 연결
+            BattleManager.SetMonsters(_monsters); // BattleManager이랑 연결
         }
           
         public void Battlestart()
@@ -58,7 +53,7 @@ namespace IPG
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
                 Console.WriteLine($"Lv.{player.Level} {player.Name} {player.Job}");
-                Console.WriteLine($"HP {player.Hp}/100");
+                Console.WriteLine($"HP {player.Hp}");
                 Console.WriteLine();
                 Console.WriteLine("1. 공격");
                 Console.WriteLine("0. 나가기");

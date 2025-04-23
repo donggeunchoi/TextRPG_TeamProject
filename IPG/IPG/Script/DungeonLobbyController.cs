@@ -5,9 +5,9 @@ namespace IPG
     {
         int _unlockedFloor = 1;
         private readonly PlayerController _player;
-        private readonly Battlecontroller _battleController;
+        private readonly BattleController _battleController;
 
-        public DungeonLobbyController(PlayerController player, Battlecontroller battleController)
+        public DungeonLobbyController(PlayerController player, BattleController battleController)
         {
             _player = player;
             _battleController = battleController;
@@ -16,7 +16,7 @@ namespace IPG
         static PlayerController player = new PlayerController();
         static    StoreController store = new StoreController(player);
         static    InventoryController inventory = new InventoryController(store, player);
-        static    Battlecontroller battleController = new Battlecontroller();
+        static    BattleController battleController = new BattleController(player);
         static   BattleManager battleManager = new BattleManager();
         static    DungeonLobbyController dungeonLobby = new DungeonLobbyController(player,battleController);
             

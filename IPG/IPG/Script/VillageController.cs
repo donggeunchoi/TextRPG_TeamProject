@@ -12,11 +12,11 @@ namespace IPG
         private StoreController _store;
         private PlayerController _playerStatus;
         private InventoryController _inventory;
-        private Battlecontroller _battleController;
+        private BattleController _battleController;
         private BattleManager _battleManager;
         private DungeonLobbyController _dungeonLobby;
 
-        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController, BattleManager battleManager, DungeonLobbyController dungeonLobby)
+        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, BattleController battleController, BattleManager battleManager, DungeonLobbyController dungeonLobby)
         {
             _store = Store;
             _playerStatus = Status;
