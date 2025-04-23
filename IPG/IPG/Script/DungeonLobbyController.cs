@@ -75,7 +75,7 @@ namespace IPG
 
         private void StartBattle(int chosenFloor)
         {
-            // Console.Clear();
+            Console.Clear();
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
             // 클리어 성공했다고 가정하고 다음 층 열기
