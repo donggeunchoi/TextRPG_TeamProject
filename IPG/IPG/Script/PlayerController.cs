@@ -32,6 +32,10 @@ namespace IPG
 
                 ShowPlayerInfo();
 
+                Console.WriteLine("0. 나가기\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">>");
+
                 string input = Console.ReadLine();
 
                 if (input == "0")
