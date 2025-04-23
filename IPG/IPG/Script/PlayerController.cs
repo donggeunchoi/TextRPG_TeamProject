@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 
 namespace IPG
 {
-    // Main에서 player.StartStory(); 부터 시작
-    
-    internal class PlayerController
+    class PlayerController
     {
 
         private VillageController _village;
         private InventoryController _inventory;
 
         public int Level = 1;
-        public string Name;
-        public string Job;
-        public int baseAtk;
-        public int baseDef;
-        public int Hp;
-        public int Gold = 1500;
+        public string Name = "Chad";
+        public string Job = "전사";
+        public int Atk = 10;
+        public int Def = 5;
+        public int Hp = 100;
+        public int Gold = 3500;
 
         public void SetVillage(VillageController village)
         {
@@ -286,6 +284,10 @@ namespace IPG
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
                 ShowPlayerInfo();
+
+                Console.WriteLine("0. 나가기\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">>");
 
                 string input = Console.ReadLine();
 
