@@ -8,12 +8,12 @@ using System.Security.Cryptography.X509Certificates;
 namespace IPG
 {
 
-    internal class Battlecontroller
+    internal class BattleController
     {
         static PlayerController player = new PlayerController();
         static StoreController store = new StoreController(player);
         static InventoryController inventory = new InventoryController(store, player);
-        static Battlecontroller battleController = new Battlecontroller();
+        static BattleController battleController = new BattleController();
         static BattleManager battleManager = new BattleManager();
         static DungeonLobbyController dungeonLobby = new DungeonLobbyController(player, battleController);
         static VillageController village;
@@ -21,12 +21,12 @@ namespace IPG
         List<MonsterController> _monsters;
 
         
-        public Battlecontroller()
+        public BattleController()
         {
             ControlMonster controlMonster = new ControlMonster();
             _monsters = controlMonster.monsters;
 
-            village = new VillageController(store, inventory, player, this, battleManager, dungeonLobby);
+            village = new VillageController(store, inventory, player,battleController, battleManager, dungeonLobby);
 
         }
           

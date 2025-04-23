@@ -8,7 +8,7 @@ namespace IPG
         static PlayerController player = new PlayerController();
         static MonsterController[] monsters;
         
-        static Battlecontroller battlecontroller = new Battlecontroller();
+        static BattleController battlecontroller = new BattleController();
 
         static public void ResetBattle()
         {
@@ -67,28 +67,7 @@ namespace IPG
                     break;
                 }
 
-                // 모든 몬스터가 죽었는지 확인
-                bool allDead = true;
-                foreach (var monster in monsters)
-                {
-                    if (!monster.IsDead)
-                    {
-                        allDead = false;
-                        break;
-                    }
-                }
-
-                if (allDead)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
-                    Console.ResetColor();
-
-                    battlecontroller.Battlevictory();
-
-                    InitMonsters();
-                    continue;
-                }
+               
 
                 // 공격 처리
                 AttackMonster(input);
@@ -142,6 +121,33 @@ namespace IPG
             {
                 monsters[i].ShowMonsterInfo(i + 1);
             }
+
+             // 모든 몬스터가 죽었는지 확인
+                bool allDead = true;
+                foreach (var monster in monsters)
+                {
+                    if (!monster.IsDead)
+                    {
+                        allDead = false;
+                        break;
+                    }
+                }
+
+                if (allDead)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
+                    Console.ResetColor();
+
+                    battlecontroller.Battlevictory();
+                    InitMonsters();
+
+                    Console.WriteLine("계속하려면 아무 키나 눌러주세요");
+                    Console.ReadKey(true);
+                    // Environment.Exit(0);
+
+                    return;
+                }
         }
 
         static void MonsterAttackPhase()
