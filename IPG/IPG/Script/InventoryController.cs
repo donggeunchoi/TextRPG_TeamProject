@@ -132,34 +132,6 @@ namespace IPG
                 ItemController selectedItem = itemDictionaty[selectedNumber];
                 selectedItem.isUse = !selectedItem.isUse;
 
-                if (selectedItem.isUse)
-                {
-                    Console.WriteLine($"\n{selectedItem.Name} 장착 완료");
-
-                    if (selectedItem.ItemType == "무기")
-                    {
-                        _playerStatus.baseAtk += selectedItem.Effect;
-                    }
-                    else if (selectedItem.ItemType == "방어구")
-                    {
-                        _playerStatus.baseDef += selectedItem.Effect;
-                    }
-                }
-
-                else
-                {
-                    Console.WriteLine($"\n{selectedItem.Name} 장착 해제");
-
-                    if (selectedItem.ItemType == "무기")
-                    {
-                        _playerStatus.baseAtk -= selectedItem.Effect;
-                    }
-                    else if (selectedItem.ItemType == "방어구")
-                    {
-                        _playerStatus.baseDef -= selectedItem.Effect;
-                    }
-                }
-
                 Console.Clear();
                 EquipManagement();
             }
@@ -176,7 +148,7 @@ namespace IPG
         }
         public List<ItemController> GetPlayerItems()
         {
-            return _store.StoreItems.Where(item => item.isSold && item.isUse).ToList();
+            return _store.StoreItems.Where(item => item.IsBuy && item.isUse).ToList();
         }
 
         public void Exit()

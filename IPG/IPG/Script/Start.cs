@@ -18,14 +18,14 @@ namespace IPG
             VillageController _village = new VillageController(_store, _inventory, _player, _battleController, _battleManager,_dungeonLobby);
             
 
-            store.SaveItem();
+            _store.SaveItem();
 
-            player.SetVillage(village);
-            player.SetInventory(inventory);
-            player.StartStory();
+            _player.SetVillage(_village);
+            _player.SetInventory(_inventory);
+            _player.StartStory();
             
 
-            village.Enter();
+            _village.Enter();
         }
     }
 }

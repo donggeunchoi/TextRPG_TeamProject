@@ -13,12 +13,12 @@ namespace IPG
         private InventoryController _inventory;
 
         public int Level = 1;
-        public string Name = "Chad";
-        public string Job = "전사";
-        public int Atk = 10;
-        public int Def = 5;
-        public int Hp = 100;
-        public int Gold = 3500;
+        public string Name;
+        public string Job;
+        public int baseAtk;
+        public int baseDef;
+        public int Hp;
+        public int Gold = 1500;
 
         public void SetVillage(VillageController village)
         {
@@ -265,12 +265,12 @@ namespace IPG
 
         private int GetBonusAtk(List<ItemController> inventory)
         {
-            return inventory.Where(i => i.isUse && i.isWeapons).Sum(i => i.Effect);
+            return inventory.Where(i => i.isUse && i.ItemType=="무기").Sum(i => i.Effect);
         }
 
         private int GetBonusDef(List<ItemController> inventory)
         {
-            return inventory.Where(i => i.isUse && !i.isWeapons).Sum(i => i.Effect);
+            return inventory.Where(i => i.isUse && i.ItemType=="방어구").Sum(i => i.Effect);
         }
 
         public void Status()
