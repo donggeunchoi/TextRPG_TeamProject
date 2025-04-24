@@ -15,6 +15,10 @@ namespace IPG
         private BattleController _battleController;
         private BattleManager _battleManager;
         private DungeonLobbyController _dungeonLobby;
+        public void SetDungeonLobby(DungeonLobbyController dungeonLobby)
+        {
+            _dungeonLobby = dungeonLobby;
+        }
 
         public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, BattleController battleController, BattleManager battleManager, DungeonLobbyController dungeonLobby)
         {
