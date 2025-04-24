@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace IPG
 {
 
-    internal class Battlecontroller
+    internal class BattleController
     {
         PlayerController player;
         List<MonsterController> monsters;
@@ -114,7 +114,6 @@ namespace IPG
 
         public void Battlevictory()
         {
-
             bool exit = true;
             int totalExp = monsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
             int totalGold = monsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
