@@ -3,7 +3,7 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
-        int _unlockedFloor = 1;
+        static int _unlockedFloor = 1;
         private readonly PlayerController _player;
         private readonly BattleController _battleController;
 
@@ -110,7 +110,7 @@ namespace IPG
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
             // 클리어 성공했다고 가정하고 다음 층 열기
-            if (_unlockedFloor < chosenFloor + 1)
+            if (  _unlockedFloor < chosenFloor + 1)
             {
                 _unlockedFloor = chosenFloor + 1;
             }

@@ -79,7 +79,7 @@ namespace IPG
                 if (input == 0)
                 {
                     Console.WriteLine("전투에서 도망쳤습니다.");
-                    battlecontroller.Battlestart();
+                    // battlecontroller.Battlestart();
                     break;
                 }
 
