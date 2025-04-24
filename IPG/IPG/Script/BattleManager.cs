@@ -279,11 +279,15 @@ namespace IPG
             {
                 Console.Clear();
                 Console.WriteLine("Battle!! - Result");
-                Console.WriteLine("\nYou Lose");
-                Console.WriteLine($"\nLv.{player.Level} {player.Name}");
+                Console.WriteLine();
+                Console.WriteLine("You Lose");
+                Console.WriteLine();
+                Console.WriteLine($"Lv.{player.Level} {player.Name}");
                 Console.WriteLine($"HP {playerHpBeforeBattle} -> {player.Hp}");
-                Console.WriteLine("\n0. 다음");
-                Console.Write("\n>>");
+                Console.WriteLine();
+                Console.WriteLine("0. 다음");
+                Console.WriteLine();
+                Console.Write(">>");
 
                 string input = Console.ReadLine();
                 int choice;
