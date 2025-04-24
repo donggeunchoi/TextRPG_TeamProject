@@ -1,4 +1,4 @@
-﻿using IPG;
+using IPG;
 using System.Numerics;
 
 namespace IPG
