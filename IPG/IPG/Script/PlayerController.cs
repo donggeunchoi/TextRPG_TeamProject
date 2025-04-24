@@ -15,10 +15,13 @@ namespace IPG
         public int Level = 1;
         public string Name;
         public string Job;
-        public int baseAtk;
+        public float baseAtk;
         public int baseDef;
         public int Hp;
         public int Gold = 1500;
+        public int Exp = 0;
+
+        private List<int> levelUpExp = new List<int> { 10, 35, 65, 100 };
 
         public void SetVillage(VillageController village)
         {
@@ -313,7 +316,23 @@ namespace IPG
             Console.WriteLine($"Gold : {Gold} G\n");
         }
 
-        
+        public void GainExp(int expGained)
+        {
+            Exp += expGained;
+            LevelUp();
+        }
+        public void LevelUp()
+        {
+
+            while (Level - 1 < levelUpExp.Count && Exp >= levelUpExp[Level - 1])
+            {
+                Exp -= levelUpExp[Level - 1];
+                Level++;
+                Console.WriteLine($"레벨업! {Name}는 Lv{Level}로 상승했습니다!");
+                baseAtk += 0.5f;
+                baseDef += 1;
+            }
+        }
 
         static void WrongInput()
         {

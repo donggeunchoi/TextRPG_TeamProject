@@ -45,6 +45,12 @@ namespace IPG
         // Index 받는 메서드
         public void ShowMonsterInfo(int index)
         {
+            if (Hp <= 0)
+            {
+                Hp = 0;
+                IsDead = true;
+            }
+
             if (IsDead)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
