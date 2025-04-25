@@ -16,6 +16,7 @@ namespace IPG
         private int playerGoldBeforeBattle;
         private int playerLevelBeforeBattle;
 
+    
         public void Battlestart()
         {
             playerHpBeforeBattle = GameManager.PlayerController.currentHp;
@@ -46,7 +47,7 @@ namespace IPG
                 string input = Console.ReadLine();
                 int choice;
 
-                
+
                 if (int.TryParse(input, out choice))
                 {
 

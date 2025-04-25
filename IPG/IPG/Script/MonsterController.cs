@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 // 네임스페이스 -> 프로그램 클래스 안에 Monster[] monsters 필드 선언, 몬스터 클래스는 프로그램 클래스 밖에 따로 생성
@@ -11,6 +11,29 @@ namespace IPG
         public int Hp;
         public int Atk;
         public bool IsDead = false;
+
+        public List<MonsterController> CreateBossOnly()
+{
+        List<MonsterController> bossList = new List<MonsterController>();
+
+    // 보스 몬스터는 이름이 "최후의 I"인 몬스터
+        MonsterController boss = GameManager.ListMonsters.Find(m => m.Name == "최후의 I");
+
+        if (boss != null)
+            {
+                // 복사본 만들어서 리턴
+                bossList.Add(new MonsterController
+                {
+                    Level = boss.Level,
+                    Name = boss.Name,
+                    Hp = boss.Hp,
+                    Atk = boss.Atk,
+                    IsDead = false
+                });
+            }
+
+    return bossList;
+}
 
         public MonsterController GetMonsterType()
         {

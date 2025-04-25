@@ -18,8 +18,9 @@ namespace IPG
         public static VillageController VillageController;
         public static DungeonLobbyController DungeonLobbyController;
         public static BattleManager BattleManager;
+        public static BossController BossController;
 
-
+        
         public static List<ItemController> ListStoreItems = new List<ItemController>();
         public static List<int> ListPlayerOwningNumber = new List<int>();
         public static List<MonsterController> ListMonsters = new List<MonsterController>();
@@ -35,6 +36,7 @@ namespace IPG
             VillageController = new VillageController();
             DungeonLobbyController = new DungeonLobbyController();
             BattleManager = new BattleManager();
+            BossController = new BossController();
         }
         
     }

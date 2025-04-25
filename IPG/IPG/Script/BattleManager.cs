@@ -1,4 +1,4 @@
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Transactions;
@@ -13,16 +13,21 @@ namespace IPG
 
         public static void DungeonMonster()
         {
-            CurrentMonsters.Clear();
-
-            Random rand = new Random ();
-            int NumberOfMonster = rand.Next (1, 4);
-
-            for (int i = 0; i < NumberOfMonster; i++)
+            if (GameManager.BattleController != null)
             {
-                CurrentMonsters.Add(Monsters.GetMonsterType());
+                CurrentMonsters.Clear();
+                CurrentMonsters.Add(IPG.GameManager.BossController);
             }
+            else
+            {
+                Random rand = new Random ();
+                int NumberOfMonster = rand.Next (1, 4);
 
+                for (int i = 0; i < NumberOfMonster; i++)
+                {
+                    CurrentMonsters.Add(Monsters.GetMonsterType());
+                }
+            }
         }
 
         public static void ShowDungeonMonster()

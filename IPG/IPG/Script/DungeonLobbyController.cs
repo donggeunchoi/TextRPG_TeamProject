@@ -5,6 +5,7 @@ namespace IPG
     internal class DungeonLobbyController
     {
         static int _unlockedFloor = 1;
+        static int _MaxFloor = 3;
             
         public void EnterDungeonLobby()
         {
@@ -20,7 +21,7 @@ namespace IPG
 
                 Console.WriteLine("1. 상태 보기");
 
-                for (int i = 1; i <= _unlockedFloor; i++)
+                for (int i = 1; i <= Math.Min(_unlockedFloor, 3); i++)
                 {
                     Console.WriteLine($"{i + 1}. {i}층 입장");
                 }
@@ -93,11 +94,25 @@ namespace IPG
             Console.WriteLine();
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
-            // 클리어 성공했다고 가정하고 다음 층 열기
-            if (  _unlockedFloor < chosenFloor + 1)
+            if (_unlockedFloor == 2 && chosenFloor == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("축하합니다! 마지막 층에 도달하였습니다.");
+                Console.ResetColor();
+
+                GameManager.BossController = BossController.GetBoss();
+                GameManager.BossController.DisplayBossInfo();
+
+                GameManager.BattleController.Battlestart();
+            }
+            
+
+            if (_unlockedFloor < chosenFloor + 1 && _unlockedFloor < _MaxFloor)
             {
                 _unlockedFloor = chosenFloor + 1;
+
             }
+            
 
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
