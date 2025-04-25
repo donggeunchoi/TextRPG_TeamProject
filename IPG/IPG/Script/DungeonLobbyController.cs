@@ -31,11 +31,9 @@ namespace IPG
                 Console.WriteLine("1. 상태 보기");
 
                 for (int i = 1; i <= _unlockedFloor; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {i}층 입장");
-                    
-                    // string chosenFloor = (i == 3) ?  $"{i}층 입장" : "세상을 구하기위한 마지막 관문";
-                }
+                    {
+                        Console.WriteLine($"{i + 1}. {i}층 입장");
+                    }
                 if (_unlockedFloor == 3)
                     {
                         Console.WriteLine("\"세상을 구하기위한 마지막 관문\"");
