@@ -28,8 +28,8 @@ namespace IPG
             // 타입    숫자
             // 0 1 2    3
         }  // 2 4 3
-        
 
+        
         public void AddMonsterInfo(int level, string name, int hp, int atk, bool isDead)
         {
             GameManager.ListMonsters.Add(new MonsterController

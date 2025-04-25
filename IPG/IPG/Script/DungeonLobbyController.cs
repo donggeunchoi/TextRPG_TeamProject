@@ -9,7 +9,11 @@ namespace IPG
 
         public static void UnlockNextFloor()
         {
-            _unlockedFloor++;
+            if (_unlockedFloor < 3)
+            {
+                _unlockedFloor++;
+            }
+            
         }
             
         public void EnterDungeonLobby()
@@ -29,7 +33,13 @@ namespace IPG
                 for (int i = 1; i <= _unlockedFloor; i++)
                 {
                     Console.WriteLine($"{i + 1}. {i}층 입장");
+                    
+                    // string chosenFloor = (i == 3) ?  $"{i}층 입장" : "세상을 구하기위한 마지막 관문";
                 }
+                if (_unlockedFloor == 3)
+                    {
+                        Console.WriteLine("\"세상을 구하기위한 마지막 관문\"");
+                    }
 
                 Console.WriteLine("0. 나가기");
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
@@ -53,7 +63,7 @@ namespace IPG
                     GameManager.VillageController.Enter();
                 }
 
-                if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
+                if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1 && selected - 1 <= 3)
                 {
                     int chosenFloor = selected - 1;
                     StartBattle(chosenFloor);

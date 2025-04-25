@@ -38,9 +38,9 @@ namespace IPG
                 Console.WriteLine();
 
                 GameManager.MonsterController.ShowMonsterInfo();
-
+                Console.WriteLine();
                 GameManager.PlayerController.ShowPlayerInfo();
-
+                
                 Console.WriteLine("\n0. 도망치기");
                 Console.WriteLine("\n대상을 선택해주세요.");
                 Console.Write(">> ");
