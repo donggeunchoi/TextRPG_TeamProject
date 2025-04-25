@@ -1,4 +1,5 @@
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Transactions;
 using System.Xml.Linq;
 namespace IPG
@@ -7,15 +8,18 @@ namespace IPG
     {
         static PlayerController player;
         static DungeonLobbyController dungeonLobby;
+        static MonsterController _monsterController;
 
-        public BattleManager(PlayerController injectedPlayer, Battlecontroller injectedController)
+        
+        public BattleManager(PlayerController injectedPlayer, BattleController injectedController, MonsterController monster)
         {
             player = injectedPlayer;
             controller = injectedController;
+            _monsterController = monster;
         }
         static List<MonsterController> monsters;
         static VillageController village;
-        static Battlecontroller controller;
+        static BattleController controller;
 
 
         public static void SetMonsters(List<MonsterController> newMonsters)
@@ -29,8 +33,10 @@ namespace IPG
         }
 
         public void SetDungeonLobby(DungeonLobbyController d)
-        {
+        { 
             dungeonLobby = d;
+        }
+            
         
 
         public static bool StartBattleAndCheckVictory()
@@ -49,20 +55,15 @@ namespace IPG
             return allDead;
         }
 
-        static public void ResetBattle()
-        {
-            InitMonsters();
-        }
+        // static public void ResetBattle()
+        // {
+        //     InitMonsters();
+        // }
         
-        static void InitMonsters()
-        {
-            monsters = new MonsterController[]
-            {
-                new MonsterController(2, "미니언", 15, 5),
-                new MonsterController(3, "공허충", 10, 9),
-                new MonsterController(5, "대포미니언", 25, 8)
-            };
-        }
+        // static void InitMonsters()
+        // {
+            
+        // }
         
 
         // 공격 턴 UI
@@ -79,10 +80,7 @@ namespace IPG
                 Console.ResetColor();
                 Console.WriteLine();
 
-                for (int i = 0; i < monsters.Count; i++)
-                {
-                    monsters[i].ShowMonsterInfo(i + 1);
-                }
+                // _monsterController.ShowMonsterInfo();
 
                 player.ShowPlayerInfo();
 
@@ -96,6 +94,7 @@ namespace IPG
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
+                    AttackMonster(input);
                     return;
                 }
 
@@ -174,10 +173,7 @@ namespace IPG
 
             Console.WriteLine("");
 
-            for (int i = 0; i < monsters.Count; i++)
-            {
-                monsters[i].ShowMonsterInfo(i + 1);
-            }
+            _monsterController.ShowMonsterInfo();
 
              // 모든 몬스터가 죽었는지 확인
                 bool allDead = true;
@@ -196,8 +192,8 @@ namespace IPG
                     Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                     Console.ResetColor();
 
-                    battlecontroller.Battlevictory();
-                    InitMonsters();
+                    controller.Battlevictory();
+                    // InitMonsters();
 
                     Console.WriteLine("계속하려면 아무 키나 눌러주세요");
                     Console.ReadKey(true);

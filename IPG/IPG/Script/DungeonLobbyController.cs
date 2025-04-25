@@ -4,11 +4,11 @@ namespace IPG
     internal class DungeonLobbyController
     {
         static int _unlockedFloor = 1;
-        private readonly PlayerController _player;
-        private readonly Battlecontroller _battleController;
-        private VillageController _village;
+        static private PlayerController _player;
+        static private BattleController _battleController;
+        static private VillageController _village;
 
-        public DungeonLobbyController(PlayerController player, Battlecontroller battleController, VillageController village)
+        public DungeonLobbyController(PlayerController player, BattleController battleController, VillageController village)
         {
             _player = player;
             _battleController = battleController;
@@ -16,10 +16,10 @@ namespace IPG
         }
         
        
-        static StoreController store = new StoreController(player);
-        static InventoryController inventory = new InventoryController(store, player);
+        static StoreController store = new StoreController(_player);
+        static InventoryController inventory = new InventoryController(store, _player);
        
-        static BattleManager battleManager = new BattleManager();
+        static BattleManager battleManager = new BattleManager(_player,_battleController,null);
        
 
         

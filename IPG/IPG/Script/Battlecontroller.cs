@@ -19,23 +19,20 @@ namespace IPG
         private int playerExpBeforeBattle;
         private int playerGoldBeforeBattle;
         private int playerLevelBeforeBattle;
+        MonsterController _monsterController = new MonsterController();
 
-        public Battlecontroller(PlayerController injectedPlayer, VillageController v, DungeonLobbyController d)
+        public BattleController(PlayerController injectedPlayer, VillageController v, DungeonLobbyController d)
         {
             player = injectedPlayer;
             village = v;
             dungeonLobby = d;
+            
 
-            ControlMonster controlMonster = new ControlMonster();
-            Random rand = new Random();
+
+           
             monsters = new List<MonsterController>();
 
-            for (int i = 0; i < 3; i++) // 몬스터 랜덤 생성
-            {
-                int index = rand.Next(controlMonster.monsters.Count);
-                MonsterController copy = new MonsterController(controlMonster.monsters[index]);
-                monsters.Add(copy);
-            }
+
 
             BattleManager.SetMonsters(monsters); // 배틀매니저랑 연결
         }
@@ -63,14 +60,12 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                for (int i = 0; i < monsters.Count; i++)
-                {
-                    if (monsters[i].Hp > 0)
-                    {
-                        Console.Write($" ");
-                        monsters[i].ShowMonsterInfo(i + 1);
-                    }
-                }
+                
+                Random rand = new Random(); 
+                int index = rand.Next(1, 4);
+                _monsterController.RandomMonsterType(index);
+                _monsterController.ShowMonsterInfo();
+
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
                 Console.WriteLine($"Lv.{player.Level} {player.Name} {player.Job}");
