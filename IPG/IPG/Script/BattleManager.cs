@@ -32,12 +32,11 @@ namespace IPG
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("My turn");
+                Console.WriteLine("My turn\n");
                 Console.ResetColor();
-                Console.WriteLine();
 
                 GameManager.MonsterController.ShowMonsterInfo();
-
+                Console.WriteLine("\n[내 정보]");
                 GameManager.PlayerController.ShowPlayerInfo();
 
                 Console.WriteLine("\n0. 도망치기");

@@ -33,7 +33,7 @@ namespace IPG
                 GameManager.MonsterController.ShowMonsterInfo();
 
                 Console.WriteLine();
-                Console.WriteLine("[내정보]");
+                Console.WriteLine("[내 정보]");
                 Console.WriteLine($"Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name} {GameManager.PlayerController.Job}");
                 Console.WriteLine($"HP {GameManager.PlayerController.Hp}/100");
                 Console.WriteLine();
@@ -117,16 +117,15 @@ namespace IPG
                 Console.WriteLine("\nBattle!! - Result");
                 Console.WriteLine("\nVictory");
                 Console.WriteLine($"\n던전에서 몬스터 {GameManager.ListMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
-                Console.WriteLine("\n[캐릭터 정보]");
+                Console.WriteLine("\n[내 정보]");
                 Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
+                Console.WriteLine($" -> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
                 Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.Hp}");
                 Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"(+{totalExp})");
                 Console.ResetColor();
                 Console.WriteLine("\n[획득 아이템]");
-                Console.WriteLine($"+{totalGold}");
 
                 if (droppedItems.Count == 0)
                 {
@@ -136,9 +135,10 @@ namespace IPG
                 {
                     foreach (var item in droppedItems)
                     {
-                        Console.WriteLine($"- {item.Name} ({item.ItemType})");
+                        Console.WriteLine($"+ {item.Name} ({item.ItemType})");
                     }
                 }
+                Console.WriteLine($"+ {totalGold} Gold");
 
                 Console.WriteLine("\n0. 다음");
                 Console.Write("\n>>");
