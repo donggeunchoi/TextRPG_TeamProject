@@ -3,34 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using 연습장.Script;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace IPG
 {
     internal class VillageController
     {
-        private StoreController _store;
-        private PlayerController _playerStatus;
-        private InventoryController _inventory;
-        private Battlecontroller _battleController;
-        private BattleManager _battleManager;
-        private DungeonLobbyController _dungeonLobby;
-        public void SetDungeonLobby(DungeonLobbyController dungeonLobby)
-        {
-            _dungeonLobby = dungeonLobby;
-        }
-
-        public VillageController(StoreController Store, InventoryController inventory, PlayerController Status, Battlecontroller battleController, BattleManager battleManager, DungeonLobbyController dungeonLobby)
-        {
-            _store = Store;
-            _playerStatus = Status;
-            _inventory = inventory;
-            _battleController = battleController;
-            _battleManager = battleManager;
-            _dungeonLobby = dungeonLobby;
-
-        }
-
         public void Enter()
         {
             while (true) // 뒤로 가기 기능을 위해 항상 메서드를 실행시켜놓는 기능, 각 메서드마다 있음
@@ -52,19 +31,19 @@ namespace IPG
                 switch (input)
                 {
                     case "1":
-                        _playerStatus.Status();
+                        GameManager.PlayerController.Status();
                         break;
 
                     case "2":
-                        _inventory.Enter();
+                        GameManager.InventoryController.Enter();
                         break;
 
                     case "3":
-                        _store.Enter();
+                        GameManager.StoreController.Enter();
                         break;
 
                     case "4":
-                        _dungeonLobby.EnterDungeonLobby();
+                        GameManager.DungeonLobbyController.EnterDungeonLobby();
                         break;
 
                     case "0":

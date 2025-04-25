@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using 연습장.Script;
 using static System.Formats.Asn1.AsnWriter;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -11,18 +12,6 @@ namespace IPG
 {
     internal class InventoryController
     {
-        public List<ItemController> StoreItems = new List<ItemController>();
-        private StoreController _store;
-        private VillageController _village;
-        private PlayerController _playerStatus;
-
-        public InventoryController(StoreController Store, PlayerController Status)
-        {
-            _store = Store;
-            _playerStatus = Status;
-        }
-
-
         public void Enter()
         {
             Console.Clear();
@@ -43,24 +32,24 @@ namespace IPG
 
         public void ItemList()
         {
-            for (int i = 0; i < _store.StoreItems.Count; i++)
+            for (int i = 0; i < GameManager.ListStoreItems.Count; i++)
             {
-                ItemController item = _store.StoreItems[i];
+                ItemController item = GameManager.ListStoreItems[i];
 
                 if (item.IsBuy)
                 {
                     if (item.ItemType == "무기")
                     {
-                        Console.WriteLine($"- {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                        Console.WriteLine($"- {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
                     }
                     else if (item.ItemType == "방어구")
                     {
-                        Console.WriteLine($"- {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                        Console.WriteLine($"- {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
                     }
                     else if (item.ItemType == "포션")
                     {
-                        Console.WriteLine($"- {item.Name}    | 회복량 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
-                    }
+                        Console.WriteLine($"- {item.Name}    | 회복량 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+                    }   
                 }
             }
 
@@ -79,16 +68,16 @@ namespace IPG
 
             int displayIndex = 1;  // 사용자에게 보여줄 번호
 
-            for (int i = 0; i < _store.StoreItems.Count; i++)
+            for (int i = 0; i < GameManager.ListStoreItems.Count; i++)
             {
-                ItemController item = _store.StoreItems[i];
+                ItemController item = GameManager.ListStoreItems[i];
 
                 if (item.IsBuy && item.ItemType == "무기")
                 {
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
-                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
 
                     displayIndex++;
                 }
@@ -98,7 +87,7 @@ namespace IPG
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
-                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
 
                     displayIndex++;
                 }
@@ -108,7 +97,7 @@ namespace IPG
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
-                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 회복력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {_store.PlayerOwningNumber[i]}");
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 회복력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
 
                     displayIndex++;
                 }
@@ -148,7 +137,7 @@ namespace IPG
         }
         public List<ItemController> GetPlayerItems()
         {
-            return _store.StoreItems.Where(item => item.IsBuy && item.isUse).ToList();
+            return GameManager.ListStoreItems.Where(item => item.IsBuy && item.isUse).ToList();
         }
 
         public void Exit()
