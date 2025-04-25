@@ -1,6 +1,5 @@
 using System;
 
-
 namespace IPG
 {
     internal class DungeonLobbyController
@@ -45,8 +44,8 @@ namespace IPG
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
-                Random rand = new Random();
-                int index = rand.Next(1, 4);
+                BattleManager.DungeonMonster();
+
                 string input = Console.ReadLine();
 
 
@@ -56,7 +55,6 @@ namespace IPG
                 if (input == "1")
                 {
                     GameManager.PlayerController.Status();
-                    WaitInput();
                     continue;
                 }
                 else if (input == "0")

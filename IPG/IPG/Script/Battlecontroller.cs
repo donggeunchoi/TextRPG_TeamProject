@@ -5,10 +5,9 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-
 namespace IPG
 {
-
+    
     internal class BattleController
     {
         
@@ -19,7 +18,7 @@ namespace IPG
 
         public void Battlestart()
         {
-            playerHpBeforeBattle = GameManager.PlayerController.Hp;
+            playerHpBeforeBattle = GameManager.PlayerController.currentHp;
             playerExpBeforeBattle = GameManager.PlayerController.Exp;
             playerGoldBeforeBattle = GameManager.PlayerController.Gold;
             playerLevelBeforeBattle = GameManager.PlayerController.Level;
@@ -32,13 +31,13 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                
-                GameManager.MonsterController.ShowMonsterInfo();
+
+                BattleManager.ShowDungeonMonster();
 
                 Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name} {GameManager.PlayerController.Job}");
-                Console.WriteLine($"HP {GameManager.PlayerController.Hp}/100");
+                Console.WriteLine("\n[내정보]");
+                Console.WriteLine($"Lv.{GameManager.PlayerController.Level} <{GameManager.PlayerController.Name}> {GameManager.PlayerController.Job}");
+                Console.WriteLine($"HP {GameManager.PlayerController.currentHp}/{GameManager.PlayerController.maxHp}");
                 Console.WriteLine();
                 Console.WriteLine("1. 공격");
                 Console.WriteLine("0. 나가기");
@@ -49,7 +48,7 @@ namespace IPG
                 string input = Console.ReadLine();
                 int choice;
 
-                // 입력이 정수인지 확인
+                
                 if (int.TryParse(input, out choice))
                 {
 
@@ -95,7 +94,7 @@ namespace IPG
                 Console.WriteLine("\n[캐릭터 정보]");
                 Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
                 Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.Hp}");
+                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
                 Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"(+{totalExp})");
@@ -140,7 +139,7 @@ namespace IPG
                 Console.WriteLine("Battle!! - Result");
                 Console.WriteLine("\nYou Lose");
                 Console.WriteLine($"\nLv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.Hp}");
+                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
                 Console.WriteLine("\n0. 다음");
                 Console.Write("\n>>");
 

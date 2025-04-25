@@ -1,7 +1,6 @@
 ﻿using IPG;
 using System.Numerics;
 
-
 namespace IPG
 {
     internal class Start

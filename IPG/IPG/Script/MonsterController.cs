@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-
+using System.Reflection;
+// 네임스페이스 -> 프로그램 클래스 안에 Monster[] monsters 필드 선언, 몬스터 클래스는 프로그램 클래스 밖에 따로 생성
 namespace IPG
 {
     internal class MonsterController
@@ -10,42 +11,26 @@ namespace IPG
         public int Hp;
         public int Atk;
         public bool IsDead = false;
-        public bool IsBoss = false;
 
-        private List<int> _saveType = new List<int>();
-        private int _saveMonsterNumber;
-
-       
-        
-        public void RandomMonsterType(int index, int floor)
+        public MonsterController GetMonsterType()
         {
             Random rand = new Random();
-            _saveType.Clear();
-            int dungeonFloor = DungeonLobbyController._unlockedFloor;
-            // int dungeonFloor = DungeonLobbyController.CurrentFloor;
+            int monsterType = rand.Next(0, GameManager.ListMonsters.Count);
 
-            if (dungeonFloor == 3)
+            MonsterController baseMonster = GameManager.ListMonsters[monsterType];
+
+            return new MonsterController
             {
-                _saveType.Add(5);
-                _saveMonsterNumber = 1;
-                return;
-            }
-            else if(dungeonFloor != 3)
-            {
-                for (int i = 0; i < index; i++)
-                {
-                    int monsterType = rand.Next(0, GameManager.ListMonsters.Count - 1);
-                    _saveType.Add(monsterType);
-                }
-            }
-        
-            _saveMonsterNumber = index;
+                Level = baseMonster.Level,
+                Name = baseMonster.Name,
+                Hp = baseMonster.Hp,
+                Atk = baseMonster.Atk,
+                IsDead = false
+            };
+        }
 
-            // 타입    숫자
-            // 0 1 2    3
-        }  // 2 4 3
 
-        
+
         public void AddMonsterInfo(int level, string name, int hp, int atk, bool isDead)
         {
             GameManager.ListMonsters.Add(new MonsterController
@@ -65,39 +50,10 @@ namespace IPG
             AddMonsterInfo(3, "공허충", 10, 9, false);
             AddMonsterInfo(4, "임규민짱", 5, 5, false);
             AddMonsterInfo(5, "대포미니언", 25, 8, false);
-            AddMonsterInfo(6, "파멸의 I", 50, 10, false);
         }
-        
-        
+
+        // 저장되어 있는 몬스터들을 하나씩 뽑아서 생성하고 싶습니다.
+
         // Index 받는 메서드
-        public void ShowMonsterInfo()
-        {
-            
-            for (int i = 0; i < _saveMonsterNumber; i++)
-            {
-                // 타입    숫자
-                // 0 1 2    3
-                // 2 4 3
-
-                if (GameManager.ListMonsters[_saveType[i]].Hp <= 0)
-                {
-                    GameManager.ListMonsters[_saveType[i]].Hp = 0;
-                    GameManager.ListMonsters[_saveType[i]].IsDead = true;
-                }
-
-
-                if (GameManager.ListMonsters[_saveType[i]].IsDead)
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"{i+1}. Lv {GameManager.ListMonsters[_saveType[i]].Level} [{GameManager.ListMonsters[_saveType[i]].Name}]  HP: Dead");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine($"{i+1}. Lv {GameManager.ListMonsters[_saveType[i]].Level} [{GameManager.ListMonsters[_saveType[i]].Name}]  HP: {GameManager.ListMonsters[_saveType[i]].Hp}");
-                }
-
-            }
-        }
     }
 }
