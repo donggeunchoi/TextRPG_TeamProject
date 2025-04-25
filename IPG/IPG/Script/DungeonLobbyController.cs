@@ -6,6 +6,11 @@ namespace IPG
     internal class DungeonLobbyController
     {
         static int _unlockedFloor = 1;
+
+        public static void UnlockNextFloor()
+        {
+            _unlockedFloor++;
+        }
             
         public void EnterDungeonLobby()
         {
@@ -98,26 +103,28 @@ namespace IPG
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
             // 클리어 성공했다고 가정하고 다음 층 열기
-            if (  _unlockedFloor < chosenFloor + 1)
-            {
-                _unlockedFloor = chosenFloor + 1;
-            }
+            // if (  _unlockedFloor < chosenFloor + 1)
+            // {
+            //     _unlockedFloor = chosenFloor + 1;
+            // }
 
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
 
-            // EnterDungeonLobby();
-            GameManager.BattleController.Battlestart();
             bool isVictory = BattleManager.StartBattleAndCheckVictory();
-
-            if (isVictory && _unlockedFloor < chosenFloor + 1)
+             if (isVictory && _unlockedFloor < chosenFloor + 1)
             {
                 _unlockedFloor = chosenFloor + 1;
                 Console.WriteLine($"{chosenFloor}층을 클리어했습니다.");
                 Console.WriteLine("다음 층이 열렸습니다.");
-                
+
             }
-            // 배틀컨트롤러로 넘어가면 초기화되어 1로 다시 시작 되는 문제.
+            // EnterDungeonLobby();
+            GameManager.BattleController.Battlestart();
+            
+
+           
+            
 
                 WaitInput();
         }

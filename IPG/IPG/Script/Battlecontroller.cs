@@ -81,6 +81,7 @@ namespace IPG
             int totalGold = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
+            
 
             while (exit)
             {
@@ -111,6 +112,7 @@ namespace IPG
                     switch (choice)
                     {
                         case 0:
+                            IPG.DungeonLobbyController.UnlockNextFloor();
                             GameManager.VillageController.Enter();
                             break;
 
