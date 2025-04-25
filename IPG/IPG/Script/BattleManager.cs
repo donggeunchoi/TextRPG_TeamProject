@@ -8,14 +8,14 @@ namespace IPG
 {
     internal class BattleManager
     {
-        private int _currenFloor;
+        private static int _currentFloor;
         private MonsterController _monsterController;
-        public void SetupBattle(int floor)
+        public void SetupBattle(int _unlockedFloor)
         {
-            _currenFloor = floor;
+            _currentFloor = _unlockedFloor;
             _monsterController.SaveMonster();
 
-            if (_currenFloor == 3)
+            if (_currentFloor == 3)
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("\"경고\" 최종보스 [파멸의 I]등장");
@@ -74,6 +74,8 @@ namespace IPG
 
                 if (allDead)
                 {
+                    if(_currentFloor == 3)
+                    
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                     Console.ResetColor();

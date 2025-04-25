@@ -21,8 +21,8 @@ namespace IPG
         {
             Random rand = new Random();
             _saveType.Clear();
-
-            int dungeonFloor = DungeonLobbyController.CurrentFloor;
+            int dungeonFloor = DungeonLobbyController._unlockedFloor;
+            // int dungeonFloor = DungeonLobbyController.CurrentFloor;
 
             if (dungeonFloor == 3)
             {
@@ -30,13 +30,15 @@ namespace IPG
                 _saveMonsterNumber = 1;
                 return;
             }
-
-            for (int i = 0; i < index; i++)
+            else if(dungeonFloor != 3)
             {
-                int monsterType = rand.Next(0, GameManager.ListMonsters.Count - 1);
-                _saveType.Add(monsterType);
+                for (int i = 0; i < index; i++)
+                {
+                    int monsterType = rand.Next(0, GameManager.ListMonsters.Count - 1);
+                    _saveType.Add(monsterType);
+                }
             }
-
+        
             _saveMonsterNumber = index;
 
             // 타입    숫자

@@ -6,8 +6,8 @@ namespace IPG
     internal class DungeonLobbyController
     {
         
-        public static int CurrentFloor = 1;
-        static int _unlockedFloor = 1;
+        // public static int CurrentFloor = 1;
+        public static int _unlockedFloor = 1;
 
         public static void UnlockNextFloor()
         {
@@ -50,7 +50,7 @@ namespace IPG
                 string input = Console.ReadLine();
 
 
-                GameManager.MonsterController.RandomMonsterType(index,CurrentFloor);
+                GameManager.MonsterController.RandomMonsterType(index,_unlockedFloor);
 
 
                 if (input == "1")
