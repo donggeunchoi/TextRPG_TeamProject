@@ -21,7 +21,8 @@ namespace IPG
                 Console.WriteLine("1. 상태 보기");
                 Console.WriteLine("2. 인벤토리");
                 Console.WriteLine("3. 상점");
-                Console.WriteLine("4. 던전 입장");
+                Console.WriteLine("4. 모험가 조합");
+                Console.WriteLine("5. 던전 입장");
                 Console.WriteLine("0. 게임 종료\n");
                 Console.Write("원하시는 행동을 입력해주세요.\n\n>> ");
 
@@ -42,6 +43,10 @@ namespace IPG
                         break;
 
                     case "4":
+                        GameManager.QuestController.EnterQuestBoard();
+                        break;
+
+                    case "5":
                         GameManager.DungeonLobbyController.EnterDungeonLobby();
                         break;
 
@@ -55,7 +60,7 @@ namespace IPG
                 }
             }
         }
-
+       
         static void WrongInput()
         {
             Console.WriteLine("\n\a잘못된 입력입니다.");

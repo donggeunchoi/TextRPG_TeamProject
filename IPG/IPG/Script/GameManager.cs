@@ -18,6 +18,8 @@ namespace IPG
         public static DungeonLobbyController DungeonLobbyController;
         public static BattleManager BattleManager;
         public static BossController BossController;
+        public static QuestController QuestController;
+
 
         
         public static List<ItemController> ListStoreItems = new List<ItemController>();
@@ -36,7 +38,7 @@ namespace IPG
             DungeonLobbyController = new DungeonLobbyController();
             BattleManager = new BattleManager();
             BossController = new BossController();
+            QuestController = new QuestController();
         }
-        
     }
 }
