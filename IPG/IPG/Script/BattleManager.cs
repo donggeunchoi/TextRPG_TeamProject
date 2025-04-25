@@ -57,15 +57,6 @@ namespace IPG
         {
             if (CurrentMonsters.All(monster => monster.IsDead))
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(" [ My turn ]\n");
-                Console.ResetColor();
-                Console.WriteLine();
-
-                ShowDungeonMonster();
-                Console.WriteLine("\n[내 정보]");
-                GameManager.PlayerController.ShowPlayerInfo();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                 Console.ResetColor();
@@ -73,6 +64,13 @@ namespace IPG
                 return; 
             }
 
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" [ My turn ]\n");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            ShowDungeonMonster();
 
             Console.WriteLine("\n\n");
             GameManager.PlayerController.ShowPlayerInfo();

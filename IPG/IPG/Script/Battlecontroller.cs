@@ -76,14 +76,14 @@ namespace IPG
         public void Battlevictory()
         {
             bool exit = true;
-            int totalExp = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
-            int totalGold = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
+            int totalExp = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
+            int totalGold = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
             Random random = new Random();
             List<ItemController> droppedItems = new List<ItemController>();
 
-            foreach (var monster in GameManager.ListMonsters.Where(m => m.IsDead))
+            foreach (var monster in BattleManager.CurrentMonsters.Where(m => m.IsDead))
             {
                 var droppableItems = GameManager.ListStoreItems
                     .Where(item => item.DropRate > 0)
@@ -116,7 +116,7 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("\nBattle!! - Result");
                 Console.WriteLine("\nVictory");
-                Console.WriteLine($"\n던전에서 몬스터 {GameManager.ListMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
+                Console.WriteLine($"\n던전에서 몬스터 {BattleManager.CurrentMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
                 Console.WriteLine("\n[내 정보]");
                 Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
                 Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
