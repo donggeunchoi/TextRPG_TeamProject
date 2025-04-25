@@ -1,5 +1,4 @@
 using System;
-using 연습장.Script;
 
 namespace IPG
 {
@@ -40,7 +39,6 @@ namespace IPG
                 if (input == "1")
                 {
                     GameManager.PlayerController.Status();
-                    WaitInput();
                     continue;
                 }
                 else if (input == "0")
@@ -108,16 +106,6 @@ namespace IPG
 
             // EnterDungeonLobby();
             GameManager.BattleController.Battlestart();
-            bool isVictory = BattleManager.StartBattleAndCheckVictory();
-
-            if (isVictory && _unlockedFloor < chosenFloor + 1)
-            {
-                _unlockedFloor = chosenFloor + 1;
-                Console.WriteLine($"{chosenFloor}층을 클리어했습니다.");
-                Console.WriteLine("다음 층이 열렸습니다.");
-                
-            }
-            // 배틀컨트롤러로 넘어가면 초기화되어 1로 다시 시작 되는 문제.
 
                 WaitInput();
         }
