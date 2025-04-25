@@ -12,29 +12,6 @@ namespace IPG
         public int Atk;
         public bool IsDead = false;
 
-        public List<MonsterController> CreateBossOnly()
-{
-        List<MonsterController> bossList = new List<MonsterController>();
-
-    // 보스 몬스터는 이름이 "최후의 I"인 몬스터
-        MonsterController boss = GameManager.ListMonsters.Find(m => m.Name == "최후의 I");
-
-        if (boss != null)
-            {
-                // 복사본 만들어서 리턴
-                bossList.Add(new MonsterController
-                {
-                    Level = boss.Level,
-                    Name = boss.Name,
-                    Hp = boss.Hp,
-                    Atk = boss.Atk,
-                    IsDead = false
-                });
-            }
-
-    return bossList;
-}
-
         public MonsterController GetMonsterType()
         {
             Random rand = new Random();
@@ -51,8 +28,6 @@ namespace IPG
                 IsDead = false
             };
         }
-
-
 
         public void AddMonsterInfo(int level, string name, int hp, int atk, bool isDead)
         {
@@ -75,8 +50,6 @@ namespace IPG
             AddMonsterInfo(5, "대포미니언", 25, 8, false);
         }
 
-        // 저장되어 있는 몬스터들을 하나씩 뽑아서 생성하고 싶습니다.
-
-        // Index 받는 메서드
+       
     }
 }

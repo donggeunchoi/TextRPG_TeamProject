@@ -9,21 +9,14 @@ namespace IPG
 {
     internal class BossController : MonsterController
     {
-        // ✅ 보스 정보 필드 선언
-        public int Level { get; private set; }
-        public string Name { get; private set; }
-        public int Hp { get; private set; }
-        public int Atk { get; private set; }
-        public bool IsDead { get; set; } = false;
-
         // ✅ 보스 몬스터 선언 (생성자)
         public BossController()
         {
-            Level = 6;
-            Name = "최후의 I";
-            Hp = 100;
-            Atk = 20;
-            IsDead = false;
+            this.Level = 6;
+            this.Name = "최후의 I";
+            this.Hp = 100;
+            this.Atk = 20;
+            this.IsDead = false;
         }
 
         // ✅ 보스 정보 출력 (BattleManager 등에서 호출용)

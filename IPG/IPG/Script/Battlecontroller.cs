@@ -82,49 +82,55 @@ namespace IPG
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
 
-            while (exit)
+            if ( DungeonLobbyController._unlockedFloor < DungeonLobbyController._MaxFloor)
             {
+                DungeonLobbyController._unlockedFloor++;
 
-                Console.Clear();
-                Console.WriteLine("\nBattle!! - Result");
-                Console.WriteLine("\nVictory");
-                Console.WriteLine($"\n던전에서 몬스터 {GameManager.ListMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
-                Console.WriteLine("\n[캐릭터 정보]");
-                Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
-                Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"(+{totalExp})");
-                Console.ResetColor();
-                Console.WriteLine("\n[획득 아이템]");
-                Console.WriteLine($"+{totalGold}");
-                Console.WriteLine("\n0. 다음");
-                Console.Write("\n>>");
-                string input = Console.ReadLine();
-                int choice;
+            }
 
-                // 입력이 정수인지 확인
-                if (int.TryParse(input, out choice))
+            while (exit)
                 {
 
-                    switch (choice)
-                    {
-                        case 0:
-                            GameManager.VillageController.Enter();
-                            break;
+                    Console.Clear();
+                    Console.WriteLine("\nBattle!! - Result");
+                    Console.WriteLine("\nVictory");
+                    Console.WriteLine($"\n던전에서 몬스터 {GameManager.ListMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
+                    Console.WriteLine("\n[캐릭터 정보]");
+                    Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
+                    Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
+                    Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
+                    Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"(+{totalExp})");
+                    Console.ResetColor();
+                    Console.WriteLine("\n[획득 아이템]");
+                    Console.WriteLine($"+{totalGold}");
+                    Console.WriteLine("\n0. 다음");
+                    Console.Write("\n>>");
+                    string input = Console.ReadLine();
+                    int choice;
 
-                        default:
-                            Console.WriteLine("잘못된 입력입니다.");
-                            break;
+                    // 입력이 정수인지 확인
+                    if (int.TryParse(input, out choice))
+                    {
+
+                        switch (choice)
+                        {
+                            case 0:
+                                GameManager.VillageController.Enter();
+                                break;
+
+                            default:
+                                Console.WriteLine("잘못된 입력입니다.");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못된 입력입니다.");
+                        exit = true;
                     }
                 }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                    exit = true;
-                }
-            }
         }
 
         public void BattleLose()

@@ -11,12 +11,13 @@ namespace IPG
         public static MonsterController Monsters = new MonsterController();
         public static List <MonsterController> CurrentMonsters = new List <MonsterController> ();
 
-        public static void DungeonMonster()
+        public static void DungeonMonster(int floor)
         {
-            if (GameManager.BattleController != null)
+           
+            CurrentMonsters.Clear();
+            if (floor == 3)
             {
-                CurrentMonsters.Clear();
-                CurrentMonsters.Add(IPG.GameManager.BossController);
+                CurrentMonsters.Add(GameManager.BossController);
             }
             else
             {
