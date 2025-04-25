@@ -38,7 +38,7 @@ namespace IPG
             
             
 
-            public static void ShowDungeonMonster()
+        public static void ShowDungeonMonster()
         {
             int i = 1;
 
@@ -66,85 +66,59 @@ namespace IPG
             }
         }
 
-            public static void PlayerAttackPhase()
+          
+        public static void PlayerAttackPhase()
+        {
+            int input = -1;
+
+            while (input != 0)
             {
-                // 몬스터가 죽었는지 확인
+                
                 bool allDead = true;
-                foreach (var monster in CurrentMonsters)
+                if (allDead)
                 {
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine("\"경고\" 최종보스 [파멸의 I]등장");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                     Console.ResetColor();
-                }
+                    Console.WriteLine();
 
-            }
+                    GameManager.MonsterController.ShowMonsterInfo();
+                    Console.WriteLine();
+                    GameManager.PlayerController.ShowPlayerInfo();
 
-            public static void PlayerAttackPhase()
-            {
-                int input = -1;
+                    Console.WriteLine("\n0. 도망치기");
+                    Console.WriteLine("\n대상을 선택해주세요.");
+                    Console.Write(">> ");
 
-                while (input != 0)
-                    if (allDead)
+                    bool isValid = int.TryParse(Console.ReadLine(), out input);
+                    if (!isValid || input < 0 || input > GameManager.ListMonsters.Count)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("잘못된 입력입니다.");
                         Console.ResetColor();
-                        Console.WriteLine();
-
-                        GameManager.MonsterController.ShowMonsterInfo();
-                        Console.WriteLine();
-                        GameManager.PlayerController.ShowPlayerInfo();
-
-                        Console.WriteLine("\n0. 도망치기");
-                        Console.WriteLine("\n대상을 선택해주세요.");
-                        Console.Write(">> ");
-
-                        bool isValid = int.TryParse(Console.ReadLine(), out input);
-                        if (!isValid || input < 0 || input > GameManager.ListMonsters.Count)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("잘못된 입력입니다.");
-                            Console.ResetColor();
-                            return;
-                        }
-
-                        if (input == 0)
-                        {
-                            Console.WriteLine("전투에서 도망쳤습니다.");
-                            GameManager.BattleController.Battlestart();
-                            break;
-                        }
-
-                        // 모든 몬스터가 죽었는지 확인
-                        bool allDead = true;
-                        foreach (var monster in GameManager.ListMonsters)
-                        {
-                            if (!monster.IsDead)
-                            {
-                                allDead = false;
-                                break;
-                            }
-                        }
-
-                        if (allDead)
-                        {
-                            if (_currentFloor == 3)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
-                                Console.ResetColor();
-                            }
-
-                            break;
-                        }
-
-                        // 공격 처리
-                        AttackMonster(input);
-                        Console.WriteLine("계속하려면 아무 키나 누르세요.");
-                        Console.ReadKey(true);
-                        GameManager.BattleController.Battlevictory();
-
+                        return;
                     }
+
+                    if (input == 0)
+                    {
+                        Console.WriteLine("전투에서 도망쳤습니다.");
+                        GameManager.BattleController.Battlestart();
+                        break;
+                    }
+                }
+            
+
+                    // 모든 몬스터가 죽었는지 확인
+                    
+                    
+
+                    // 공격 처리
+                    AttackMonster(input);
+                    Console.WriteLine("계속하려면 아무 키나 누르세요.");
+                    Console.ReadKey(true);
+                    GameManager.BattleController.Battlevictory();
+
+                }
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -163,69 +137,69 @@ namespace IPG
                 bool isValid = int.TryParse(result, out int input);
 
 
-                if (isValid == false || input < 0 || input > GameManager.ListMonsters.Count)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("잘못된 입력입니다.");
-                    Console.ResetColor();
-                }
-
-                else if (input == 0)
-                {
-                    Console.WriteLine("전투에서 도망쳤습니다.");
-                    GameManager.BattleController.Battlestart();
-
-                }
-
-                else
-                {
-                    AttackMonster(input);
-                }
-
-            }
-
-            static void AttackMonster(int input)
+            if (isValid == false || input < 0 || input > GameManager.ListMonsters.Count)
             {
-                MonsterController targetMonster = CurrentMonsters[input - 1];
-
-                if (targetMonster.IsDead)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("이미 처치한 몬스터입니다.");
-                    Console.ResetColor();
-                    return;
-                }
-
-                int minDamage = (int)Math.Ceiling(GameManager.PlayerController.baseAtk * 0.9);
-                int maxDamage = (int)Math.Ceiling(GameManager.PlayerController.baseAtk * 1.1);
-
-                Random random = new Random();
-                int damage = random.Next(minDamage, maxDamage + 1);
-
-                targetMonster.Hp -= damage;
-
-                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"{targetMonster.Name}에게 {damage}의 데미지를 입혔습니다!");
+                Console.WriteLine("잘못된 입력입니다.");
                 Console.ResetColor();
+            }
 
-                if (targetMonster.Hp <= 0)
-                {
-                    targetMonster.Hp = 0;
-                    targetMonster.IsDead = true;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!");
-                    Console.ResetColor();
-                }
-                if (targetMonster.Hp > 0)
-                {
-                    MonsterAttackPhase();
-                }
+            else if (input == 0)
+            {
+                Console.WriteLine("전투에서 도망쳤습니다.");
+                GameManager.BattleController.Battlestart();
 
             }
 
-            public static void MonsterAttackPhase()
+            else
             {
+                AttackMonster(input);
+            }
+
+        }
+
+        static void AttackMonster(int input)
+        {
+            MonsterController targetMonster = CurrentMonsters[input - 1];
+
+            if (targetMonster.IsDead)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("이미 처치한 몬스터입니다.");
+                Console.ResetColor();
+                return;
+            }
+
+            int minDamage = (int)Math.Ceiling(GameManager.PlayerController.baseAtk * 0.9);
+            int maxDamage = (int)Math.Ceiling(GameManager.PlayerController.baseAtk * 1.1);
+
+            Random random = new Random();
+            int damage = random.Next(minDamage, maxDamage + 1);
+
+            targetMonster.Hp -= damage;
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{targetMonster.Name}에게 {damage}의 데미지를 입혔습니다!");
+            Console.ResetColor();
+
+            if (targetMonster.Hp <= 0)
+            {
+                targetMonster.Hp = 0;
+                targetMonster.IsDead = true;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!");
+                Console.ResetColor();
+            }
+            if (targetMonster.Hp > 0)
+            {
+                MonsterAttackPhase();
+            }
+
+        }
+
+        public static void MonsterAttackPhase()
+        {
                 var monster = GameManager.ListMonsters;
                 int monsterIndex = 0;
                 //int totaldamage = 0;
@@ -283,7 +257,6 @@ namespace IPG
                     }
                 }
 
-            }
         }
     }
 }

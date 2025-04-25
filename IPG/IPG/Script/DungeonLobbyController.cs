@@ -49,7 +49,7 @@ namespace IPG
                 string input = Console.ReadLine();
 
 
-                GameManager.MonsterController.RandomMonsterType(index,_unlockedFloor);
+                // GameManager.MonsterController.RandomMonsterType(index,_unlockedFloor);
 
 
                 if (input == "1")
@@ -65,7 +65,7 @@ namespace IPG
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1 && selected - 1 <= 3)
                 {
                     int chosenFloor = selected - 1;
-                    GameManager.MonsterController.RandomMonsterType(index, chosenFloor);
+                    // GameManager.MonsterController.RandomMonsterType(index, chosenFloor);
                     StartBattle(chosenFloor);
                 }
                 else
