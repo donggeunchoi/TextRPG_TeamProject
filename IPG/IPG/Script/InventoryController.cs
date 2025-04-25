@@ -118,7 +118,28 @@ namespace IPG
             else if (int.TryParse(input, out int selectedNumber) && itemDictionaty.ContainsKey(selectedNumber))
             {
                 ItemController selectedItem = itemDictionaty[selectedNumber];
-                selectedItem.isUse = !selectedItem.isUse;
+                int itemIndex = GameManager.ListStoreItems.FindIndex(i => i == selectedItem);
+
+                if (selectedItem.ItemType == "포션")
+                {
+                    int beforeHp = GameManager.PlayerController.Hp;
+
+                    GameManager.PlayerController.Hp += 30;
+                    if (GameManager.PlayerController.Hp > GameManager.PlayerController.maxHp)
+                    {
+                        GameManager.PlayerController.Hp = GameManager.PlayerController.maxHp;
+                    }
+
+                    GameManager.ListPlayerOwningNumber[itemIndex]--;
+
+                    Console.Clear();
+                    Console.WriteLine($"{selectedItem.Name}을(를) 사용했습니다!");
+                    Console.WriteLine($"HP {beforeHp} → {GameManager.PlayerController.Hp}");
+                }
+                else
+                {
+                    selectedItem.isUse = !selectedItem.isUse;
+                }
 
                 Console.Clear();
                 EquipManagement();
