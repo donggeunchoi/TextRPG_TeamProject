@@ -23,18 +23,31 @@ namespace IPG
         public PlayerController()
         {
         }
+        void TypeEffect(string text, int delay = 40)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(delay);
+            }
+            Console.WriteLine();
+        }
 
         public void StartStory()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(" IPG 세계로 이동중... ");
+            TypeEffect(" <  IPG 세계로 이동중...  > ");
             Console.ResetColor();
+            Thread.Sleep(2000);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n한때 평화롭던 제국에 어둠이 드리우고...");
-            Console.WriteLine("당신은 이 세계를 구원할 영웅이 될 운명을 타고났습니다.");
-            Console.WriteLine("\n영웅이시여... 당신의 이름은 무엇인가요?");
+            TypeEffect("\n한때 평화롭던 제국에 어둠이 드리우고...");
+            Thread.Sleep(1000);
+            TypeEffect("당신은 이 세계를 구원할 영웅이 될 운명을 타고났습니다.");
+            Thread.Sleep(1000);
+            TypeEffect("\n영웅이시여... 당신의 이름은 무엇인가요?");
+            Thread.Sleep(1000);
             Console.ResetColor();
 
             while (true)
@@ -49,7 +62,7 @@ namespace IPG
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\n당신의 이름은 \"{inputName}\"... 맞습니까?");
+                TypeEffect($"\n당신의 이름은 \"{inputName}\"... 맞습니까?");
                 Console.ResetColor();
 
                 Console.WriteLine("\n1. 맞아요");
@@ -79,7 +92,11 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("이제 험난한 여정을 뚫고 IPG를 구원해주세요...\n");
+            TypeEffect("이제 험난한 여정을 뚫고 IPG를 구원해주세요...\n");
+            
+            ShowTitleArt();
+
+            Thread.Sleep(1000);
             Console.ResetColor();
 
             WaitInput();
@@ -91,8 +108,8 @@ namespace IPG
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"\n{Name}님, IPG에 오신걸 환영합니다."); //Imperium Pro Gloria
-            Console.WriteLine($"당신이 어떤 사람인지 알려주십시오...\n");
+            TypeEffect($"\n{Name}님, IPG에 오신걸 환영합니다."); //Imperium Pro Gloria
+            TypeEffect($"당신이 어떤 사람인지 알려주십시오...\n");
             Console.ResetColor();
             WaitInput();
 
@@ -155,7 +172,8 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"\n당신은 '{Job}'의 성향을 지닌 자군요!\n");
+            TypeEffect($"\n당신은 '{Job}'의 성향을 지닌 자군요!\n");
+            Thread.Sleep(800);
             Console.ResetColor();
 
             // 해설 출력
@@ -321,7 +339,38 @@ namespace IPG
             }
         }
 
-        static void WrongInput()
+        public static void ShowTitleArt()
+        {
+            string[] titleArt = new string[]
+            {
+        "                                                                                                                        ",
+        "=-------------------:::::::::::::::::::::::::::::::::::..........................                                       ",
+        "---:::::::::::::::::::..................................................                             --                 ",
+        "::::...........................                                                                     :%%.                ",
+        "............                                                                                       =    =              ",
+        "                                                                                                   =@%%@-               ",
+        "                                                                                                  -#%%%%#-              ",
+        "@               @*           .-==-:.                                                              =@%%%%@+              ",
+        "=---=*#%##+===++=.          -%@@@@%%+.    .-==.        ...::.                                    :%%%%%%%%:         ....",
+        ".:-=%@@@@@@+:..           -#@@%%%%@%.     #=-*:     .*%%@@%###*-.        .....................::-#%%%%%%%%#=---.......::",
+        "*##%%%%%%%%##*+:.........=%%%%%%%%%%=....:%=........=#%#*%%@@@##+:.................:::::::::::=+=#%###%%%####*+=::::::::",
+        "*#@@%%%%%%%@%%%%#=.:::::+%@%%%%%%%%@%*===*%-:::::::-=*#%%%%%%#-::::----++=::::::::::::::::--=+*##############*+++=------",
+        ".+@%%%%%%%%@*:=%@#-::::=@%%%%%%%%%%%%@@#*@*-:--::=%%%+#@%%%%%%###*+=----+@#-----------==+++*******************#****++==-",
+        "*%%%%%%%%%%%%*+++=-----*%%%%%%%%%%%%%#+-+#--------=+#%%%%%%%%*==+*###**+*%%=======+++++++****+++++++++++++====++++++++++",
+        "%%#********#%%%#*=====*%%%%%%%%%%%%%%+-=%+-=======+**%%%%%%%%%#+===++#%%%#*+=====+++++++++++++++=====---=======+++======",
+        "**+++++=====*%%%%+==+#%%%%%%%%%%%%%%%#=*#======+**++#%%#+==++*%%#***#**++========================---:------=============",
+        "%%%%%%%%%%##%%%%%###%%%%%%%%%%%%%%%%%%*%*+*++++*++*%%#*=======*%%#====================----------------------------------",
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=========*%%#****+++++====----------------------------------------",
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#########***++++++=========---------------",
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%######******+++++====",
+        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#########***"
+            };
+            foreach (string line in titleArt)
+            {
+                Console.WriteLine(line);
+            }
+        }
+            static void WrongInput()
         {
             Console.WriteLine("\n\a잘못된 입력입니다.");
             WaitInput();

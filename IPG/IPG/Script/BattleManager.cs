@@ -167,6 +167,7 @@ namespace IPG
             int currentHp = GameManager.PlayerController.currentHp;
             int maxHp = GameManager.PlayerController.maxHp;
 
+            int monsterIndex = 0;
             string playerName = GameManager.PlayerController.Name;
 
             Console.Clear();

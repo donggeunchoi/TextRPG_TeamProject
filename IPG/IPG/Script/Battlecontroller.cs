@@ -77,10 +77,39 @@ namespace IPG
         public void Battlevictory()
         {
             bool exit = true;
-            int totalExp = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
-            int totalGold = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
+            int totalExp = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
+            int totalGold = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
+            Random random = new Random();
+            List<ItemController> droppedItems = new List<ItemController>();
+
+            foreach (var monster in BattleManager.CurrentMonsters.Where(m => m.IsDead))
+            {
+                var droppableItems = GameManager.ListStoreItems
+                    .Where(item => item.DropRate > 0)
+                    .ToList();
+
+                foreach (var item in droppableItems)
+                {
+                    if (random.NextDouble() < item.DropRate)
+                    {
+                        int index = GameManager.ListStoreItems.FindIndex(x => x.Name == item.Name);
+                        if (index != -1)
+                        {
+                            GameManager.ListPlayerOwningNumber[index]++;
+                        }
+                        else
+                        {
+                            GameManager.ListStoreItems.Add(item);
+                            GameManager.ListPlayerOwningNumber.Add(1);
+                        }
+
+                        item.IsBuy = true;
+                        droppedItems.Add(item);
+                    }
+                }
+            }
 
             if ( DungeonLobbyController._unlockedFloor < DungeonLobbyController._MaxFloor)
             {

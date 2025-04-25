@@ -11,6 +11,8 @@ namespace IPG
 {
     internal class InventoryController
     {
+        Dictionary<int, ItemController> itemDictionaty = new Dictionary<int, ItemController>();
+
         public void Enter()
         {
             Console.Clear();
@@ -21,7 +23,7 @@ namespace IPG
             Console.WriteLine("[아이템 목록]");
             ItemList();
             Console.WriteLine();
-            Console.WriteLine("1. 장착 관리");
+            Console.WriteLine("1. 아이템 장착/사용");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">> ");
@@ -31,41 +33,7 @@ namespace IPG
 
         public void ItemList()
         {
-            for (int i = 0; i < GameManager.ListStoreItems.Count; i++)
-            {
-                ItemController item = GameManager.ListStoreItems[i];
-
-                if (item.IsBuy)
-                {
-                    if (item.ItemType == "무기")
-                    {
-                        Console.WriteLine($"- {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
-                    }
-                    else if (item.ItemType == "방어구")
-                    {
-                        Console.WriteLine($"- {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
-                    }
-                    else if (item.ItemType == "포션")
-                    {
-                        Console.WriteLine($"- {item.Name}    | 회복량 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
-                    }   
-                }
-            }
-
-        }
-
-        public void EquipManagement()
-        {
-            Dictionary<int, ItemController> itemDictionaty = new Dictionary<int, ItemController>();
-
-            Console.Clear();
-            Console.WriteLine(" [ 장착 관리 ]\n");
-            Console.ResetColor();
-            Console.WriteLine("보유 중인 아이템을 장착/해제 할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]");
-
-
-            int displayIndex = 1;  // 사용자에게 보여줄 번호
+            int displayIndex = 1;
 
             for (int i = 0; i < GameManager.ListStoreItems.Count; i++)
             {
@@ -102,9 +70,58 @@ namespace IPG
                 }
             }
 
+        }
+
+        public void EquipManagement()
+        {
+
+            Console.Clear();
+            Console.WriteLine(" [ 아이템 관리 ]\n");
+            Console.WriteLine("보유 중인 아이템입니다.\n");
+            Console.WriteLine("[아이템 목록]");
+
+
+            int displayIndex = 1;  // 사용자에게 보여줄 번호
+
+            for (int i = 0; i < GameManager.ListStoreItems.Count; i++)
+            {
+                ItemController item = GameManager.ListStoreItems[i];
+
+                if (item.IsBuy && item.ItemType == "무기")
+                {
+                    itemDictionaty[displayIndex] = item;
+
+                    string equippedMark = item.isUse ? "[E]" : "";
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+
+                    displayIndex++;
+
+                }
+
+                if (item.IsBuy && item.ItemType == "방어구")
+                {
+                    itemDictionaty[displayIndex] = item;
+
+                    string equippedMark = item.isUse ? "[E]" : "";
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+
+                    displayIndex++;
+                }
+
+                if (item.IsBuy && item.ItemType == "포션")
+                {
+                    itemDictionaty[displayIndex] = item;
+
+                    string equippedMark = item.isUse ? "[E]" : "";
+                    Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 회복력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+
+                    displayIndex++;
+                }
+            }
+
             Console.WriteLine();
             Console.WriteLine("0. 나가기\n");
-            Console.WriteLine("장착/헤체 하고자 하는 장비를 선택해주세요.");
+            Console.WriteLine("아이템을 선택해주세요.");
             Console.Write(">> ");
 
             string input = Console.ReadLine();
@@ -118,7 +135,38 @@ namespace IPG
             else if (int.TryParse(input, out int selectedNumber) && itemDictionaty.ContainsKey(selectedNumber))
             {
                 ItemController selectedItem = itemDictionaty[selectedNumber];
-                selectedItem.isUse = !selectedItem.isUse;
+                int itemIndex = GameManager.ListStoreItems.FindIndex(i => i == selectedItem);
+
+                if (selectedItem.ItemType == "포션")
+                {
+                    int beforeHp = GameManager.PlayerController.currentHp;
+
+                    GameManager.PlayerController.currentHp += 30;
+                    if (GameManager.PlayerController.currentHp > GameManager.PlayerController.maxHp)
+                    {
+                        GameManager.PlayerController.currentHp = GameManager.PlayerController.maxHp;
+                    }
+
+                    if (GameManager.ListPlayerOwningNumber[itemIndex] <= 0)
+                    {
+                        GameManager.ListPlayerOwningNumber[itemIndex] = 0;
+                        selectedItem.IsBuy = false;
+                    }
+
+                    Console.WriteLine($"\n{selectedItem.Name}을(를) 사용했습니다!");
+                    Console.Write($"HP {beforeHp} → {GameManager.PlayerController.currentHp}");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"(+30)");
+                    Console.ResetColor();
+
+                    GameManager.ListPlayerOwningNumber[itemIndex]--;
+                    Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    selectedItem.isUse = !selectedItem.isUse;
+                }
 
                 Console.Clear();
                 EquipManagement();
