@@ -29,9 +29,7 @@ namespace IPG
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
-                Random rand = new Random();
-                int index = rand.Next(1, 4);
-                GameManager.MonsterController.RandomMonsterType(index);
+                BattleManager.DungeonMonster();
 
                 string input = Console.ReadLine();
 

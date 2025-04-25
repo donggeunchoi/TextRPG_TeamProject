@@ -29,8 +29,8 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                
-                GameManager.MonsterController.ShowMonsterInfo();
+
+                BattleManager.ShowDungeonMonster();
 
                 Console.WriteLine();
                 Console.WriteLine("\n[내정보]");

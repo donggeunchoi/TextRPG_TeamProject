@@ -8,13 +8,15 @@ namespace IPG
 {
     internal class BattleManager
     {
-        public MonsterController Monsters = new MonsterController();
-        List <MonsterController> CurrentMonsters = new List <MonsterController> ();
+        public static MonsterController Monsters = new MonsterController();
+        public static List <MonsterController> CurrentMonsters = new List <MonsterController> ();
 
-        public void DungeonMonster()
+        public static void DungeonMonster()
         {
+            CurrentMonsters.Clear();
+
             Random rand = new Random ();
-            int NumberOfMonster = rand.Next (1, 3);
+            int NumberOfMonster = rand.Next (1, 4);
 
             for (int i = 0; i < NumberOfMonster; i++)
             {
@@ -23,11 +25,39 @@ namespace IPG
 
         }
 
+        public static void ShowDungeonMonster()
+        {
+            int i = 1;
+
+            foreach (MonsterController monster in CurrentMonsters)
+            {
+                if (monster.Hp <= 0)
+                {
+                    monster.Hp = 0;
+                    monster.IsDead = true;
+                }
+
+
+                if (monster.IsDead)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{i}. Lv {monster.Level} [{monster.Name}]  HP: Dead");
+                    Console.ResetColor();
+                    i++;
+                }
+                else
+                {
+                    Console.WriteLine($"{i}. Lv {monster.Level} [{monster.Name}]  HP: {monster.Hp}");
+                    i++;
+                }
+            }
+        }
+
         public static void PlayerAttackPhase()
         {
             // 몬스터가 죽었는지 확인
             bool allDead = true;
-            foreach (var monster in GameManager.ListMonsters)
+            foreach (var monster in CurrentMonsters)
             {
                 if (!monster.IsDead)
                 {
@@ -50,8 +80,7 @@ namespace IPG
             Console.ResetColor();
             Console.WriteLine();
 
-            GameManager.MonsterController.ShowMonsterInfo();
-
+            ShowDungeonMonster();
             GameManager.PlayerController.ShowPlayerInfo();
 
             Console.WriteLine("\n0. 도망치기");
@@ -85,7 +114,7 @@ namespace IPG
 
         static void AttackMonster(int input)
         {
-            MonsterController targetMonster = GameManager.ListMonsters[input - 1];
+            MonsterController targetMonster = CurrentMonsters[input - 1];
 
             if (targetMonster.IsDead)
             {
@@ -101,10 +130,7 @@ namespace IPG
             Random random = new Random();
             int damage = random.Next(minDamage, maxDamage + 1);
 
-            targetMonster.Hp -= damage; // 데미지를 입혔을 때 그 리스트에 해당하는 모든 적이 데미지를 받는 현상
-                                        // 1.슬라임
-                                        // 2.슬라임
-                                        // 3.공허충    이 나왓을 떄 1번을 선택하면 1, 2번이 둘다 데미지를 입음
+            targetMonster.Hp -= damage;
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -153,19 +179,22 @@ namespace IPG
                 
                 monsterIndex++;
             }
-            
-            if (monster.IsDead)
+
+            foreach(var dungeonMonster in CurrentMonsters)
             {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"\nLv.{monster.Level} {monster.Name}은(는) 이미 쓰러졌습니다.");
-                Console.ResetColor();
+                if (dungeonMonster.IsDead)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"\nLv.{dungeonMonster.Level} {dungeonMonster.Name}은(는) 이미 쓰러졌습니다.");
+                    Console.ResetColor();
 
+                }
+
+                Console.WriteLine($"\nLv.{dungeonMonster.Level} {dungeonMonster.Name}의 공격!");
+                currentHp -= dungeonMonster.Atk;
+                Console.WriteLine($"{playerName} 을(를) 맞췄습니다. [데미지: {dungeonMonster.Atk}]");
+                Console.WriteLine($"{playerName} HP: {currentHp}/{maxHp}");
             }
-
-            Console.WriteLine($"\nLv.{monster.Level} {monster.Name}의 공격!");
-            currentHp -= monster.Atk;
-            Console.WriteLine($"{playerName} 을(를) 맞췄습니다. [데미지: {monster.Atk}]");
-            Console.WriteLine($"{playerName} HP: {currentHp}/{maxHp}");
 
             if (currentHp <= 0)
             {
