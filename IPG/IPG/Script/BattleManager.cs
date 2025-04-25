@@ -1,5 +1,6 @@
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Transactions;
 using System.Xml.Linq;
 
@@ -7,6 +8,20 @@ namespace IPG
 {
     internal class BattleManager
     {
+        public MonsterController Monsters = new MonsterController();
+        List <MonsterController> CurrentMonsters = new List <MonsterController> ();
+
+        public void DungeonMonster()
+        {
+            Random rand = new Random ();
+            int NumberOfMonster = rand.Next (1, 3);
+
+            for (int i = 0; i < NumberOfMonster; i++)
+            {
+                CurrentMonsters.Add(Monsters.GetMonsterType());
+            }
+
+        }
 
         public static void PlayerAttackPhase()
         {
@@ -29,8 +44,6 @@ namespace IPG
 
             }
 
-            int input = -1;
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("My turn");
@@ -45,24 +58,28 @@ namespace IPG
             Console.WriteLine("\n대상을 선택해주세요.");
             Console.Write(">> ");
 
-            bool isValid = int.TryParse(Console.ReadLine(), out input);
-            if (!isValid || input < 0 || input > GameManager.ListMonsters.Count)
+            string result = Console.ReadLine();
+            bool isValid = int.TryParse(result, out int input);
+
+            
+            if (isValid == false || input < 0 || input > GameManager.ListMonsters.Count)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("잘못된 입력입니다.");
                 Console.ResetColor();
-                return;
             }
 
-            if (input == 0)
+            else if (input == 0)
             {
                 Console.WriteLine("전투에서 도망쳤습니다.");
                 GameManager.BattleController.Battlestart();
 
             }
 
-            // 공격
-            AttackMonster(input);
+            else
+            {
+                AttackMonster(input);
+            }
 
         }
 
@@ -84,7 +101,10 @@ namespace IPG
             Random random = new Random();
             int damage = random.Next(minDamage, maxDamage + 1);
 
-            targetMonster.Hp -= damage;
+            targetMonster.Hp -= damage; // 데미지를 입혔을 때 그 리스트에 해당하는 모든 적이 데미지를 받는 현상
+                                        // 1.슬라임
+                                        // 2.슬라임
+                                        // 3.공허충    이 나왓을 떄 1번을 선택하면 1, 2번이 둘다 데미지를 입음
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
