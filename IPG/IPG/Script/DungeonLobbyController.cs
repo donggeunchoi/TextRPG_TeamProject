@@ -1,20 +1,12 @@
 using System;
+using 연습장.Script;
+
 namespace IPG
 {
     internal class DungeonLobbyController
     {
-        int _unlockedFloor = 1;
-        private readonly PlayerController _player;
-        private readonly Battlecontroller _battleController;
-        private VillageController _village;
-
-        public DungeonLobbyController(PlayerController player, Battlecontroller battleController, VillageController village)
-        {
-            _player = player;
-            _battleController = battleController;
-            _village = village;
-        }
-
+        static int _unlockedFloor = 1;
+            
         public void EnterDungeonLobby()
         {
 
@@ -38,18 +30,22 @@ namespace IPG
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
+                Random rand = new Random();
+                int index = rand.Next(1, 4);
+                GameManager.MonsterController.RandomMonsterType(index);
+
                 string input = Console.ReadLine();
 
 
                 if (input == "1")
                 {
-                    _player.Status();
+                    GameManager.PlayerController.Status();
                     WaitInput();
                     continue;
                 }
                 else if (input == "0")
                 {
-                    _village.Enter();
+                    GameManager.VillageController.Enter();
                 }
 
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
@@ -68,23 +64,62 @@ namespace IPG
         private void StartBattle(int chosenFloor)
         {
             Console.Clear();
+
+            Console.WriteLine("뚜벅뚜벅 문 앞으로 다가갑니다.");
+            Console.WriteLine();
+            
+            int[,] gameMap = new int[8, 8]
+            {
+                { 0, 0, 0, 0, 0, 0, 0, 0},
+                { 0, 0, 0, 0, 0, 0, 0, 0},
+                { 0, 0, 1, 1, 1, 1, 0, 0},
+                { 0, 0, 1, 2, 2, 1, 0, 0},
+                { 0, 0, 1, 2, 2, 1, 0, 0},
+                { 0, 0, 1, 1, 1, 1, 0, 0},
+                { 0, 0, 1, 1, 1, 1, 0, 0},
+                { 0, 0, 1, 1, 1, 1, 0, 0}
+            };
+
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    switch (gameMap[y, x])
+                    {
+                        case 0: Console.Write("□ "); break; // 빈 공간
+                        case 1: Console.Write("■ "); break; // 벽
+                        case 2: Console.Write("Ω "); break;
+                        
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
             // 클리어 성공했다고 가정하고 다음 층 열기
-            if (_unlockedFloor < chosenFloor + 1)
+            if (  _unlockedFloor < chosenFloor + 1)
             {
                 _unlockedFloor = chosenFloor + 1;
             }
 
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
-            // 전투 시작
 
             // EnterDungeonLobby();
-            _battleController.Battlestart();
+            GameManager.BattleController.Battlestart();
+            bool isVictory = BattleManager.StartBattleAndCheckVictory();
+
+            if (isVictory && _unlockedFloor < chosenFloor + 1)
+            {
+                _unlockedFloor = chosenFloor + 1;
+                Console.WriteLine($"{chosenFloor}층을 클리어했습니다.");
+                Console.WriteLine("다음 층이 열렸습니다.");
+                
+            }
             // 배틀컨트롤러로 넘어가면 초기화되어 1로 다시 시작 되는 문제.
 
-            WaitInput();
+                WaitInput();
         }
 
         private void WaitInput()
