@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
-using 연습장.Script;
 
 namespace IPG
 {
@@ -81,6 +80,35 @@ namespace IPG
             int totalGold = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
+            Random random = new Random();
+            List<ItemController> droppedItems = new List<ItemController>();
+
+            foreach (var monster in GameManager.ListMonsters.Where(m => m.IsDead))
+            {
+                var droppableItems = GameManager.ListStoreItems
+                    .Where(item => item.DropRate > 0)
+                    .ToList();
+
+                foreach (var item in droppableItems)
+                {
+                    if (random.NextDouble() < item.DropRate)
+                    {
+                        int index = GameManager.ListStoreItems.FindIndex(x => x.Name == item.Name);
+                        if (index != -1)
+                        {
+                            GameManager.ListPlayerOwningNumber[index]++;
+                        }
+                        else
+                        {
+                            GameManager.ListStoreItems.Add(item);
+                            GameManager.ListPlayerOwningNumber.Add(1);
+                        }
+
+                        item.IsBuy = true;
+                        droppedItems.Add(item);
+                    }
+                }
+            }
 
             while (exit)
             {
@@ -99,6 +127,19 @@ namespace IPG
                 Console.ResetColor();
                 Console.WriteLine("\n[획득 아이템]");
                 Console.WriteLine($"+{totalGold}");
+
+                if (droppedItems.Count == 0)
+                {
+                    Console.WriteLine("획득한 아이템이 없습니다.");
+                }
+                else
+                {
+                    foreach (var item in droppedItems)
+                    {
+                        Console.WriteLine($"- {item.Name} ({item.ItemType})");
+                    }
+                }
+
                 Console.WriteLine("\n0. 다음");
                 Console.Write("\n>>");
                 string input = Console.ReadLine();

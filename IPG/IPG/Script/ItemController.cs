@@ -14,6 +14,7 @@ namespace IPG
         public string Desc;
         public int Price;
         public string ItemType;
+        public double DropRate = 0.0;
 
         public bool IsSold = false;
         public bool isUse = false;

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
-using 연습장.Script;
 
 namespace IPG
 {
@@ -26,7 +25,7 @@ namespace IPG
 
         }
 
-        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, int remaining, bool itemIsSold, bool isBuy)
+        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, int remaining, bool itemIsSold, bool isBuy, double dropRate)
         {
             GameManager.ListStoreItems.Add(new ItemController
             {
@@ -37,7 +36,8 @@ namespace IPG
                 Price = itemPrice,
                 Remaining = remaining,
                 IsSold = itemIsSold,
-                IsBuy = isBuy
+                IsBuy = isBuy,
+                DropRate = dropRate
             });
         }
 
@@ -45,13 +45,13 @@ namespace IPG
         {
             if (GameManager.ListStoreItems.Count > 0) return;
 
-            AddItem("수련자 갑옷    ", "방어구", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, 1, false, false);
-            AddItem("무쇠갑옷       ", "방어구", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, 0, true, true);
-            AddItem("스파르타의 갑옷", "방어구", 15, " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, 1, false, false);
-            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, 1, false, false);
-            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, 1, false, false);
-            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, 0, true, true);
-            AddItem("중급 회복 포션 ", "포션", 30, " 연금술사가 나름의 심혈을 기울여 만든 포션입니다. ", 800, 3, false, false);
+            AddItem("수련자 갑옷    ", "방어구", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, 1, false, false, 0.1);
+            AddItem("무쇠갑옷       ", "방어구", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, 0, true, true, 0.1);
+            AddItem("스파르타의 갑옷", "방어구", 15, " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, 1, false, false, 0.1);
+            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, 1, false, false, 0.1);
+            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, 1, false, false, 0.1);
+            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, 0, true, true, 0.1);
+            AddItem("중급 회복 포션 ", "포션", 30, " 연금술사가 나름의 심혈을 기울여 만든 포션입니다. ", 800, 3, false, false, 0.1);
 
 
             foreach (ItemController item in GameManager.ListStoreItems)

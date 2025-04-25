@@ -1,5 +1,4 @@
 using System;
-using 연습장.Script;
 
 namespace IPG
 {
