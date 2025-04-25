@@ -1,8 +1,8 @@
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Transactions;
 using System.Xml.Linq;
-using 연습장.Script;
+
 
 namespace IPG
 {

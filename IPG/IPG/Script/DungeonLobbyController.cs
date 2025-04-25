@@ -1,5 +1,5 @@
 using System;
-using 연습장.Script;
+
 
 namespace IPG
 {
@@ -102,11 +102,6 @@ namespace IPG
             Console.WriteLine();
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
-            // 클리어 성공했다고 가정하고 다음 층 열기
-            // if (  _unlockedFloor < chosenFloor + 1)
-            // {
-            //     _unlockedFloor = chosenFloor + 1;
-            // }
 
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
@@ -119,12 +114,8 @@ namespace IPG
                 Console.WriteLine("다음 층이 열렸습니다.");
 
             }
-            // EnterDungeonLobby();
-            GameManager.BattleController.Battlestart();
-            
-
            
-            
+            // GameManager.BattleController.Battlestart();
 
                 WaitInput();
         }

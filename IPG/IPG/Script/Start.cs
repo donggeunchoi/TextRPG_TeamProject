@@ -1,6 +1,6 @@
-using IPG;
+﻿using IPG;
 using System.Numerics;
-using 연습장.Script;
+
 
 namespace IPG
 {
