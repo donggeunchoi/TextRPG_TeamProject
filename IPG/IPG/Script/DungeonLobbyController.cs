@@ -1,30 +1,11 @@
 using System;
+
 namespace IPG
 {
     internal class DungeonLobbyController
     {
         static int _unlockedFloor = 1;
-        static private PlayerController _player;
-        static private BattleController _battleController;
-        static private VillageController _village;
-
-        public DungeonLobbyController(PlayerController player, BattleController battleController, VillageController village)
-        {
-            _player = player;
-            _battleController = battleController;
-            _village = village;
-        }
-        
-       
-        static StoreController store = new StoreController(_player);
-        static InventoryController inventory = new InventoryController(store, _player);
-       
-        static BattleManager battleManager = new BattleManager(_player,_battleController,null);
-       
-
-        
-
-       
+            
         public void EnterDungeonLobby()
         {
 
@@ -48,18 +29,19 @@ namespace IPG
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
+                BattleManager.DungeonMonster();
+
                 string input = Console.ReadLine();
 
 
                 if (input == "1")
                 {
-                    _player.Status();
-                    WaitInput();
+                    GameManager.PlayerController.Status();
                     continue;
                 }
                 else if (input == "0")
                 {
-                    _village.Enter();
+                    GameManager.VillageController.Enter();
                 }
 
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
@@ -121,17 +103,7 @@ namespace IPG
             Console.ReadKey(true);
 
             // EnterDungeonLobby();
-            _battleController.Battlestart();
-            bool isVictory = BattleManager.StartBattleAndCheckVictory();
-
-            if (isVictory && _unlockedFloor < chosenFloor + 1)
-            {
-                _unlockedFloor = chosenFloor + 1;
-                Console.WriteLine($"{chosenFloor}층을 클리어했습니다.");
-                Console.WriteLine("다음 층이 열렸습니다.");
-                
-            }
-            // 배틀컨트롤러로 넘어가면 초기화되어 1로 다시 시작 되는 문제.
+            GameManager.BattleController.Battlestart();
 
                 WaitInput();
         }

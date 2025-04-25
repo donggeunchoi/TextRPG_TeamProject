@@ -7,52 +7,21 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace IPG
 {
-
+    
     internal class BattleController
     {
-        PlayerController player;
-        List<MonsterController> monsters;
-        private VillageController village;
-        private DungeonLobbyController dungeonLobby;
 
         private int playerHpBeforeBattle;
         private int playerExpBeforeBattle;
         private int playerGoldBeforeBattle;
         private int playerLevelBeforeBattle;
-        MonsterController _monsterController = new MonsterController();
-
-        public BattleController(PlayerController injectedPlayer, VillageController v, DungeonLobbyController d)
-        {
-            player = injectedPlayer;
-            village = v;
-            dungeonLobby = d;
-            
-
-
-           
-            monsters = new List<MonsterController>();
-
-
-
-            BattleManager.SetMonsters(monsters); // 배틀매니저랑 연결
-        }
-
-        public void SetVillage(VillageController v)
-        {
-            village = v;
-        }
-
-        public void SetDungeonLobby(DungeonLobbyController d)
-        {
-            dungeonLobby = d;
-        }
 
         public void Battlestart()
         {
-            playerHpBeforeBattle = player.Hp;
-            playerExpBeforeBattle = player.Exp;
-            playerGoldBeforeBattle = player.Gold;
-            playerLevelBeforeBattle = player.Level;
+            playerHpBeforeBattle = GameManager.PlayerController.currentHp;
+            playerExpBeforeBattle = GameManager.PlayerController.Exp;
+            playerGoldBeforeBattle = GameManager.PlayerController.Gold;
+            playerLevelBeforeBattle = GameManager.PlayerController.Level;
 
             bool exit = true;
             while (exit)
@@ -60,16 +29,13 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!!");
                 Console.WriteLine();
-                
-                Random rand = new Random(); 
-                int index = rand.Next(1, 4);
-                _monsterController.RandomMonsterType(index);
-                _monsterController.ShowMonsterInfo();
+
+                BattleManager.ShowDungeonMonster();
 
                 Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{player.Level} {player.Name} {player.Job}");
-                Console.WriteLine($"HP {player.Hp}/100");
+                Console.WriteLine("\n[내정보]");
+                Console.WriteLine($"Lv.{GameManager.PlayerController.Level} <{GameManager.PlayerController.Name}> {GameManager.PlayerController.Job}");
+                Console.WriteLine($"HP {GameManager.PlayerController.currentHp}/{GameManager.PlayerController.maxHp}");
                 Console.WriteLine();
                 Console.WriteLine("1. 공격");
                 Console.WriteLine("0. 나가기");
@@ -80,14 +46,14 @@ namespace IPG
                 string input = Console.ReadLine();
                 int choice;
 
-                // 입력이 정수인지 확인
+                
                 if (int.TryParse(input, out choice))
                 {
 
                     switch (choice)
                     {
                         case 0:
-                            dungeonLobby.EnterDungeonLobby();
+                            GameManager.DungeonLobbyController.EnterDungeonLobby();
                             break;
 
                         case 1:
@@ -110,10 +76,39 @@ namespace IPG
         public void Battlevictory()
         {
             bool exit = true;
-            int totalExp = monsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
-            int totalGold = monsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
-            player.GainExp(totalExp);
-            player.Gold += totalGold;
+            int totalExp = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
+            int totalGold = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
+            GameManager.PlayerController.GainExp(totalExp);
+            GameManager.PlayerController.Gold += totalGold;
+            Random random = new Random();
+            List<ItemController> droppedItems = new List<ItemController>();
+
+            foreach (var monster in BattleManager.CurrentMonsters.Where(m => m.IsDead))
+            {
+                var droppableItems = GameManager.ListStoreItems
+                    .Where(item => item.DropRate > 0)
+                    .ToList();
+
+                foreach (var item in droppableItems)
+                {
+                    if (random.NextDouble() < item.DropRate)
+                    {
+                        int index = GameManager.ListStoreItems.FindIndex(x => x.Name == item.Name);
+                        if (index != -1)
+                        {
+                            GameManager.ListPlayerOwningNumber[index]++;
+                        }
+                        else
+                        {
+                            GameManager.ListStoreItems.Add(item);
+                            GameManager.ListPlayerOwningNumber.Add(1);
+                        }
+
+                        item.IsBuy = true;
+                        droppedItems.Add(item);
+                    }
+                }
+            }
 
             while (exit)
             {
@@ -121,17 +116,30 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("\nBattle!! - Result");
                 Console.WriteLine("\nVictory");
-                Console.WriteLine($"\n던전에서 몬스터 {monsters.Count(m => m.IsDead)}마리를 잡았습니다.");
-                Console.WriteLine("\n[캐릭터 정보]");
-                Console.Write($"Lv.{playerLevelBeforeBattle} {player.Name}");
-                Console.WriteLine($"-> Lv.{player.Level} {player.Name}");
-                Console.WriteLine($"HP {playerHpBeforeBattle} -> {player.Hp}");
-                Console.Write($"Exp {playerExpBeforeBattle} -> {player.Exp} ");
+                Console.WriteLine($"\n던전에서 몬스터 {BattleManager.CurrentMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
+                Console.WriteLine("\n[내 정보]");
+                Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
+                Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
+                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
+                Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"(+{totalExp})");
                 Console.ResetColor();
                 Console.WriteLine("\n[획득 아이템]");
-                Console.WriteLine($"+{totalGold}");
+
+                if (droppedItems.Count == 0)
+                {
+                    Console.WriteLine("획득한 아이템이 없습니다.");
+                }
+                else
+                {
+                    foreach (var item in droppedItems)
+                    {
+                        Console.WriteLine($"+ {item.Name} ({item.ItemType})");
+                    }
+                }
+                Console.WriteLine($"+ {totalGold} Gold");
+
                 Console.WriteLine("\n0. 다음");
                 Console.Write("\n>>");
                 string input = Console.ReadLine();
@@ -144,7 +152,7 @@ namespace IPG
                     switch (choice)
                     {
                         case 0:
-                            village.Enter();
+                            GameManager.VillageController.Enter();
                             break;
 
                         default:
@@ -168,8 +176,8 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("Battle!! - Result");
                 Console.WriteLine("\nYou Lose");
-                Console.WriteLine($"\nLv.{player.Level} {player.Name}");
-                Console.WriteLine($"HP {playerHpBeforeBattle} -> {player.Hp}");
+                Console.WriteLine($"\nLv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
+                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
                 Console.WriteLine("\n0. 다음");
                 Console.Write("\n>>");
 
@@ -183,7 +191,7 @@ namespace IPG
                     switch (choice)
                     {
                         case 0:
-                            village.Enter();
+                            GameManager.VillageController.Enter();
                             exit = false;
                             break;
 

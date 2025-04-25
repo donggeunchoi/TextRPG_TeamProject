@@ -8,30 +8,20 @@ namespace IPG
         static void Main(string[] args)
         {
             // 기본 객체 생성
-            PlayerController _player = new PlayerController();
-            StoreController _store = new StoreController(_player);
-            InventoryController _inventory = new InventoryController(_store, _player);
-            MonsterController _monsters = new MonsterController();
+            GameManager.Init();
+            GameManager.MonsterController.SaveMonster();
+            GameManager.StoreController.SaveItem();
+            GameManager.PlayerController.StartStory();
 
-            // null 주입
-            BattleController _battleController = new BattleController(_player, null, null);  // 일단 null
-            VillageController _village = new VillageController(_store, _inventory, _player, _battleController, null, null); // 일단 null
-            DungeonLobbyController _dungeonLobby = new DungeonLobbyController(_player, _battleController, _village);
-
-            // 순환 연결
-            _battleController.SetVillage(_village);
-            _battleController.SetDungeonLobby(_dungeonLobby);
-            _village.SetDungeonLobby(_dungeonLobby);
-
-            BattleManager _battleManager = new BattleManager(_player, _battleController, null);
-
-            _monsters.SaveMonster();
-            _store.SaveItem();
-            _player.SetVillage(_village);
-            _player.SetInventory(_inventory);
-            _player.StartStory();
-            _village.Enter();
-        
+        // 마을 (순환구조 남음)
+        // 상점 (완)
+        // 아이템 (완)
+        // 인벤토리 (완)
+        // 배틀컨트롤러 (완)
+        // 배틀 매니저 (완)
+        // 던전 로비 컨트롤러 (완)
+        // 몬스터 컨트롤러 (완)
+        // 인벤토리 (완)
         }
     }
 }

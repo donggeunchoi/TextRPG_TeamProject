@@ -9,14 +9,6 @@ namespace IPG
 {
     internal class StoreController
     {
-        PlayerController _playerStatus;
-        public List<ItemController> StoreItems = new List<ItemController>();
-        public List <int> PlayerOwningNumber = new List<int>();
-
-        public StoreController(PlayerController status)
-        {
-            _playerStatus = status;
-        }
 
         public void Enter()
         {
@@ -25,16 +17,17 @@ namespace IPG
             Console.ResetColor();
             Console.WriteLine("필요한 아이템을 구매할 수 있습니다.\n");
             Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{_playerStatus.Gold} G\n");
+            Console.WriteLine($"{GameManager.PlayerController.Gold} G\n");
 
             ShowItems();
             ShowItemsWithNumber();
             BuyItem();
+
         }
 
-        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, int remaining, bool itemIsSold, bool isBuy)
+        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, int remaining, bool itemIsSold, bool isBuy, double dropRate)
         {
-            StoreItems.Add(new ItemController
+            GameManager.ListStoreItems.Add(new ItemController
             {
                 ItemType = itemType,
                 Name = itemName,
@@ -43,32 +36,33 @@ namespace IPG
                 Price = itemPrice,
                 Remaining = remaining,
                 IsSold = itemIsSold,
-                IsBuy = isBuy
+                IsBuy = isBuy,
+                DropRate = dropRate
             });
         }
 
         public void SaveItem()
         {
-            if (StoreItems.Count > 0) return;
+            if (GameManager.ListStoreItems.Count > 0) return;
 
-            AddItem("수련자 갑옷    ", "방어구", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, 1, false, false);
-            AddItem("무쇠갑옷       ", "방어구", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, 0, true, true);
-            AddItem("스파르타의 갑옷", "방어구", 15, " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, 1, false, false);
-            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, 1, false, false);
-            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, 1, false, false);
-            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, 0, true, true);
-            AddItem("중급 회복 포션 ", "포션", 30, " 연금술사가 나름의 심혈을 기울여 만든 포션입니다. ", 800, 3, false, false);
+            AddItem("수련자 갑옷    ", "방어구", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, 1, false, false, 0.1);
+            AddItem("무쇠갑옷       ", "방어구", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, 0, true, true, 0.1);
+            AddItem("스파르타의 갑옷", "방어구", 15, " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, 1, false, false, 0.1);
+            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, 1, false, false, 0.1);
+            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, 1, false, false, 0.1);
+            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, 0, true, true, 0.1);
+            AddItem("중급 회복 포션 ", "포션", 30, " 연금술사가 나름의 심혈을 기울여 만든 포션입니다. ", 800, 3, false, false, 0.1);
 
 
-            foreach (ItemController item in StoreItems)
+            foreach (ItemController item in GameManager.ListStoreItems)
             {
                 if (item.IsSold && item.Remaining == 0)
                 {
-                    PlayerOwningNumber.Add(1);
+                    GameManager.ListPlayerOwningNumber.Add(1);
                 }
                 else
                 {
-                    PlayerOwningNumber.Add(0);
+                    GameManager.ListPlayerOwningNumber.Add(0);
                 }
             }
         }
@@ -139,7 +133,7 @@ namespace IPG
         {
             Console.WriteLine("[아이템 목록]");
 
-            foreach (ItemController item in StoreItems)
+            foreach (ItemController item in GameManager.ListStoreItems)
             {
                 if (item.Remaining == 0)
                 {
@@ -151,7 +145,7 @@ namespace IPG
                 }
             }
 
-            foreach (ItemController item in StoreItems)
+            foreach (ItemController item in GameManager.ListStoreItems)
             {
                 if(item.ItemType == "무기")
                 {
@@ -193,16 +187,16 @@ namespace IPG
 
         public void CompareWithMoney(int itemNumber)
         {
-            if (_playerStatus.Gold >= StoreItems[itemNumber - 1].Price && StoreItems[itemNumber - 1].IsSold == false)
+            if (GameManager.PlayerController.Gold >= GameManager.ListStoreItems[itemNumber - 1].Price && GameManager.ListStoreItems[itemNumber - 1].IsSold == false)
             {
-                _playerStatus.Gold -= StoreItems[itemNumber - 1].Price;
-                StoreItems[itemNumber - 1].Remaining--;
+                GameManager.PlayerController.Gold -= GameManager.ListStoreItems[itemNumber - 1].Price;
+                GameManager.ListStoreItems[itemNumber - 1].Remaining--;
 
-                StoreItems[itemNumber - 1].IsBuy = true;
-                PlayerOwningNumber[itemNumber - 1]++;
+                GameManager.ListStoreItems[itemNumber - 1].IsBuy = true;
+                GameManager.ListPlayerOwningNumber[itemNumber - 1]++;
             }
 
-            else if (StoreItems[itemNumber - 1].IsSold == true)
+            else if (GameManager.ListStoreItems[itemNumber - 1].IsSold == true)
             {
                 ShowItemsWithNumber();
                 Console.WriteLine("이미 구매하셨습니다.");
@@ -226,11 +220,11 @@ namespace IPG
                 Console.Clear();
                 Console.WriteLine("상점\r\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
                 Console.WriteLine("[보유 골드]");
-                Console.WriteLine($"{_playerStatus.Gold} G\n");
+                Console.WriteLine($"{GameManager.PlayerController.Gold} G\n");
 
                 Console.WriteLine("[아이템 목록]");
 
-                foreach (ItemController item in StoreItems)
+                foreach (ItemController item in GameManager.ListStoreItems)
                 {
                     if (item.Remaining == 0)
                     {
@@ -239,7 +233,7 @@ namespace IPG
                 }
 
                 int i = 1;
-                foreach (ItemController item in StoreItems)
+                foreach (ItemController item in GameManager.ListStoreItems)
                 {
 
                     if (item.ItemType == "무기")
