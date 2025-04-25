@@ -12,9 +12,9 @@ namespace IPG
         // ✅ 보스 몬스터 선언 (생성자)
         public BossController()
         {
-            this.Level = 6;
+            this.Level = 20;
             this.Name = "최후의 I";
-            this.Hp = 100;
+            this.Hp = 10;
             this.Atk = 20;
             this.IsDead = false;
         }
