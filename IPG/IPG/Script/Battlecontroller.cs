@@ -11,7 +11,7 @@ namespace IPG
 
     internal class BattleController
     {
-
+        
         private int playerHpBeforeBattle;
         private int playerExpBeforeBattle;
         private int playerGoldBeforeBattle;
@@ -24,6 +24,8 @@ namespace IPG
             playerGoldBeforeBattle = GameManager.PlayerController.Gold;
             playerLevelBeforeBattle = GameManager.PlayerController.Level;
 
+            // GameManager.BattleManager.SetupBattle(DungeonLobbyController.CurrentFloor);
+            
             bool exit = true;
             while (exit)
             {

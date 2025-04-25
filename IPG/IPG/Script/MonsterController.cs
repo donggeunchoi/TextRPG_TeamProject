@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-// 네임스페이스 -> 프로그램 클래스 안에 Monster[] monsters 필드 선언, 몬스터 클래스는 프로그램 클래스 밖에 따로 생성
+
 namespace IPG
 {
     internal class MonsterController
@@ -10,20 +10,34 @@ namespace IPG
         public int Hp;
         public int Atk;
         public bool IsDead = false;
+        public bool IsBoss = false;
 
-        private int[] _saveType = new int[5];
+        private List<int> _saveType = new List<int>();
         private int _saveMonsterNumber;
 
-        public void RandomMonsterType(int index)
+       
+        
+        public void RandomMonsterType(int index, int floor)
         {
             Random rand = new Random();
+            _saveType.Clear();
+
+            int dungeonFloor = DungeonLobbyController.CurrentFloor;
+
+            if (dungeonFloor == 3)
+            {
+                _saveType.Add(5);
+                _saveMonsterNumber = 1;
+                return;
+            }
+
             for (int i = 0; i < index; i++)
             {
-                int monsterType = rand.Next(0, GameManager.ListMonsters.Count);
-                _saveType[i] = monsterType;
+                int monsterType = rand.Next(0, GameManager.ListMonsters.Count - 1);
+                _saveType.Add(monsterType);
             }
-            int monsterNumber = rand.Next(1, 4);
-            _saveMonsterNumber = monsterNumber;
+
+            _saveMonsterNumber = index;
 
             // 타입    숫자
             // 0 1 2    3
@@ -49,6 +63,7 @@ namespace IPG
             AddMonsterInfo(3, "공허충", 10, 9, false);
             AddMonsterInfo(4, "임규민짱", 5, 5, false);
             AddMonsterInfo(5, "대포미니언", 25, 8, false);
+            AddMonsterInfo(6, "파멸의 I", 50, 10, false);
         }
         
         

@@ -5,6 +5,8 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
+        
+        public static int CurrentFloor = 1;
         static int _unlockedFloor = 1;
 
         public static void UnlockNextFloor()
@@ -45,9 +47,10 @@ namespace IPG
 
                 Random rand = new Random();
                 int index = rand.Next(1, 4);
-                GameManager.MonsterController.RandomMonsterType(index);
-
                 string input = Console.ReadLine();
+
+
+                GameManager.MonsterController.RandomMonsterType(index,CurrentFloor);
 
 
                 if (input == "1")
@@ -64,6 +67,7 @@ namespace IPG
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1 && selected - 1 <= 3)
                 {
                     int chosenFloor = selected - 1;
+                    GameManager.MonsterController.RandomMonsterType(index, chosenFloor);
                     StartBattle(chosenFloor);
                 }
                 else
@@ -114,16 +118,7 @@ namespace IPG
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
 
-            bool isVictory = BattleManager.StartBattleAndCheckVictory();
-             if (isVictory && _unlockedFloor < chosenFloor + 1)
-            {
-                _unlockedFloor = chosenFloor + 1;
-                Console.WriteLine($"{chosenFloor}층을 클리어했습니다.");
-                Console.WriteLine("다음 층이 열렸습니다.");
-
-            }
-           
-            // GameManager.BattleController.Battlestart();
+            GameManager.BattleController.Battlestart();
 
                 WaitInput();
         }

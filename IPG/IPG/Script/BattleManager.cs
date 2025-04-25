@@ -8,20 +8,20 @@ namespace IPG
 {
     internal class BattleManager
     {
-        public static bool StartBattleAndCheckVictory()
+        private int _currenFloor;
+        private MonsterController _monsterController;
+        public void SetupBattle(int floor)
         {
-            PlayerAttackPhase();
+            _currenFloor = floor;
+            _monsterController.SaveMonster();
 
-            bool allDead = true;
-            foreach (var monster in GameManager.ListMonsters)
+            if (_currenFloor == 3)
             {
-                if (!monster.IsDead)
-                {
-                    allDead = false;
-                    break;
-                }
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("\"경고\" 최종보스 [파멸의 I]등장");
+                Console.ResetColor();
             }
-            return allDead;
+            
         }
 
         public static void PlayerAttackPhase()
