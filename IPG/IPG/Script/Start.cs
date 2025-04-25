@@ -1,6 +1,5 @@
 using IPG;
 using System.Numerics;
-using 연습장.Script;
 
 namespace IPG
 {
@@ -14,15 +13,15 @@ namespace IPG
             GameManager.StoreController.SaveItem();
             GameManager.PlayerController.StartStory();
 
-        // 마을 (순환구조 남음)
-        // 상점 (완)
-        // 아이템 (완)
-        // 인벤토리 (완)
-        // 배틀컨트롤러 (완)
-        // 배틀 매니저 (완)
-        // 던전 로비 컨트롤러 (완)
-        // 몬스터 컨트롤러 (완)
-        // 인벤토리 (완)
+            // 마을 (순환구조 남음)
+            // 상점 (완)
+            // 아이템 (완)
+            // 인벤토리 (완)
+            // 배틀컨트롤러 (완)
+            // 배틀 매니저 (완)
+            // 던전 로비 컨트롤러 (완)
+            // 몬스터 컨트롤러 (완)
+            // 인벤토리 (완)
         }
     }
 }

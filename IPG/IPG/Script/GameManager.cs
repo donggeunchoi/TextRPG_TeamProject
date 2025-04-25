@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 연습장.Script
+namespace IPG
 {
     internal static class GameManager
     {
@@ -18,6 +18,7 @@ namespace 연습장.Script
         public static VillageController VillageController;
         public static DungeonLobbyController DungeonLobbyController;
         public static BattleManager BattleManager;
+        public static QuestController QuestController;
 
 
         public static List<ItemController> ListStoreItems = new List<ItemController>();
@@ -35,7 +36,7 @@ namespace 연습장.Script
             VillageController = new VillageController();
             DungeonLobbyController = new DungeonLobbyController();
             BattleManager = new BattleManager();
+            QuestController = new QuestController();
         }
-        
     }
 }

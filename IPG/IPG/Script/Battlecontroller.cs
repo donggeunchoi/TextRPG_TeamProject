@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
-using 연습장.Script;
 
 namespace IPG
 {
