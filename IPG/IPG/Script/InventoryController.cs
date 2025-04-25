@@ -95,7 +95,7 @@ namespace IPG
                     Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
 
                     displayIndex++;
-
+                    GameManager.QuestController.OnEquipmentEquipped();
                 }
 
                 if (item.IsBuy && item.ItemType == "방어구")
@@ -106,6 +106,7 @@ namespace IPG
                     Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
 
                     displayIndex++;
+                    GameManager.QuestController.OnEquipmentEquipped();
                 }
 
                 if (item.IsBuy && item.ItemType == "포션")
@@ -205,8 +206,35 @@ namespace IPG
                 Thread.Sleep(500);
                 Enter();
             }
+        }
 
+        public void AddQuestRewardSpartaSword()
+        {
+            const string itemName = "스파르타의 검";
 
+            int idx = GameManager.ListStoreItems.FindIndex(i => i.Name == itemName);
+            if (idx >= 0)
+            {
+                GameManager.ListPlayerOwningNumber[idx]++;
+            }
+            else
+            {
+                var sword = new ItemController
+                {
+                    Name = itemName,
+                    ItemType = "무기",
+                    Effect = 10,
+                    Desc = "스파르타의 전사들이 사용했다는 전설의 검입니다. 아주 희귀합니다.",
+                    Price = 3500,
+                    Remaining = 0,
+                    IsSold = true,
+                    IsBuy = true,
+                    isUse = false,
+                    DropRate = 0.0
+                };
+                GameManager.ListStoreItems.Add(sword);
+                GameManager.ListPlayerOwningNumber.Add(1);
+            }
         }
     }
 }

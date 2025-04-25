@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IPG
 {
@@ -57,11 +58,16 @@ namespace IPG
             { 6, new[] { 5 } }  // 보스 처치 퀘는 2층 클리어 퀘 완료 후 공개
         };
 
+        public bool HasPendingRewards()
+        {
+            return quests.Values.Any(q => q.State == QuestState.RewardAvailable);
+        }
+
         public QuestController()
         {
             quests[1] = new Quest(1, "마을을 위협하는 몬스터 처치",
                 "이봐! 마을 근처에 몬스터들이 너무 많아졌다고 생각하지 않나?\n\n마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n\n모험가인 자네가 좀 처치해주게!", 
-                QuestType.KillCount, 5, new[] { "쓸만한 방패 x1", "100G" });
+                QuestType.KillCount, 5, new[] { "스파르타의 검 x1", "100G" });
 
             quests[2] = new Quest(2, "아이템을 구입해보자",
                 "여기에 처음 와본 거면 한 번 상점도 이용해 보라구.\n\n자네 같은 모험가들한테 필요한 물건들을 잔뜩 구비해 놓았으니 말이지.", 
@@ -125,7 +131,16 @@ namespace IPG
                     else if (q.State == QuestState.RewardAvailable)
                         title += " (완료)";
 
-                    Console.WriteLine($"{i + 1}. {title}");
+                    if (q.State == QuestState.RewardAvailable)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"{i + 1}. {title}");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{i + 1}. {title}");
+                    }
                 }
                 Console.Write("\n0. 뒤로가기\n>> ");
 
@@ -226,7 +241,7 @@ namespace IPG
             {
                 GiveRewards(q);
                 q.State = QuestState.Completed;
-                Console.WriteLine("\n보상 지급 완료!"); WaitInput();
+                WaitInput();
             }
         }
         
@@ -245,24 +260,30 @@ namespace IPG
         {
             switch (q.Id)
             {
-                case 1: // 몬스터 5마리 처치, 아이템 1개, 골드 +100
-                    //InventoryController.AddItemToInventory("쓸만한 방패", 1); // InventoryController.AddItemToInventory 아직 안 만듦
+                case 1: // 몬스터 5마리 처치, 스파르타의 검 1개, 골드 +100
+                    GameManager.InventoryController.AddQuestRewardSpartaSword();
                     GameManager.PlayerController.Gold += 100;
+                    Console.WriteLine("\n스파르타의 검을 획득했습니다!");
+                    Console.WriteLine("100G를 획득했습니다!");
                     break;
 
                 case 2: // 상점에서 아이템 구입, 뿌듯함 +1 (사실 아무 것도 없음)
+                    Console.WriteLine("\n굉장히 뿌듯해졌습니다!");
                     break;
 
                 case 3: // 인벤토리에서 아이템 착용, 영구 공격력 +1 증가
                     GameManager.PlayerController.baseAtk += 1;
+                    Console.WriteLine("\n영구적으로 공격력이 1 증가했습니다!");
                     break;
 
-                case 4: // 레벨업, 영구 체력 +20 증가, 현재 플레이어컨트롤러에 최대 체력 필드가 없어서 일단 주석 처리
-                    //GameManager.PlayerController.MaxHp += 20;
+                case 4: // 레벨업, 영구 체력 +20 증가
+                    GameManager.PlayerController.maxHp += 20;
+                    Console.WriteLine("\n영구적으로 최대 체력이 20 증가했습니다!");
                     break;
 
                 case 5: // 2층 클리어, 골드 +1000
                     GameManager.PlayerController.Gold += 1000;
+                    Console.WriteLine("\n1000G를 획득했습니다!");
                     break;
 
                 case 6: // 보스 몬스터 처치, 무슨 보상할지 아직 못 정함 (크레딧?)
@@ -324,7 +345,7 @@ namespace IPG
         {
             foreach (var q in quests.Values)
             {
-                if (q.State == QuestState.InProgress && q.Type == QuestType.StageClear && q.Target == stage && q.Progress < q.Target)
+                if (q.State == QuestState.InProgress && q.Type == QuestType.StageClear && stage == 2 && q.Progress < q.Target)
                 {
                     q.Progress++;
                     if (q.Progress >= q.Target) q.State = QuestState.RewardAvailable;

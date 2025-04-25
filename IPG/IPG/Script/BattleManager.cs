@@ -138,6 +138,9 @@ namespace IPG
             {
                 targetMonster.Hp = 0;
                 targetMonster.IsDead = true;
+                GameManager.QuestController.OnMonsterKilled();
+                if (targetMonster is BossController && targetMonster.IsDead)
+                    GameManager.QuestController.OnBossKilled(targetMonster.Name);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!\n");
                 Console.ResetColor();

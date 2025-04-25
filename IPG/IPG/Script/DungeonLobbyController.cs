@@ -6,7 +6,8 @@ namespace IPG
     {
         public static int _unlockedFloor = 1;
         public static int _MaxFloor = 3;
-            
+        public static int _lastClearedFloor = 0;
+
         public void EnterDungeonLobby()
         {
 
@@ -47,6 +48,8 @@ namespace IPG
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
                 {
                     int chosenFloor = selected - 1;
+                    _lastClearedFloor = chosenFloor;
+                    StartBattle(chosenFloor);
 
                     if (chosenFloor == 3)
                     {

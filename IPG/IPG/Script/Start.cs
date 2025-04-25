@@ -11,7 +11,8 @@ namespace IPG
             GameManager.Init();
             GameManager.MonsterController.SaveMonster();
             GameManager.StoreController.SaveItem();
-            GameManager.PlayerController.StartStory();
+            MainTitle.Title();
+
 
             // 마을 (순환구조 남음)
             // 상점 (완)
