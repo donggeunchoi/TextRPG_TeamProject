@@ -13,7 +13,8 @@ namespace IPG
         public string Job;
         public float baseAtk;
         public int baseDef;
-        public int Hp;
+        public int maxHp;
+        public int currentHp;
         public int Gold = 1500;
         public int Exp = 0;
 
@@ -202,22 +203,22 @@ namespace IPG
             switch (Job)
             {
                 case "전사":
-                    baseAtk = 12; baseDef = 7; Hp = 120;
+                    baseAtk = 12; baseDef = 7; maxHp = 120; currentHp = 120;
                     break;
                 case "창술사":
-                    baseAtk = 11; baseDef = 6; Hp = 110;
+                    baseAtk = 11; baseDef = 6; maxHp = 110; currentHp = 110;
                     break;
                 case "도적":
-                    baseAtk = 13; baseDef = 5; Hp = 100;
+                    baseAtk = 13; baseDef = 5; maxHp = 100; currentHp = 100;
                     break;
                 case "마검사":
-                    baseAtk = 11; baseDef = 7; Hp = 100;
+                    baseAtk = 11; baseDef = 7; maxHp = 90; currentHp = 100;
                     break;
                 case "궁수":
-                    baseAtk = 10; baseDef = 5; Hp = 100;
+                    baseAtk = 10; baseDef = 5; maxHp = 100; currentHp = 100;
                     break;
                 case "음유시인":
-                    baseAtk = 8; baseDef = 4; Hp = 100;
+                    baseAtk = 8; baseDef = 4; maxHp = 120; currentHp = 120;
                     break;
             }
 
@@ -298,7 +299,7 @@ namespace IPG
             Console.WriteLine($"{Name} ( {Job} )");
             Console.WriteLine($"공격력 : {baseAtk + bonusAtk} (+{bonusAtk})");
             Console.WriteLine($"방어력 : {baseDef + bonusDef} (+{bonusDef})");
-            Console.WriteLine($"체력 : {Hp}");
+            Console.WriteLine($"체력 : {currentHp}/{maxHp}");
             Console.WriteLine($"Gold : {Gold} G\n");
         }
 
