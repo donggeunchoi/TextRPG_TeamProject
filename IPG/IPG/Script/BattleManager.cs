@@ -55,32 +55,24 @@ namespace IPG
 
         public static void PlayerAttackPhase()
         {
-            // 몬스터가 죽었는지 확인
-            bool allDead = true;
-            foreach (var monster in CurrentMonsters)
-            {
-                if (!monster.IsDead)
-                {
-                    allDead = false;
-                    break;
-                }
-            }
-            if (allDead)
+            if (CurrentMonsters.All(monster => monster.IsDead))
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                 Console.ResetColor();
                 GameManager.BattleController.Battlevictory();
-
+                return; 
             }
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("My turn");
+            Console.WriteLine(" [ My turn ]\n");
             Console.ResetColor();
             Console.WriteLine();
 
             ShowDungeonMonster();
+
+            Console.WriteLine("\n\n");
             GameManager.PlayerController.ShowPlayerInfo();
 
             Console.WriteLine("\n0. 도망치기");
@@ -91,20 +83,18 @@ namespace IPG
             bool isValid = int.TryParse(result, out int input);
 
             
-            if (isValid == false || input < 0 || input > GameManager.ListMonsters.Count)
+            if (isValid == false || input < 0 || input > CurrentMonsters.Count)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("잘못된 입력입니다.");
                 Console.ResetColor();
             }
-
             else if (input == 0)
             {
                 Console.WriteLine("전투에서 도망쳤습니다.");
                 GameManager.BattleController.Battlestart();
 
             }
-
             else
             {
                 AttackMonster(input);
@@ -134,30 +124,40 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"{targetMonster.Name}에게 {damage}의 데미지를 입혔습니다!");
+            Console.WriteLine($"[{GameManager.PlayerController.Name}의 공격!]\n");
             Console.ResetColor();
+            Console.WriteLine($"{targetMonster.Name}에게 {damage}의 데미지를 입혔습니다!\n");
 
             if (targetMonster.Hp <= 0)
             {
                 targetMonster.Hp = 0;
                 targetMonster.IsDead = true;
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!");
+                Console.WriteLine($"{targetMonster.Name}을(를) 처치했습니다!\n");
                 Console.ResetColor();
             }
-            if (targetMonster.Hp > 0)
+
+            
+            bool anyAlive = CurrentMonsters.Any(monster => !monster.IsDead);
+            if (anyAlive)
             {
+                ShowDungeonMonster();
+                Console.WriteLine("\n\n아무 키나 눌러 진행하세요.\n>>");
+                Console.ReadKey();
+
                 MonsterAttackPhase();
             }
-
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
+                Console.ResetColor();
+                GameManager.BattleController.Battlevictory();
+            }
         }
 
         public static void MonsterAttackPhase()
         {
-            var monster = GameManager.ListMonsters;
-            int monsterIndex = 0;
-            //int totaldamage = 0;
-
             int currentHp = GameManager.PlayerController.currentHp;
             int maxHp = GameManager.PlayerController.maxHp;
 
@@ -165,41 +165,33 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("몬스터가 공격해옵니다.");
+            Console.WriteLine("[ 몬스터가 공격해옵니다. ]\n");
             Console.ResetColor();
 
-            while (true)
-            {
-                if (monsterIndex >= GameManager.ListMonsters.Count)
-                {
-                    Console.WriteLine("\n0.다음");
-                    PlayerAttackPhase();//플레이어턴 으로
-                    break;
-                }
-                
-                monsterIndex++;
-            }
-
-            foreach(var dungeonMonster in CurrentMonsters)
+            foreach (var dungeonMonster in CurrentMonsters)
             {
                 if (dungeonMonster.IsDead)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine($"\nLv.{dungeonMonster.Level} {dungeonMonster.Name}은(는) 이미 쓰러졌습니다.");
                     Console.ResetColor();
-
+                    continue;
                 }
 
-                Console.WriteLine($"\nLv.{dungeonMonster.Level} {dungeonMonster.Name}의 공격!");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"\n - Lv.{dungeonMonster.Level} {dungeonMonster.Name}의 공격!");
+                Console.ResetColor();
                 currentHp -= dungeonMonster.Atk;
-                Console.WriteLine($"{playerName} 을(를) 맞췄습니다. [데미지: {dungeonMonster.Atk}]");
-                Console.WriteLine($"{playerName} HP: {currentHp}/{maxHp}");
+                Console.WriteLine($" {playerName} 을(를) 맞췄습니다. [데미지: {dungeonMonster.Atk}]\n\n");
+                
             }
+
+            GameManager.PlayerController.currentHp = currentHp;
 
             if (currentHp <= 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\n[플레이어가 사망했습니다...]\n");
+                Console.WriteLine("\n플레이어가 사망했습니다...\n");
                 Console.ResetColor();
 
                 Console.WriteLine("0. 메뉴로 돌아가기");
@@ -207,10 +199,17 @@ namespace IPG
                 if (defeat == "0")
                 {
                     GameManager.BattleController.BattleLose();
-
                 }
             }
+            else
+            {
+                Console.WriteLine($"{playerName} HP: {currentHp}/{maxHp}\n");
+                Console.WriteLine("\n아무 키나 눌러 공격하세요.");
+                Console.ReadKey();
 
+                PlayerAttackPhase(); 
+            }
         }
+    
     }
 }
