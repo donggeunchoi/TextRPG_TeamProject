@@ -39,7 +39,7 @@ namespace IPG
             Console.ForegroundColor = ConsoleColor.Cyan;
             TypeEffect(" <  IPG 세계로 이동중...  > ");
             Console.ResetColor();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             TypeEffect("\n한때 평화롭던 제국에 어둠이 드리우고...");
@@ -61,31 +61,37 @@ namespace IPG
                     continue;
                 }
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                TypeEffect($"\n당신의 이름은 \"{inputName}\"... 맞습니까?");
-                Console.ResetColor();
-
-                Console.WriteLine("\n1. 맞아요");
-                Console.WriteLine("2. 아니에요");
-
-                Console.Write("\n>> ");
-                string choice = Console.ReadLine();
-
-                if (choice == "1")
+                while (true)
                 {
-                    Name = inputName;
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    TypeEffect($"\n당신의 이름은 \"{inputName}\"... 맞습니까?");
+                    Console.ResetColor();
+
+                    Console.WriteLine("\n1. 맞아요");
+                    Console.WriteLine("2. 아니에요");
+
+                    Console.Write("\n>> ");
+                    string choice = Console.ReadLine();
+
+                    if (choice == "1")
+                    {
+                        Name = inputName;
+                        break;
+                    }
+                    else if (choice == "2")
+                    {
+                        Console.WriteLine("\n이름을 다시 입력해주세요.\n");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n잘못된 입력입니다. 다시 선택해주세요.\n");
+                    }
+                }
+
+                if (Name == inputName)
                     break;
-                }
-                else if (choice == "2")
-                {
-                    Console.WriteLine("\n이름을 다시 입력해주세요.\n");
-                    continue;
-                }
-                else
-                {
-                    Console.WriteLine("\n잘못된 입력입니다. 다시 선택해주세요.\n");
-                }
-
             }
 
             SelectJob();
@@ -93,14 +99,12 @@ namespace IPG
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             TypeEffect("이제 험난한 여정을 뚫고 IPG를 구원해주세요...\n");
-            
-            ShowTitleArt();
-
             Thread.Sleep(1000);
+            ShowTitleArt();
+            Thread.Sleep(500);
+            Console.WriteLine("\n                                              ~ IPG의 세계 불러오는 중... ~");
             Console.ResetColor();
-
             WaitInput();
-
             GameManager.VillageController.Enter();
         }
 
@@ -173,7 +177,7 @@ namespace IPG
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             TypeEffect($"\n당신은 '{Job}'의 성향을 지닌 자군요!\n");
-            Thread.Sleep(800);
+            Thread.Sleep(700);
             Console.ResetColor();
 
             // 해설 출력

@@ -111,6 +111,8 @@ namespace IPG
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(" [ 모험가 조합 ]\n");
                 Console.ResetColor();
+                Console.WriteLine("퀘스트를 수행하여 보상을 받을 수 있습니다.\n");
+                Console.WriteLine("[ 퀘스트 목록 ]");
 
                 var available = new List<Quest>();
                 foreach (var quest in quests.Values) // 퀘스트 목록 (완료한 퀘는 안 나타남)
