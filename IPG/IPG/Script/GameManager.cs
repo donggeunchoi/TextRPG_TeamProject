@@ -20,8 +20,6 @@ namespace IPG
         public static BossController BossController;
         public static QuestController QuestController;
 
-
-        
         public static List<ItemController> ListStoreItems = new List<ItemController>();
         public static List<int> ListPlayerOwningNumber = new List<int>();
         public static List<MonsterController> ListMonsters = new List<MonsterController>();

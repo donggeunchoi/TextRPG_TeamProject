@@ -113,8 +113,6 @@ namespace IPG
                 Console.ResetColor();
 
                 GameManager.BossController = BossController.GetBoss();
-                GameManager.BossController.DisplayBossInfo();
-
             }
             
 
