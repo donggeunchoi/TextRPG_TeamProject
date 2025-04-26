@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace IPG
 {
@@ -87,7 +88,7 @@ namespace IPG
 
             quests[6] = new Quest(6, "스파르타 던전을 정복하라", 
                 "보스 몬스터를 처치하여 IPG 세계를 구해주세요.", 
-                QuestType.BossKill, 1, new[] { "" }); // 신선하게 이 퀘스트 보상으로 크레딧이 나오게 하면 어떨까?
+                QuestType.BossKill, 1, new[] { "???" }); // 신선하게 이 퀘스트 보상으로 크레딧이 나오게 하면 어떨까?
         }
 
         private bool IsPrerequire(int questId) // 선행 퀘스트 완료했는지 확인
@@ -128,7 +129,7 @@ namespace IPG
                     Console.ResetColor();
                     Console.Write($"{i + 1}. {q.Title}");
 
-                    if (q.State == QuestState.NotAccepted)
+                    if (q.State == QuestState.NotAccepted) // 신규 퀘스트는 이름 뒤에 (신규!) 가 붙음
                     {
                         Console.Write(" ");
                         Console.ForegroundColor = ConsoleColor.Magenta;
@@ -139,7 +140,7 @@ namespace IPG
                     {
                         Console.Write(" (진행중)");
                     }
-                    else if (q.State == QuestState.RewardAvailable)
+                    else if (q.State == QuestState.RewardAvailable) // 완료한 퀘스트는 이름 뒤에 (완료) 가 붙음
                     {
                         Console.Write(" ");
                         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -295,6 +296,7 @@ namespace IPG
                     break;
 
                 case 6: // 보스 몬스터 처치, 무슨 보상할지 아직 못 정함 (크레딧?)
+                    Ending.StartEnding();
                     break;
 
                 default:

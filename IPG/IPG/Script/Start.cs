@@ -18,7 +18,8 @@ namespace IPG
             GameManager.PlayerController.baseDef = 7;
             GameManager.PlayerController.maxHp = 120;
             GameManager.PlayerController.currentHp = 120;
-            GameManager.VillageController.Enter();
+            //GameManager.VillageController.Enter();
+            Ending.Credit();
 #else // 릴리즈 버전에선 정상적으로 메인 타이틀 실행
             MainTitle.Title();
 #endif
