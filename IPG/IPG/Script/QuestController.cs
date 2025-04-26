@@ -58,7 +58,7 @@ namespace IPG
             { 6, new[] { 5 } }  // 보스 처치 퀘는 2층 클리어 퀘 완료 후 공개
         };
 
-        public bool HasPendingRewards()
+        public bool HasPendingRewards() // 보상 수령 대기 중인 퀘스트 확인용
         {
             return quests.Values.Any(q => q.State == QuestState.RewardAvailable);
         }
@@ -125,25 +125,31 @@ namespace IPG
                 for (int i = 0; i < available.Count; i++)
                 {
                     var q = available[i];
-                    string title = q.Title;
+                    Console.ResetColor();
+                    Console.Write($"{i + 1}. {q.Title}");
 
-                    if (q.State == QuestState.InProgress)
-                        title += " (진행중)";
-
-                    else if (q.State == QuestState.RewardAvailable)
-                        title += " (완료)";
-
-                    if (q.State == QuestState.RewardAvailable)
+                    if (q.State == QuestState.NotAccepted)
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"{i + 1}. {title}");
+                        Console.Write(" ");
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write("(신규!)");
                         Console.ResetColor();
                     }
-                    else
+                    else if (q.State == QuestState.InProgress)
                     {
-                        Console.WriteLine($"{i + 1}. {title}");
+                        Console.Write(" (진행중)");
                     }
+                    else if (q.State == QuestState.RewardAvailable)
+                    {
+                        Console.Write(" ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write("(완료)");
+                        Console.ResetColor();
+                    }
+
+                    Console.WriteLine();
                 }
+
                 Console.Write("\n0. 뒤로가기\n>> ");
 
                 string input = Console.ReadLine();
