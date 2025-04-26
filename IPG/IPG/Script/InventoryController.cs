@@ -41,20 +41,28 @@ namespace IPG
 
                 if (item.IsBuy && item.ItemType == "무기")
                 {
+                    if (item.isUse) Console.ForegroundColor = ConsoleColor.Green;
+
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
                     Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+                    
+                    Console.ResetColor();
 
                     displayIndex++;
                 }
 
                 if (item.IsBuy && item.ItemType == "방어구")
                 {
+                    if (item.isUse) Console.ForegroundColor = ConsoleColor.Green;
+
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
                     Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+
+                    Console.ResetColor();
 
                     displayIndex++;
                 }
@@ -91,10 +99,14 @@ namespace IPG
 
                 if (item.IsBuy && item.ItemType == "무기")
                 {
+                    if (item.isUse) Console.ForegroundColor = ConsoleColor.Green;
+
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
                     Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 공격력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+
+                    Console.ResetColor();
 
                     displayIndex++;
                     GameManager.QuestController.OnEquipmentEquipped();
@@ -102,10 +114,14 @@ namespace IPG
 
                 if (item.IsBuy && item.ItemType == "방어구")
                 {
+                    if (item.isUse) Console.ForegroundColor = ConsoleColor.Green;
+
                     itemDictionaty[displayIndex] = item;
 
                     string equippedMark = item.isUse ? "[E]" : "";
                     Console.WriteLine($"{displayIndex} {equippedMark} {item.Name}    | 방어력 + {item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}  | 보유 수량: {GameManager.ListPlayerOwningNumber[i]}");
+
+                    Console.ResetColor();
 
                     displayIndex++;
                     GameManager.QuestController.OnEquipmentEquipped();
