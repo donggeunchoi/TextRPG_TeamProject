@@ -281,7 +281,7 @@ namespace IPG
 
                     if (item.ItemType == "무기")
                     {
-                        Console.Write($"{i}. {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+                        Console.Write($"{i}. {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
 
                         if (item.IsSold)
                         {
@@ -299,7 +299,7 @@ namespace IPG
 
                     if (item.ItemType == "방어구")
                     {
-                        Console.Write($"{i}. {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+                        Console.Write($"{i}. {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
 
                         if (item.IsSold)
                         {
