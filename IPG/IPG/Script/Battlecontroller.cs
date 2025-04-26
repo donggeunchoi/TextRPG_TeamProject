@@ -113,10 +113,11 @@ namespace IPG
                 }
             }
 
-            if ( DungeonLobbyController._unlockedFloor < DungeonLobbyController._MaxFloor)
+            int nextFloor = DungeonLobbyController._lastClearedFloor + 1;
+            if (DungeonLobbyController._unlockedFloor < nextFloor
+                && nextFloor <= DungeonLobbyController._MaxFloor)
             {
-                DungeonLobbyController._unlockedFloor++;
-
+                DungeonLobbyController._unlockedFloor = nextFloor;
             }
 
             while (exit)
@@ -125,7 +126,8 @@ namespace IPG
                     Console.Clear();
                     Console.WriteLine("\nBattle!! - Result");
                     Console.WriteLine("\nVictory");
-                    Console.WriteLine($"\n던전에서 몬스터 {GameManager.ListMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
+                    int killed = BattleManager.CurrentMonsters.Count(m => m.IsDead);
+                    Console.WriteLine($"\n던전에서 몬스터 {killed}마리를 잡았습니다.");
                     Console.WriteLine("\n[캐릭터 정보]");
                     Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
                     Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
