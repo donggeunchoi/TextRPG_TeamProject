@@ -66,7 +66,7 @@ namespace IPG
                 Console.ResetColor();
 
                 Console.WriteLine("\n1. 맞아요");
-                Console.WriteLine("2. 아니예요");
+                Console.WriteLine("2. 아니에요");
 
                 Console.Write("\n>> ");
                 string choice = Console.ReadLine();
@@ -125,7 +125,7 @@ namespace IPG
 
             AskQuestion
             (
-                "첫번 째.. 전투가 시작됐습니다. 당신의 첫 행동은 무엇인가요?\n",
+                "첫 번째.. 전투가 시작됐습니다. 당신의 첫 행동은 무엇인가요?\n",
                 new (string answer, string[] jobs)[]
                 {
                     ("적에게 돌진한다", new[] { "전사" }),
@@ -140,7 +140,7 @@ namespace IPG
             AskQuestion
             (
 
-                "두번 째.. 동료가 위험에 처했습니다. 당신은 어떻게 행동할건가요?\n",
+                "두 번째.. 동료가 위험에 처했습니다. 당신은 어떻게 행동할건가요?\n",
                 new (string answer, string[] jobs)[]
                 {
                     ("즉시 몸을 던져 구한다", new[] { "전사", "마검사" }),

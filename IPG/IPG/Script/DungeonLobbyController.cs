@@ -10,7 +10,6 @@ namespace IPG
 
         public void EnterDungeonLobby()
         {
-
             while (true)
             {
                 Console.Clear();

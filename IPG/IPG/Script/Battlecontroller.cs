@@ -34,7 +34,7 @@ namespace IPG
                 BattleManager.ShowDungeonMonster();
 
                 Console.WriteLine();
-                Console.WriteLine("\n[내정보]");
+                Console.WriteLine("\n[내 정보]");
                 Console.WriteLine($"Lv.{GameManager.PlayerController.Level} <{GameManager.PlayerController.Name}> {GameManager.PlayerController.Job}");
                 Console.WriteLine($"HP {GameManager.PlayerController.currentHp}/{GameManager.PlayerController.maxHp}");
                 Console.WriteLine();
@@ -202,17 +202,6 @@ namespace IPG
                     exit = true;
                 }
             }
-        }
-
-        static void WrongInput()
-        {
-            Console.WriteLine("\n\a잘못된 입력입니다.");
-            // WaitInput();
-        }
-        private void Pause()
-        {
-            Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
-            Console.ReadKey();
         }
     }
 }

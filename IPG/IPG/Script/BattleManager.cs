@@ -72,7 +72,7 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" [ My turn ]\n");
+            Console.WriteLine(" [ 플레이어 턴 ]\n");
             Console.ResetColor();
             Console.WriteLine();
 
@@ -99,7 +99,6 @@ namespace IPG
             {
                 Console.WriteLine("전투에서 도망쳤습니다.");
                 GameManager.BattleController.Battlestart();
-
             }
             else
             {
@@ -175,7 +174,7 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("[ 몬스터가 공격해옵니다. ]\n");
+            Console.WriteLine("[ 몬스터 턴 ]\n");
             Console.ResetColor();
 
             foreach (var dungeonMonster in CurrentMonsters)
@@ -192,7 +191,7 @@ namespace IPG
                 Console.WriteLine($"\n - Lv.{dungeonMonster.Level} {dungeonMonster.Name}의 공격!");
                 Console.ResetColor();
                 currentHp -= dungeonMonster.Atk;
-                Console.WriteLine($" {playerName} 을(를) 맞췄습니다. [데미지: {dungeonMonster.Atk}]\n\n");
+                Console.WriteLine($" {playerName} 을(를) 맞혔습니다. [데미지: {dungeonMonster.Atk}]\n\n");
                 
             }
 

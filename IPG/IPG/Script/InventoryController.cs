@@ -208,7 +208,7 @@ namespace IPG
             }
         }
 
-        public void AddQuestRewardSpartaSword()
+        public void AddQuestRewardSpartaSword() // 퀘스트 보상용 아이템, 시연 때 쓰려고 만들었습니다.
         {
             const string itemName = "스파르타의 검";
 
