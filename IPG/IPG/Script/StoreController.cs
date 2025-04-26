@@ -157,20 +157,53 @@ namespace IPG
                 {
                     if (item.ItemType == "무기")
                     {
-                        Console.WriteLine($"- {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"- {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                     }
 
                     if (item.ItemType == "방어구")
                     {
-                        Console.WriteLine($"- {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"- {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                     }
 
                     if (item.ItemType == "포션")
                     {
-                        Console.WriteLine($"- {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"- {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                     }
                 }
 
@@ -248,22 +281,55 @@ namespace IPG
 
                     if (item.ItemType == "무기")
                     {
-                        Console.WriteLine($"{i} {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"{i} {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                         i++;
                     }
 
                     if (item.ItemType == "방어구")
                     {
-                        Console.WriteLine($"{i} {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"{i} {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                         i++;
                     }
 
                     if (item.ItemType == "포션")
                     {
-                        Console.WriteLine($"{i} {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"{i} {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                         i++;
                     }
                 }
