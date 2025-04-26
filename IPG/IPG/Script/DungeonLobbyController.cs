@@ -5,7 +5,7 @@ namespace IPG
     internal class DungeonLobbyController
     {
         public static int _unlockedFloor = 1;
-        public static int _MaxFloor = 3;
+        public static int _MaxFloor = 4;
         public static int _lastClearedFloor = 0;
 
         public void EnterDungeonLobby()
