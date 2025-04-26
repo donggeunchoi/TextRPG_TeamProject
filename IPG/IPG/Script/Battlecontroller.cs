@@ -34,7 +34,7 @@ namespace IPG
                 BattleManager.ShowDungeonMonster();
 
                 Console.WriteLine();
-                Console.WriteLine("\n[내정보]");
+                Console.WriteLine("\n[내 정보]");
                 Console.WriteLine($"Lv.{GameManager.PlayerController.Level} <{GameManager.PlayerController.Name}> {GameManager.PlayerController.Job}");
                 Console.WriteLine($"HP {GameManager.PlayerController.currentHp}/{GameManager.PlayerController.maxHp}");
                 Console.WriteLine();
@@ -265,7 +265,7 @@ namespace IPG
                 "===== Staff =====",
                 "퀘스트 진행 및 발표자 : 임 규민",
                 "메인 타이틀 및 연장자 : 최 다혜",
-                "와이어 프레임 : 최 동근",
+                "와이어 프레임 및 팀장 : 최 동근",
                 "리엑션 및 포션 보상진행 : 이 광민",
                 "각종 디버깅 및 막내 : 박 원희",
                 "아이템 : 박 원희, 임 규민, 이 광민",
