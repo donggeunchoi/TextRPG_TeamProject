@@ -10,7 +10,6 @@ namespace IPG
     
     internal class BattleController
     {
-        int Floor = 0;
 
         private int playerHpBeforeBattle;
         private int playerExpBeforeBattle;
