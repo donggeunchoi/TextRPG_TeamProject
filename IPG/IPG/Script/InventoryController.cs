@@ -158,13 +158,7 @@ namespace IPG
 
                 if (selectedItem.ItemType == "포션")
                 {
-                    int beforeHp = GameManager.PlayerController.currentHp;
-
-                    GameManager.PlayerController.currentHp += 30;
-                    if (GameManager.PlayerController.currentHp > GameManager.PlayerController.maxHp)
-                    {
-                        GameManager.PlayerController.currentHp = GameManager.PlayerController.maxHp;
-                    }
+                    GameManager.ListPlayerOwningNumber[itemIndex]--;
 
                     if (GameManager.ListPlayerOwningNumber[itemIndex] <= 0)
                     {
@@ -172,13 +166,21 @@ namespace IPG
                         selectedItem.IsBuy = false;
                     }
 
+                    int beforeHp = GameManager.PlayerController.currentHp;
+
+                    GameManager.PlayerController.currentHp += 30;
+                    if (GameManager.PlayerController.currentHp > GameManager.PlayerController.maxHp)
+                    {
+                        GameManager.PlayerController.currentHp = GameManager.PlayerController.maxHp;
+                    }
+                    
+
                     Console.WriteLine($"\n{selectedItem.Name}을(를) 사용했습니다!");
                     Console.Write($"HP {beforeHp} → {GameManager.PlayerController.currentHp}");
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"(+30)");
                     Console.ResetColor();
 
-                    GameManager.ListPlayerOwningNumber[itemIndex]--;
                     Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
                     Console.ReadKey();
                 }
