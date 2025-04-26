@@ -60,7 +60,8 @@ namespace IPG
                         break;
 
                     case "0":
-                        Console.WriteLine("다음에 또 만나요");
+                        Console.Clear();
+                        Console.WriteLine("\n\n\n\n\n\n\n                    [ 다음에 또 만나요. ]\n\n\n\n\n\n\n");
                         Environment.Exit(0);
                         break;
                     default:
