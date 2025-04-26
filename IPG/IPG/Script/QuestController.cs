@@ -295,8 +295,8 @@ namespace IPG
                     Console.WriteLine("\n1000G를 획득했습니다!");
                     break;
 
-                case 6: // 보스 몬스터 처치, 무슨 보상할지 아직 못 정함 (크레딧?)
-                    Ending.StartEnding();
+                case 6: // 보스 몬스터 처치, 크레딧
+                    Ending.LastQuest();
                     break;
 
                 default:
