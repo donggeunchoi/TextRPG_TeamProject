@@ -18,32 +18,32 @@ namespace IPG
         {
 
             Console.Clear();
-            SlowPrint("…\n", 100);
-            SlowPrint("거대한 어둠이 무너지고, 세상에 다시 빛이 찾아왔다.\n", 70);
-            SlowPrint($"{GameManager.PlayerController.Name}은(는) 무거운 검을 내려놓고 하늘을 올려다본다.\n", 70);
-            SlowPrint("\n'이제, 진짜 평화가 오는 걸까...'\n", 100);
+            SlowPrint("…\n", 90);
+            SlowPrint("거대한 어둠이 무너지고, 세상에 다시 빛이 찾아왔다.\n", 60);
+            SlowPrint($"{GameManager.PlayerController.Name}은(는) 무거운 검을 내려놓고 하늘을 올려다본다.\n", 60);
+            SlowPrint("\n'이제, 진짜 평화가 오는 걸까...'\n", 90);
 
-            Thread.Sleep(1500);
+            Thread.Sleep(500);
             Console.Clear();
 
-            SlowPrint("[빛을 찾은 마을].\n", 70);
-            SlowPrint($"사람들은 {GameManager.PlayerController.Name}의 이름을 노래하며 거리를 가득 메웠다.\n", 70);
-            SlowPrint($"어린 아이들은 {GameManager.PlayerController.Name}을(를) 영웅이라 부르고,\n", 70);
-            SlowPrint("마을 어른들은 다시는 어둠이 오지 않기를 기도했다.\n", 70);
+            SlowPrint("[빛을 찾은 마을].\n", 60);
+            SlowPrint($"사람들은 {GameManager.PlayerController.Name}의 이름을 노래하며 거리를 가득 메웠다.\n", 60);
+            SlowPrint($"어린 아이들은 {GameManager.PlayerController.Name}을(를) 영웅이라 부르고,\n", 60);
+            SlowPrint("마을 어른들은 다시는 어둠이 오지 않기를 기도했다.\n", 60);
 
-            Thread.Sleep(1500);
+            Thread.Sleep(500);
             Console.Clear();
 
-            SlowPrint($"하지만, {GameManager.PlayerController.Name}은(는) 조용히 그 자리를 떠났다.\n", 70);
-            SlowPrint("그는 명예도, 보상도 바라지 않았다.\n", 70);
-            SlowPrint($"\n{GameManager.PlayerController.Name}에게 남은 것은...\n", 100);
-            SlowPrint("오직 또 다른 여정을 향한 갈망뿐이었다.\n", 100);
+            SlowPrint($"하지만, {GameManager.PlayerController.Name}은(는) 조용히 그 자리를 떠났다.\n", 60);
+            SlowPrint("그는 명예도, 보상도 바라지 않았다.\n", 60);
+            SlowPrint($"\n{GameManager.PlayerController.Name}에게 남은 것은...\n", 90);
+            SlowPrint("오직 또 다른 여정을 향한 갈망뿐이었다.\n", 90);
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             Console.Clear();
 
-            SlowPrint("\n\n그리고...\n", 150);
-            SlowPrint("또 다른 모험이, 그를 기다리고 있었다.\n", 100);
+            SlowPrint("\n\n그리고...\n", 140);
+            SlowPrint("또 다른 모험이, 그를 기다리고 있었다.\n", 90);
 
             Console.ReadLine();
 
@@ -96,7 +96,7 @@ namespace IPG
             foreach (string line in credits)
             {
                 Console.WriteLine(line);
-                Thread.Sleep(1000); // 한 줄당 1초 딜레이
+                Thread.Sleep(500); // 한 줄당 1초 딜레이
             }
 
             Console.WriteLine("\n\n타이틀로 돌아가기");
