@@ -65,7 +65,7 @@ namespace IPG
             Console.WriteLine("[아이템 목록]");
 
 
-            int displayIndex = 1;  // 사용자에게 보여줄 번호
+            int displayIndex = 1;
 
             for (int i = 0; i < GameManager.ListStoreItems.Count; i++)
             {
