@@ -16,6 +16,7 @@ namespace IPG
         private int playerGoldBeforeBattle;
         private int playerLevelBeforeBattle;
 
+    
         public void Battlestart()
         {
             playerHpBeforeBattle = GameManager.PlayerController.currentHp;
@@ -33,7 +34,7 @@ namespace IPG
                 BattleManager.ShowDungeonMonster();
 
                 Console.WriteLine();
-                Console.WriteLine("\n[내정보]");
+                Console.WriteLine("\n[내 정보]");
                 Console.WriteLine($"Lv.{GameManager.PlayerController.Level} <{GameManager.PlayerController.Name}> {GameManager.PlayerController.Job}");
                 Console.WriteLine($"HP {GameManager.PlayerController.currentHp}/{GameManager.PlayerController.maxHp}");
                 Console.WriteLine();
@@ -46,7 +47,7 @@ namespace IPG
                 string input = Console.ReadLine();
                 int choice;
 
-                
+
                 if (int.TryParse(input, out choice))
                 {
 
@@ -76,54 +77,101 @@ namespace IPG
         public void Battlevictory()
         {
             bool exit = true;
-            int totalExp = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
-            int totalGold = GameManager.ListMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
+            int totalExp = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
+            int totalGold = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
+            if (DungeonLobbyController._lastClearedFloor == 2)
+                GameManager.QuestController.OnStageCleared(2);
+            Random random = new Random();
+            List<ItemController> droppedItems = new List<ItemController>();
 
-            while (exit)
+            foreach (var monster in BattleManager.CurrentMonsters.Where(m => m.IsDead))
             {
+                var droppableItems = GameManager.ListStoreItems
+                    .Where(item => item.DropRate > 0)
+                    .ToList();
 
-                Console.Clear();
-                Console.WriteLine("\nBattle!! - Result");
-                Console.WriteLine("\nVictory");
-                Console.WriteLine($"\n던전에서 몬스터 {GameManager.ListMonsters.Count(m => m.IsDead)}마리를 잡았습니다.");
-                Console.WriteLine("\n[캐릭터 정보]");
-                Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
-                Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
-                Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"(+{totalExp})");
-                Console.ResetColor();
-                Console.WriteLine("\n[획득 아이템]");
-                Console.WriteLine($"+{totalGold}");
-                Console.WriteLine("\n0. 다음");
-                Console.Write("\n>>");
-                string input = Console.ReadLine();
-                int choice;
-
-                // 입력이 정수인지 확인
-                if (int.TryParse(input, out choice))
+                foreach (var item in droppableItems)
                 {
-
-                    switch (choice)
+                    if (random.NextDouble() < item.DropRate)
                     {
-                        case 0:
-                            GameManager.VillageController.Enter();
-                            break;
+                        int index = GameManager.ListStoreItems.FindIndex(x => x.Name == item.Name);
+                        if (index != -1)
+                        {
+                            GameManager.ListPlayerOwningNumber[index]++;
+                        }
+                        else
+                        {
+                            GameManager.ListStoreItems.Add(item);
+                            GameManager.ListPlayerOwningNumber.Add(1);
+                        }
 
-                        default:
-                            Console.WriteLine("잘못된 입력입니다.");
-                            break;
+                        item.IsBuy = true;
+                        droppedItems.Add(item);
                     }
                 }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                    exit = true;
-                }
             }
+
+            int nextFloor = DungeonLobbyController._lastClearedFloor + 1;
+            if (DungeonLobbyController._unlockedFloor < nextFloor
+                && nextFloor <= DungeonLobbyController._MaxFloor)
+            {
+                DungeonLobbyController._unlockedFloor = nextFloor;
+            }
+
+            while (exit)
+                {
+
+                    Console.Clear();
+                    Console.WriteLine("\nBattle!! - Result");
+                    Console.WriteLine("\nVictory");
+                    int killed = BattleManager.CurrentMonsters.Count(m => m.IsDead);
+                    Console.WriteLine($"\n던전에서 몬스터 {killed}마리를 잡았습니다.");
+                    Console.WriteLine("\n[캐릭터 정보]");
+                    Console.Write($"Lv.{playerLevelBeforeBattle} {GameManager.PlayerController.Name}");
+                    Console.WriteLine($"-> Lv.{GameManager.PlayerController.Level} {GameManager.PlayerController.Name}");
+                    Console.WriteLine($"HP {playerHpBeforeBattle} -> {GameManager.PlayerController.currentHp}");
+                    Console.Write($"Exp {playerExpBeforeBattle} -> {GameManager.PlayerController.Exp} ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"(+{totalExp})");
+                    Console.ResetColor();
+                    Console.WriteLine("\n[획득 아이템]");
+                    Console.WriteLine($"+{totalGold}");
+                    Console.WriteLine("\n0. 다음");
+                    Console.Write("\n>>");
+                    string input = Console.ReadLine();
+                    int choice;
+
+                    // 입력이 정수인지 확인
+                    if (int.TryParse(input, out choice))
+                    {
+
+                        switch (choice)
+                        {
+                            case 0:
+                            if (DungeonLobbyController._unlockedFloor == 4)
+                            {
+                                Ending.ShowEnding();
+                            }
+                            else
+                            {
+                                 GameManager.VillageController.Enter();    
+                            }
+                               
+                                break;
+
+                            default:
+                                Console.WriteLine("잘못된 입력입니다.");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못된 입력입니다.");
+                        exit = true;
+                    }
+                }
         }
 
         public void BattleLose()
@@ -164,17 +212,6 @@ namespace IPG
                     exit = true;
                 }
             }
-        }
-
-        static void WrongInput()
-        {
-            Console.WriteLine("\n\a잘못된 입력입니다.");
-            // WaitInput();
-        }
-        private void Pause()
-        {
-            Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
-            Console.ReadKey();
         }
     }
 }

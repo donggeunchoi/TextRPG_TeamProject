@@ -4,23 +4,27 @@ namespace IPG
 {
     internal class DungeonLobbyController
     {
-        static int _unlockedFloor = 1;
-            
+        public static int _unlockedFloor = 1;
+        public static int _MaxFloor = 4;
+        public static int _lastClearedFloor = 0;
+
         public void EnterDungeonLobby()
         {
-
             while (true)
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" [ 던전 ]");
                 Console.ResetColor();
+
+                Console.WriteLine("\n스파르타 던전에 오신 여러분 환영합니다.");
                 Console.WriteLine("클리어한 층이 늘어날수록 더 높은 층이 열립니다.\n");
+
                 Console.WriteLine("이제 전투를 시작할 수 있습니다.\n");
 
                 Console.WriteLine("1. 상태 보기");
 
-                for (int i = 1; i <= _unlockedFloor; i++)
+                for (int i = 1; i <= Math.Min(_unlockedFloor, 3); i++)
                 {
                     Console.WriteLine($"{i + 1}. {i}층 입장");
                 }
@@ -28,9 +32,8 @@ namespace IPG
                 Console.WriteLine("0. 나가기");
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
-
-                BattleManager.DungeonMonster();
-
+                
+                
                 string input = Console.ReadLine();
 
 
@@ -47,6 +50,14 @@ namespace IPG
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
                 {
                     int chosenFloor = selected - 1;
+                    _lastClearedFloor = chosenFloor;
+                    StartBattle(chosenFloor);
+
+                    if (chosenFloor == 3)
+                    {
+                        GameManager.BossController.DisplayBossInfo();
+                    }
+
                     StartBattle(chosenFloor);
                 }
                 else
@@ -59,6 +70,8 @@ namespace IPG
 
         private void StartBattle(int chosenFloor)
         {
+            BattleManager.DungeonMonster(chosenFloor);
+
             Console.Clear();
 
             Console.WriteLine("뚜벅뚜벅 문 앞으로 다가갑니다.");
@@ -93,16 +106,19 @@ namespace IPG
             Console.WriteLine();
             Console.WriteLine($"{chosenFloor}층 전투를 시작합니다. 행운을 빕니다.\n");
 
-            // 클리어 성공했다고 가정하고 다음 층 열기
-            if (  _unlockedFloor < chosenFloor + 1)
+            if (chosenFloor == 3)
             {
-                _unlockedFloor = chosenFloor + 1;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("축하합니다! 마지막 층에 도달하였습니다.");
+                Console.ResetColor();
+
+                GameManager.BossController = BossController.GetBoss();
             }
+            
 
             Console.WriteLine("\n계속하려면 아무 키나 누르세요.");
             Console.ReadKey(true);
 
-            // EnterDungeonLobby();
             GameManager.BattleController.Battlestart();
 
                 WaitInput();

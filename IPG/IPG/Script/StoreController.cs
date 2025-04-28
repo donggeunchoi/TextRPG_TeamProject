@@ -9,10 +9,10 @@ namespace IPG
 {
     internal class StoreController
     {
-
         public void Enter()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(" [ 상점 ]\n");
             Console.ResetColor();
             Console.WriteLine("필요한 아이템을 구매할 수 있습니다.\n");
@@ -22,10 +22,9 @@ namespace IPG
             ShowItems();
             ShowItemsWithNumber();
             BuyItem();
-
         }
 
-        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, int remaining, bool itemIsSold, bool isBuy)
+        private void AddItem(string itemName, string itemType, int itemEffect, string itemDesc, int itemPrice, int remaining, bool itemIsSold, bool isBuy, double dropRate)
         {
             GameManager.ListStoreItems.Add(new ItemController
             {
@@ -36,21 +35,23 @@ namespace IPG
                 Price = itemPrice,
                 Remaining = remaining,
                 IsSold = itemIsSold,
-                IsBuy = isBuy
-            });
+                IsBuy = isBuy,
+                DropRate = dropRate
+            }
+            );
         }
 
         public void SaveItem()
         {
             if (GameManager.ListStoreItems.Count > 0) return;
 
-            AddItem("수련자 갑옷    ", "방어구", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, 1, false, false);
-            AddItem("무쇠갑옷       ", "방어구", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, 0, true, true);
-            AddItem("스파르타의 갑옷", "방어구", 15, " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, 1, false, false);
-            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, 1, false, false);
-            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던거 같은 도끼입니다.             ", 1500, 1, false, false);
-            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, 0, true, true);
-            AddItem("중급 회복 포션 ", "포션", 30, " 연금술사가 나름의 심혈을 기울여 만든 포션입니다. ", 800, 3, false, false);
+            AddItem("수련자 갑옷    ", "방어구", 5, " 수련에 도움을 주는 갑옷입니다.                   ", 1000, 1, false, false, 0.1);
+            AddItem("무쇠갑옷       ", "방어구", 9, " 무쇠로 만들어져 튼튼한 갑옷입니다.               ", 2000, 1, false, false, 0.1);
+            AddItem("스파르타의 갑옷", "방어구", 15, " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, 1, false, false, 0.1);
+            AddItem("낡은 검        ", "무기", 2, " 쉽게 볼 수 있는 낡은 검 입니다.                  ", 600, 1, false, false, 0.1);
+            AddItem("청동 도끼      ", "무기", 5, " 어디선가 사용됐던 거 같은 도끼입니다.            ", 1500, 1, false, false, 0.1);
+            AddItem("스파르타의 창  ", "무기", 7, " 스파르타의 전사들이 사용했다는 전설의 창입니다.  ", 3000, 1, false, false, 0.1);
+            AddItem("중급 회복 포션 ", "포션", 30, " 연금술사가 나름의 심혈을 기울여 만든 포션입니다. ", 800, 3, false, false, 0.1);
 
 
             foreach (ItemController item in GameManager.ListStoreItems)
@@ -70,11 +71,9 @@ namespace IPG
         {
             bool stopBuyItems = false;
 
-
             while (stopBuyItems == false && _saveUserInput == "1")
             {
                 string choiceBuyItem = Console.ReadLine();
-                Console.Clear();
 
                 switch (choiceBuyItem)
                 {
@@ -130,57 +129,97 @@ namespace IPG
 
         public void ShowItems()
         {
-            Console.WriteLine("[아이템 목록]");
-
-            foreach (ItemController item in GameManager.ListStoreItems)
+            while (true)
             {
-                if (item.Remaining == 0)
-                {
-                    item.IsSold = true;
-                }
-                else
-                {
-                    item.IsSold = false;
-                }
-            }
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(" [ 상점 ]\n");
+                Console.ResetColor();
+                Console.WriteLine("필요한 아이템을 구매할 수 있습니다.\n");
+                Console.WriteLine("[보유 골드]");
+                Console.WriteLine($"{GameManager.PlayerController.Gold} G\n");
 
-            foreach (ItemController item in GameManager.ListStoreItems)
-            {
-                if(item.ItemType == "무기")
-                {
-                    Console.WriteLine($"- {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                      $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
-                }
+                Console.WriteLine("[아이템 목록]");
 
-                if (item.ItemType == "방어구")
+                foreach (ItemController item in GameManager.ListStoreItems)
                 {
-                    Console.WriteLine($"- {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                      $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                    if (item.Remaining == 0)
+                    {
+                        item.IsSold = true;
+                    }
+                    else
+                    {
+                        item.IsSold = false;
+                    }
                 }
 
-                if (item.ItemType == "포션")
+                foreach (ItemController item in GameManager.ListStoreItems)
                 {
-                    Console.WriteLine($"- {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                      $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                    if (item.ItemType == "무기")
+                    {
+                        Console.Write($"- {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
+                    }
+
+                    if (item.ItemType == "방어구")
+                    {
+                        Console.Write($"- {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
+                    }
+
+                    if (item.ItemType == "포션")
+                    {
+                        Console.Write($"- {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
+                    }
                 }
 
-            }
+                Console.WriteLine();
+                Console.WriteLine("1. 아이템 구매");
+                Console.Write("0. 나가기\r\n\r\n원하시는 행동을 입력해주세요.\r\n>>");
 
-            Console.WriteLine();
-            Console.WriteLine("1. 아이템 구매");
-            Console.Write("0. 나가기\r\n\r\n원하시는 행동을 입력해주세요.\r\n>>");
+                string buyItem = Console.ReadLine();
+                _saveUserInput = buyItem;
 
-            string buyItem = Console.ReadLine();
-            _saveUserInput = buyItem;
+                if (_saveUserInput == "0" || _saveUserInput == "1")
+                    break;
 
-            if (_saveUserInput != "0" && _saveUserInput != "1")
-            {
                 Console.Write("해당하는 숫자를 입력하세요.");
                 Thread.Sleep(500);
-
-                Enter();
-                ShowItems();
-
+                Console.Clear();
             }
         }
 
@@ -193,31 +232,36 @@ namespace IPG
 
                 GameManager.ListStoreItems[itemNumber - 1].IsBuy = true;
                 GameManager.ListPlayerOwningNumber[itemNumber - 1]++;
+                Console.WriteLine("\n아이템을 구매했습니다!");
+                Thread.Sleep(1000);
+                GameManager.QuestController.OnItemPurchased();
             }
 
             else if (GameManager.ListStoreItems[itemNumber - 1].IsSold == true)
             {
-                ShowItemsWithNumber();
-                Console.WriteLine("이미 구매하셨습니다.");
+                Console.WriteLine("\n이미 구매한 아이템입니다.");
                 Thread.Sleep(1000);
+                ShowItemsWithNumber();
             }
 
             else
             {
-                ShowItemsWithNumber();
-                Console.WriteLine("돈이 부족합니다.");
+                Console.WriteLine("\n돈이 부족합니다.");
                 Thread.Sleep(1000);
+                ShowItemsWithNumber();
             }
         }
 
         public void ShowItemsWithNumber()
         {
-            Console.Clear();
-
+            
             if (_saveUserInput == "1")
             {
                 Console.Clear();
-                Console.WriteLine("상점\r\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(" [ 상점 ]\n");
+                Console.ResetColor();
+                Console.WriteLine("필요한 아이템을 구매할 수 있습니다.\n");
                 Console.WriteLine("[보유 골드]");
                 Console.WriteLine($"{GameManager.PlayerController.Gold} G\n");
 
@@ -237,28 +281,61 @@ namespace IPG
 
                     if (item.ItemType == "무기")
                     {
-                        Console.WriteLine($"{i} {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"{i}. {item.Name}    | 공격력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                         i++;
                     }
 
                     if (item.ItemType == "방어구")
                     {
-                        Console.WriteLine($"{i} {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"{i}. {item.Name}    | 방어력 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                         i++;
                     }
 
                     if (item.ItemType == "포션")
                     {
-                        Console.WriteLine($"{i} {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')} " +
-                                          $"| {item.Desc}   |  {(item.IsSold ? "  품절" : item.Price.ToString().PadLeft(4, ' ') + " G  | 남은 수량 : " + item.Remaining)}");
+                        Console.Write($"{i}. {item.Name}    | 회복량 +{item.Effect.ToString().PadLeft(2, ' ')}  | {item.Desc}   | ");
+
+                        if (item.IsSold)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("[ 품절 ]");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($"{item.Price.ToString().PadLeft(4, ' ')} G  | 남은 수량 : {item.Remaining}");
+                        }
+                        Console.WriteLine();
                         i++;
                     }
                 }
 
                 Console.WriteLine();
-                Console.Write("0. 나가기\r\n\r\n구매하고자 하는 물품(번호)을 입력해주세요.\r\n>>");
+                Console.Write("0. 나가기\r\n\r\n구매하고자 하는 물품(번호)을 입력해주세요.\r\n\r\n>>");
             }
         }
 

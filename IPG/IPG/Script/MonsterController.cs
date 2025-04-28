@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-// 네임스페이스 -> 프로그램 클래스 안에 Monster[] monsters 필드 선언, 몬스터 클래스는 프로그램 클래스 밖에 따로 생성
+
 namespace IPG
 {
     internal class MonsterController
@@ -29,8 +29,6 @@ namespace IPG
             };
         }
 
-
-
         public void AddMonsterInfo(int level, string name, int hp, int atk, bool isDead)
         {
             GameManager.ListMonsters.Add(new MonsterController
@@ -45,15 +43,11 @@ namespace IPG
         public void SaveMonster()
         {
             if (GameManager.ListMonsters.Count > 0) return;
-            AddMonsterInfo(1, "슬라임", 5, 5, false);
-            AddMonsterInfo(2, "미니언", 15, 5, false);
-            AddMonsterInfo(3, "공허충", 10, 9, false);
-            AddMonsterInfo(4, "임규민짱", 5, 5, false);
-            AddMonsterInfo(5, "대포미니언", 25, 8, false);
+            AddMonsterInfo(1, "세미콜론 빼먹기", 5, 5, false);
+            AddMonsterInfo(2, "대소문자 헷갈리기", 7, 6, false);
+            AddMonsterInfo(3, "괄호 짝이 안 맞음", 10, 7, false);
+            AddMonsterInfo(4, "낯선 깃허브", 12, 8, false);
+            AddMonsterInfo(5, "머지 컨플릭트", 15, 9, false);
         }
-
-        // 저장되어 있는 몬스터들을 하나씩 뽑아서 생성하고 싶습니다.
-
-        // Index 받는 메서드
     }
 }

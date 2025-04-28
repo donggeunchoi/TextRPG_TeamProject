@@ -23,18 +23,31 @@ namespace IPG
         public PlayerController()
         {
         }
+        void TypeEffect(string text, int delay = 40)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(delay);
+            }
+            Console.WriteLine();
+        }
 
         public void StartStory()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(" IPG 세계로 이동중... ");
+            TypeEffect(" <  IPG 세계로 이동중...  > ");
             Console.ResetColor();
+            Thread.Sleep(1000);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n한때 평화롭던 제국에 어둠이 드리우고...");
-            Console.WriteLine("당신은 이 세계를 구원할 영웅이 될 운명을 타고났습니다.");
-            Console.WriteLine("\n영웅이시여... 당신의 이름은 무엇인가요?");
+            TypeEffect("\n한때 평화롭던 제국에 어둠이 드리우고...");
+            Thread.Sleep(1000);
+            TypeEffect("당신은 이 세계를 구원할 영웅이 될 운명을 타고났습니다.");
+            Thread.Sleep(1000);
+            TypeEffect("\n영웅이시여... 당신의 이름은 무엇인가요?");
+            Thread.Sleep(1000);
             Console.ResetColor();
 
             while (true)
@@ -48,42 +61,50 @@ namespace IPG
                     continue;
                 }
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\n당신의 이름은 \"{inputName}\"... 맞습니까?");
-                Console.ResetColor();
-
-                Console.WriteLine("\n1. 맞아요");
-                Console.WriteLine("2. 아니예요");
-
-                Console.Write("\n>> ");
-                string choice = Console.ReadLine();
-
-                if (choice == "1")
+                while (true)
                 {
-                    Name = inputName;
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    TypeEffect($"\n당신의 이름은 \"{inputName}\"... 맞습니까?");
+                    Console.ResetColor();
+
+                    Console.WriteLine("\n1. 맞아요");
+                    Console.WriteLine("2. 아니에요");
+
+                    Console.Write("\n>> ");
+                    string choice = Console.ReadLine();
+
+                    if (choice == "1")
+                    {
+                        Name = inputName;
+                        break;
+                    }
+                    else if (choice == "2")
+                    {
+                        Console.WriteLine("\n이름을 다시 입력해주세요.\n");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n잘못된 입력입니다. 다시 선택해주세요.\n");
+                    }
+                }
+
+                if (Name == inputName)
                     break;
-                }
-                else if (choice == "2")
-                {
-                    Console.WriteLine("\n이름을 다시 입력해주세요.\n");
-                    continue;
-                }
-                else
-                {
-                    Console.WriteLine("\n잘못된 입력입니다. 다시 선택해주세요.\n");
-                }
-
             }
 
             SelectJob();
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("이제 험난한 여정을 뚫고 IPG를 구원해주세요...\n");
+            TypeEffect("이제 험난한 여정을 뚫고 IPG를 구원해주세요...\n");
+            Thread.Sleep(1000);
+            ShowTitleArt();
+            Thread.Sleep(500);
+            Console.WriteLine("\n                                              ~ IPG의 세계 불러오는 중... ~");
             Console.ResetColor();
-
             WaitInput();
-
             GameManager.VillageController.Enter();
         }
 
@@ -91,8 +112,8 @@ namespace IPG
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"\n{Name}님, IPG에 오신걸 환영합니다."); //Imperium Pro Gloria
-            Console.WriteLine($"당신이 어떤 사람인지 알려주십시오...\n");
+            TypeEffect($"\n{Name}님, IPG에 오신걸 환영합니다."); //Imperium Pro Gloria
+            TypeEffect($"당신이 어떤 사람인지 알려주십시오...\n");
             Console.ResetColor();
             WaitInput();
 
@@ -108,7 +129,7 @@ namespace IPG
 
             AskQuestion
             (
-                "첫번 째.. 전투가 시작됐습니다. 당신의 첫 행동은 무엇인가요?\n",
+                "첫 번째.. 전투가 시작됐습니다. 당신의 첫 행동은 무엇인가요?\n",
                 new (string answer, string[] jobs)[]
                 {
                     ("적에게 돌진한다", new[] { "전사" }),
@@ -123,7 +144,7 @@ namespace IPG
             AskQuestion
             (
 
-                "두번 째.. 동료가 위험에 처했습니다. 당신은 어떻게 행동할건가요?\n",
+                "두 번째.. 동료가 위험에 처했습니다. 당신은 어떻게 행동할건가요?\n",
                 new (string answer, string[] jobs)[]
                 {
                     ("즉시 몸을 던져 구한다", new[] { "전사", "마검사" }),
@@ -155,7 +176,8 @@ namespace IPG
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"\n당신은 '{Job}'의 성향을 지닌 자군요!\n");
+            TypeEffect($"\n당신은 '{Job}'의 성향을 지닌 자군요!\n");
+            Thread.Sleep(700);
             Console.ResetColor();
 
             // 해설 출력
@@ -318,10 +340,42 @@ namespace IPG
                 Console.WriteLine($"레벨업! {Name}는 Lv{Level}로 상승했습니다!");
                 baseAtk += 0.5f;
                 baseDef += 1;
+                GameManager.QuestController.OnLevelUp(Level);
             }
         }
 
-        static void WrongInput()
+        public static void ShowTitleArt()
+        {
+            string[] titleArt = new string[]
+            {
+                "                                                                                                                        ",
+                "=-------------------:::::::::::::::::::::::::::::::::::..........................                                       ",
+                "---:::::::::::::::::::..................................................                             --                 ",
+                "::::...........................                                                                     :%%.                ",
+                "............                                                                                       =    =              ",
+                "                                                                                                   =@%%@-               ",
+                "                                                                                                  -#%%%%#-              ",
+                "@               @*           .-==-:.                                                              =@%%%%@+              ",
+                "=---=*#%##+===++=.          -%@@@@%%+.    .-==.        ...::.                                    :%%%%%%%%:         ....",
+                ".:-=%@@@@@@+:..           -#@@%%%%@%.     #=-*:     .*%%@@%###*-.        .....................::-#%%%%%%%%#=---.......::",
+                "*##%%%%%%%%##*+:.........=%%%%%%%%%%=....:%=........=#%#*%%@@@##+:.................:::::::::::=+=#%###%%%####*+=::::::::",
+                "*#@@%%%%%%%@%%%%#=.:::::+%@%%%%%%%%@%*===*%-:::::::-=*#%%%%%%#-::::----++=::::::::::::::::--=+*##############*+++=------",
+                ".+@%%%%%%%%@*:=%@#-::::=@%%%%%%%%%%%%@@#*@*-:--::=%%%+#@%%%%%%###*+=----+@#-----------==+++*******************#****++==-",
+                "*%%%%%%%%%%%%*+++=-----*%%%%%%%%%%%%%#+-+#--------=+#%%%%%%%%*==+*###**+*%%=======+++++++****+++++++++++++====++++++++++",
+                "%%#********#%%%#*=====*%%%%%%%%%%%%%%+-=%+-=======+**%%%%%%%%%#+===++#%%%#*+=====+++++++++++++++=====---=======+++======",
+                "**+++++=====*%%%%+==+#%%%%%%%%%%%%%%%#=*#======+**++#%%#+==++*%%#***#**++========================---:------=============",
+                "%%%%%%%%%%##%%%%%###%%%%%%%%%%%%%%%%%%*%*+*++++*++*%%#*=======*%%#====================----------------------------------",
+                "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=========*%%#****+++++====----------------------------------------",
+                "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#########***++++++=========---------------",
+                "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%######******+++++====",
+                "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#########***"
+            };
+            foreach (string line in titleArt)
+            {
+                Console.WriteLine(line);
+            }
+        }
+            static void WrongInput()
         {
             Console.WriteLine("\n\a잘못된 입력입니다.");
             WaitInput();
