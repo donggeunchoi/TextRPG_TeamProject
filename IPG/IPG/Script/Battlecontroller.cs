@@ -79,10 +79,13 @@ namespace IPG
             bool exit = true;
             int totalExp = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
             int totalGold = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 50);
+            
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
+            
             if (DungeonLobbyController._lastClearedFloor == 2)
                 GameManager.QuestController.OnStageCleared(2);
+            
             Random random = new Random();
             List<ItemController> droppedItems = new List<ItemController>();
 
