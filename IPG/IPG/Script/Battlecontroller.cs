@@ -121,7 +121,7 @@ namespace IPG
             }
 
             while (exit)
-                {
+            {
 
                     Console.Clear();
                     Console.WriteLine("\nBattle!! - Result");
@@ -159,7 +159,7 @@ namespace IPG
                                  GameManager.VillageController.Enter();    
                             }
                                
-                                break;
+                            break;
 
                             default:
                                 Console.WriteLine("잘못된 입력입니다.");
@@ -171,7 +171,7 @@ namespace IPG
                         Console.WriteLine("잘못된 입력입니다.");
                         exit = true;
                     }
-                }
+            }
         }
 
         public void BattleLose()
