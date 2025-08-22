@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace IPG
 {
@@ -58,7 +59,7 @@ namespace IPG
             { 6, new[] { 5 } }  // 보스 처치 퀘는 2층 클리어 퀘 완료 후 공개
         };
 
-        public bool HasPendingRewards()
+        public bool HasPendingRewards() // 보상 수령 대기 중인 퀘스트 확인용
         {
             return quests.Values.Any(q => q.State == QuestState.RewardAvailable);
         }
@@ -66,7 +67,7 @@ namespace IPG
         public QuestController()
         {
             quests[1] = new Quest(1, "마을을 위협하는 몬스터 처치",
-                "이봐! 마을 근처에 몬스터들이 너무 많아졌다고 생각하지 않나?\n\n마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n\n모험가인 자네가 좀 처치해주게!", 
+                "이봐! 마을 근처에 몬스터들이 너무 많아졌다고 생각하지 않나?\n\n마을 주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n\n모험가인 자네가 좀 처치해 주게!", 
                 QuestType.KillCount, 5, new[] { "스파르타의 검 x1", "100G" });
 
             quests[2] = new Quest(2, "아이템을 구입해보자",
@@ -82,12 +83,12 @@ namespace IPG
                 QuestType.LevelUp, 1, new[] { "HP +10" });
 
             quests[5] = new Quest(5, "더 높은 곳으로",
-                "무사히 돌아왔구만.\n\n스파르타 던전은 3층까지 있는데, 높은 곳으로 올라갈수록 더 강한 몬스터들이 나오지.\n\n자네라면 믿고 맡길 수 있겠어. 한 번 2층까지 몬스터놈들을 소탕하고 오게나.", 
+                "무사히 돌아왔구먼.\n\n스파르타 던전은 3층까지 있는데, 높은 곳으로 올라갈수록 더 강한 몬스터들이 나오지.\n\n자네라면 믿고 맡길 수 있겠어. 한 번 2층까지 몬스터 놈들을 소탕하고 오게나.", 
                 QuestType.StageClear, 1, new[] { "1000G" });
 
             quests[6] = new Quest(6, "스파르타 던전을 정복하라", 
                 "보스 몬스터를 처치하여 IPG 세계를 구해주세요.", 
-                QuestType.BossKill, 1, new[] { "" }); // 신선하게 이 퀘스트 보상으로 크레딧이 나오게 하면 어떨까?
+                QuestType.BossKill, 1, new[] { "???" }); // 신선하게 이 퀘스트 보상으로 크레딧이 나오게 하면 어떨까?
         }
 
         private bool IsPrerequire(int questId) // 선행 퀘스트 완료했는지 확인
@@ -111,6 +112,8 @@ namespace IPG
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(" [ 모험가 조합 ]\n");
                 Console.ResetColor();
+                Console.WriteLine("퀘스트를 수행하여 보상을 받을 수 있습니다.\n");
+                Console.WriteLine("[ 퀘스트 목록 ]");
 
                 var available = new List<Quest>();
                 foreach (var quest in quests.Values) // 퀘스트 목록 (완료한 퀘는 안 나타남)
@@ -123,25 +126,31 @@ namespace IPG
                 for (int i = 0; i < available.Count; i++)
                 {
                     var q = available[i];
-                    string title = q.Title;
+                    Console.ResetColor();
+                    Console.Write($"{i + 1}. {q.Title}");
 
-                    if (q.State == QuestState.InProgress)
-                        title += " (진행중)";
-
-                    else if (q.State == QuestState.RewardAvailable)
-                        title += " (완료)";
-
-                    if (q.State == QuestState.RewardAvailable)
+                    if (q.State == QuestState.NotAccepted) // 신규 퀘스트는 이름 뒤에 (신규!) 가 붙음
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"{i + 1}. {title}");
+                        Console.Write(" ");
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write("(신규!)");
                         Console.ResetColor();
                     }
-                    else
+                    else if (q.State == QuestState.InProgress)
                     {
-                        Console.WriteLine($"{i + 1}. {title}");
+                        Console.Write(" (진행중)");
                     }
+                    else if (q.State == QuestState.RewardAvailable) // 완료한 퀘스트는 이름 뒤에 (완료) 가 붙음
+                    {
+                        Console.Write(" ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write("(완료)");
+                        Console.ResetColor();
+                    }
+
+                    Console.WriteLine();
                 }
+
                 Console.Write("\n0. 뒤로가기\n>> ");
 
                 string input = Console.ReadLine();
@@ -286,7 +295,8 @@ namespace IPG
                     Console.WriteLine("\n1000G를 획득했습니다!");
                     break;
 
-                case 6: // 보스 몬스터 처치, 무슨 보상할지 아직 못 정함 (크레딧?)
+                case 6: // 보스 몬스터 처치, 크레딧
+                    Ending.LastQuest();
                     break;
 
                 default:

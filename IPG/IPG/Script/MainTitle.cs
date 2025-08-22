@@ -25,7 +25,7 @@ namespace IPG
                 }
                 else if (input == "2")
                 {
-                    Console.WriteLine("다음에 또 만나요");
+                    Console.WriteLine("다음에 또 만나요.");
                     Environment.Exit(0);
                 }
             }

@@ -10,14 +10,16 @@ namespace IPG
 
         public void EnterDungeonLobby()
         {
-
             while (true)
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" [ 던전 ]");
                 Console.ResetColor();
+
+                Console.WriteLine("\n스파르타 던전에 오신 여러분 환영합니다.");
                 Console.WriteLine("클리어한 층이 늘어날수록 더 높은 층이 열립니다.\n");
+
                 Console.WriteLine("이제 전투를 시작할 수 있습니다.\n");
 
                 Console.WriteLine("1. 상태 보기");
@@ -111,8 +113,6 @@ namespace IPG
                 Console.ResetColor();
 
                 GameManager.BossController = BossController.GetBoss();
-                GameManager.BossController.DisplayBossInfo();
-
             }
             
 

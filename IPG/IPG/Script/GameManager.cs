@@ -19,9 +19,8 @@ namespace IPG
         public static BattleManager BattleManager;
         public static BossController BossController;
         public static QuestController QuestController;
+        public static Ending Ending;
 
-
-        
         public static List<ItemController> ListStoreItems = new List<ItemController>();
         public static List<int> ListPlayerOwningNumber = new List<int>();
         public static List<MonsterController> ListMonsters = new List<MonsterController>();
@@ -39,6 +38,7 @@ namespace IPG
             BattleManager = new BattleManager();
             BossController = new BossController();
             QuestController = new QuestController();
+            Ending = new Ending();
         }
     }
 }
