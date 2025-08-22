@@ -98,7 +98,8 @@ namespace IPG
             else if (input == 0)
             {
                 Console.WriteLine("전투에서 도망쳤습니다.");
-                GameManager.BattleController.Battlestart();
+                // GameManager.BattleController.Battlestart();
+                GameManager.VillageController.Enter(); 
             }
             else
             {
