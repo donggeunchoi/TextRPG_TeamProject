@@ -51,14 +51,12 @@ namespace IPG
                 {
                     int chosenFloor = selected - 1;
                     _lastClearedFloor = chosenFloor;
-                    // StartBattle(chosenFloor);
+                    StartBattle(chosenFloor);
 
                     if (chosenFloor == 3)
                     {
                         GameManager.BossController.DisplayBossInfo();
                     }
-
-                    StartBattle(chosenFloor);
                 }
                 else
                 {
