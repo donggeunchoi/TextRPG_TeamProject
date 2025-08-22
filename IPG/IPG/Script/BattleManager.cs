@@ -66,7 +66,7 @@ namespace IPG
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                 Console.ResetColor();
-                GameManager.BattleController.Battlevictory();
+                GameManager.BattleController.BattleVictory();
                 return; 
             }
 
@@ -161,7 +161,7 @@ namespace IPG
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("모든 몬스터를 처치했습니다! 전투 종료!");
                 Console.ResetColor();
-                GameManager.BattleController.Battlevictory();
+                GameManager.BattleController.BattleVictory();
             }
         }
 

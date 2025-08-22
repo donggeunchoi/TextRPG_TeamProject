@@ -5,8 +5,9 @@ namespace IPG
     internal class DungeonLobbyController
     {
         public static int _unlockedFloor = 1;
-        public static int _MaxFloor = 4;
+        public static int _maxFloor = 4;
         public static int _lastClearedFloor = 0;
+        public static int _currentFloorInBattle = 0;
 
         public void EnterDungeonLobby()
         {
@@ -50,13 +51,16 @@ namespace IPG
                 if (int.TryParse(input, out int selected) && selected >= 2 && selected <= _unlockedFloor + 1)
                 {
                     int chosenFloor = selected - 1;
-                    _lastClearedFloor = chosenFloor;
+                    // _lastClearedFloor = chosenFloor;
+                    // StartBattle(chosenFloor);
+                    //
+                    // if (chosenFloor == 3)
+                    // {
+                    //     GameManager.BossController.DisplayBossInfo();
+                    // }
+                    
+                    _currentFloorInBattle = chosenFloor;
                     StartBattle(chosenFloor);
-
-                    if (chosenFloor == 3)
-                    {
-                        GameManager.BossController.DisplayBossInfo();
-                    }
                 }
                 else
                 {
@@ -109,6 +113,8 @@ namespace IPG
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("축하합니다! 마지막 층에 도달하였습니다.");
                 Console.ResetColor();
+                
+                GameManager.BossController.DisplayBossInfo();
 
                 GameManager.BossController = BossController.GetBoss();
             }

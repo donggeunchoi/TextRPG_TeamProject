@@ -74,7 +74,7 @@ namespace IPG
             }
         }
 
-        public void Battlevictory()
+        public void BattleVictory()
         {
             bool exit = true;
             int totalExp = BattleManager.CurrentMonsters.Where(m => m.IsDead).Sum(m => m.Level * 1);
@@ -83,8 +83,15 @@ namespace IPG
             GameManager.PlayerController.GainExp(totalExp);
             GameManager.PlayerController.Gold += totalGold;
             
-            if (DungeonLobbyController._lastClearedFloor == 2)
+            // if (DungeonLobbyController._lastClearedFloor == 2)
+            //     GameManager.QuestController.OnStageCleared(2);
+
+            int clearedFloor = DungeonLobbyController._currentFloorInBattle;
+
+            if (clearedFloor == 2)
+            {
                 GameManager.QuestController.OnStageCleared(2);
+            }
             
             Random random = new Random();
             List<ItemController> droppedItems = new List<ItemController>();
@@ -116,9 +123,20 @@ namespace IPG
                 }
             }
 
-            int nextFloor = DungeonLobbyController._lastClearedFloor + 1;
-            if (DungeonLobbyController._unlockedFloor < nextFloor
-                && nextFloor <= DungeonLobbyController._MaxFloor)
+            // int nextFloor = DungeonLobbyController._lastClearedFloor + 1;
+            // if (DungeonLobbyController._unlockedFloor < nextFloor
+            //     && nextFloor <= DungeonLobbyController._MaxFloor)
+            // {
+            //     DungeonLobbyController._unlockedFloor = nextFloor;
+            // }
+
+            if (DungeonLobbyController._lastClearedFloor < clearedFloor)
+            {
+                DungeonLobbyController._lastClearedFloor = clearedFloor;
+            }
+
+            int nextFloor = clearedFloor + 1;
+            if (DungeonLobbyController._unlockedFloor < nextFloor && nextFloor <= DungeonLobbyController._maxFloor)
             {
                 DungeonLobbyController._unlockedFloor = nextFloor;
             }
